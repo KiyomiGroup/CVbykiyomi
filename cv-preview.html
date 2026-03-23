@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Your CV — CVbykiyomi</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --ink: #1a1a18;
+      --paper: #f5f2ec;
+      --cream: #ede9e0;
+      --accent: #b5865a;
+      --muted: #8a8880;
+      --line: #d8d3c8;
+    }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--paper);
+      color: var(--ink);
+    }
+
+    /* TOOLBAR */
+    .toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.2rem 3rem;
+      border-bottom: 1px solid var(--line);
+      background: var(--paper);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: var(--ink);
+      text-decoration: none;
+    }
+    .logo span { color: var(--accent); }
+    .toolbar-actions { display: flex; gap: 0.8rem; align-items: center; }
+    .btn-outline {
+      background: none;
+      border: 1.5px solid var(--line);
+      color: var(--muted);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.78rem;
+      padding: 0.6rem 1.2rem;
+      cursor: pointer;
+      border-radius: 2px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: all 0.2s;
+    }
+    .btn-outline:hover { border-color: var(--ink); color: var(--ink); }
+    .btn-solid {
+      background: var(--ink);
+      color: white;
+      border: none;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 500;
+      padding: 0.65rem 1.4rem;
+      cursor: pointer;
+      border-radius: 2px;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+    .btn-solid:hover { background: var(--accent); }
+    .btn-accent {
+      background: var(--accent);
+      color: white;
+      border: none;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 500;
+      padding: 0.65rem 1.4rem;
+      cursor: pointer;
+      border-radius: 2px;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+    .btn-accent:hover { background: #8c6340; }
+
+    /* PREVIEW WRAPPER */
+    .preview-wrapper {
+      padding: 3rem;
+      display: flex;
+      justify-content: center;
+    }
+
+    /* ── THE ACTUAL CV DOCUMENT ── */
+    .cv-document {
+      width: 210mm;
+      min-height: 297mm;
+      background: white;
+      box-shadow: 0 4px 40px rgba(26,26,24,0.12);
+      padding: 0;
+      position: relative;
+    }
+
+    /* CV Header */
+    .cv-header {
+      background: var(--ink);
+      color: white;
+      padding: 2.5rem 3rem 2rem;
+    }
+    .cv-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.2rem;
+      font-weight: 400;
+      letter-spacing: 0.02em;
+      margin-bottom: 0.3rem;
+    }
+    .cv-tagline {
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.6);
+      font-weight: 300;
+      letter-spacing: 0.05em;
+    }
+    .cv-contact {
+      margin-top: 1.2rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.2rem;
+    }
+    .cv-contact-item {
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.75);
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+    .cv-contact-item a { color: rgba(255,255,255,0.75); text-decoration: none; }
+
+    /* CV Body: two column */
+    .cv-body {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+    }
+    .cv-left {
+      background: #f9f7f3;
+      padding: 2rem 1.8rem;
+      border-right: 1px solid var(--line);
+    }
+    .cv-right {
+      padding: 2rem 2.5rem;
+    }
+
+    .cv-section { margin-bottom: 1.8rem; }
+    .cv-section-title {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.6rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.8rem;
+      padding-bottom: 0.4rem;
+      border-bottom: 1.5px solid var(--line);
+    }
+
+    /* Summary */
+    .cv-summary {
+      font-size: 0.8rem;
+      line-height: 1.7;
+      color: #333;
+    }
+
+    /* Skills on left */
+    .skill-pill {
+      display: block;
+      font-size: 0.72rem;
+      padding: 0.3rem 0;
+      color: var(--ink);
+      border-bottom: 1px solid var(--line);
+      line-height: 1.4;
+    }
+    .skill-pill:last-child { border-bottom: none; }
+
+    /* Education on left */
+    .edu-entry { margin-bottom: 0.8rem; }
+    .edu-degree { font-size: 0.75rem; font-weight: 500; }
+    .edu-school { font-size: 0.7rem; color: var(--muted); }
+
+    /* Experience on right */
+    .exp-entry { margin-bottom: 1.6rem; }
+    .exp-entry:last-child { margin-bottom: 0; }
+    .exp-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.3rem; }
+    .exp-role { font-size: 0.88rem; font-weight: 600; color: var(--ink); }
+    .exp-dates { font-size: 0.68rem; color: var(--muted); white-space: nowrap; padding-top: 0.1rem; }
+    .exp-company { font-size: 0.72rem; color: var(--accent); font-weight: 500; margin-bottom: 0.5rem; }
+    .exp-bullets {
+      font-size: 0.75rem;
+      line-height: 1.65;
+      color: #444;
+      padding-left: 0;
+    }
+    .exp-bullets li {
+      list-style: none;
+      padding-left: 0.9rem;
+      position: relative;
+      margin-bottom: 0.2rem;
+    }
+    .exp-bullets li::before {
+      content: '·';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+      font-size: 1rem;
+      line-height: 1.5;
+    }
+
+    /* ── PRINT ── */
+    @media print {
+      @page { margin: 0; size: A4; }
+      body { background: white; }
+      .toolbar { display: none; }
+      .preview-wrapper { padding: 0; }
+      .cv-document { box-shadow: none; width: 100%; }
+    }
+
+    @media (max-width: 900px) {
+      .toolbar { padding: 1rem 1.2rem; }
+      .preview-wrapper { padding: 1rem; }
+      .cv-document { width: 100%; }
+      .cv-body { grid-template-columns: 1fr; }
+      .cv-left { border-right: none; border-bottom: 1px solid var(--line); }
+    }
+  </style>
+</head>
+<body>
+
+<div class="toolbar">
+  <a href="index.html" class="logo">CV<span>bykiyomi</span></a>
+  <div class="toolbar-actions">
+    <a href="cover-letter.html" class="btn-outline">View Cover Letter →</a>
+    <button class="btn-solid" onclick="window.print()">⬇ Print / Download</button>
+    <a href="form.html" class="btn-outline">← Edit Details</a>
+  </div>
+</div>
+
+<div class="preview-wrapper">
+  <div class="cv-document" id="cv-document">
+    <!-- Injected by JS -->
+  </div>
+</div>
+
+<script>
+  const raw = sessionStorage.getItem('cvData');
+  const data = raw ? JSON.parse(raw) : null;
+
+  if (!data) {
+    document.getElementById('cv-document').innerHTML = `
+      <div style="padding:4rem;text-align:center;color:#8a8880;">
+        <p style="font-size:1.1rem;margin-bottom:1rem;">No CV data found.</p>
+        <a href="form.html" style="color:#b5865a;font-size:0.9rem;">← Go back and fill in your details</a>
+      </div>`;
+  } else {
+    renderCV(data);
+  }
+
+  function renderCV(d) {
+    const fullName = `${d.firstName} ${d.lastName}`.trim();
+    const contactItems = [
+      d.email ? `<span class="cv-contact-item">✉ ${d.email}</span>` : '',
+      d.phone ? `<span class="cv-contact-item">☎ ${d.phone}</span>` : '',
+      d.location ? `<span class="cv-contact-item">⌖ ${d.location}</span>` : '',
+      d.linkedin ? `<span class="cv-contact-item">⊕ <a href="${d.linkedin}" target="_blank">${d.linkedin}</a></span>` : '',
+    ].filter(Boolean).join('');
+
+    // Skills
+    const skillsHTML = d.skills.length
+      ? d.skills.map(s => `<span class="skill-pill">${s}</span>`).join('')
+      : '<span class="skill-pill" style="color:#aaa">No skills added</span>';
+
+    // Education
+    const eduLines = d.education ? d.education.split('\n').filter(Boolean) : [];
+    const eduHTML = eduLines.length
+      ? eduLines.map(l => `<div class="edu-entry"><div class="edu-degree">${l}</div></div>`).join('')
+      : '<div class="edu-entry"><div class="edu-degree" style="color:#aaa">Not provided</div></div>';
+
+    // Experience
+    const expHTML = d.experience.filter(e => e.role || e.company).map(e => {
+      const bullets = e.desc
+        ? e.desc.split('\n').filter(Boolean).map(b => `<li>${b.replace(/^[•\-–]\s*/, '')}</li>`).join('')
+        : '';
+      return `
+        <div class="exp-entry">
+          <div class="exp-header">
+            <div class="exp-role">${e.role || 'Role not specified'}</div>
+            <div class="exp-dates">${[e.start, e.end].filter(Boolean).join(' – ')}</div>
+          </div>
+          <div class="exp-company">${e.company || ''}</div>
+          ${bullets ? `<ul class="exp-bullets">${bullets}</ul>` : ''}
+        </div>`;
+    }).join('') || '<div class="exp-entry" style="color:#aaa;font-size:0.78rem;">No experience added</div>';
+
+    // Summary
+    const summaryHTML = d.summary
+      ? `<div class="cv-section">
+          <div class="cv-section-title">Profile</div>
+          <p class="cv-summary">${d.summary}</p>
+        </div>`
+      : '';
+
+    document.getElementById('cv-document').innerHTML = `
+      <div class="cv-header">
+        <div class="cv-name">${fullName}</div>
+        <div class="cv-tagline">${d.jobTitle || 'Professional'}</div>
+        <div class="cv-contact">${contactItems}</div>
+      </div>
+      <div class="cv-body">
+        <div class="cv-left">
+          <div class="cv-section">
+            <div class="cv-section-title">Skills</div>
+            ${skillsHTML}
+          </div>
+          <div class="cv-section">
+            <div class="cv-section-title">Education</div>
+            ${eduHTML}
+          </div>
+        </div>
+        <div class="cv-right">
+          ${summaryHTML}
+          <div class="cv-section">
+            <div class="cv-section-title">Experience</div>
+            ${expHTML}
+          </div>
+        </div>
+      </div>
+    `;
+  }
+</script>
+</body>
+</html>
