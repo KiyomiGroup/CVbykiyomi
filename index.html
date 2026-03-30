@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CVbykiyomi — Tailor your CV instantly</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── TOKENS ── */
+    :root {
+      --bg:        #F8F7F5;
+      --bg-card:   #FFFFFF;
+      --bg-subtle: #F2F1EE;
+      --border:    #E8E6E1;
+      --border-md: #D6D3CC;
+      --text-1:    #111111;
+      --text-2:    #6B6B6B;
+      --text-3:    #9A9A9A;
+      --accent:    #1A1A1A;
+      --accent-2:  #3D3D3D;
+      --ink-light: #F0EDE8;
+      --shadow-sm: 0 1px 4px rgba(0,0,0,0.06), 0 2px 8px rgba(0,0,0,0.04);
+      --shadow-md: 0 2px 12px rgba(0,0,0,0.07), 0 6px 24px rgba(0,0,0,0.05);
+      --shadow-lg: 0 8px 32px rgba(0,0,0,0.09), 0 2px 8px rgba(0,0,0,0.04);
+      --r:         10px;
+      --r-sm:      6px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text-1);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(248,247,245,0.88);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2.5rem;
+      height: 60px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.25rem; font-weight: 600;
+      color: var(--text-1); text-decoration: none;
+      letter-spacing: -0.01em;
+    }
+    .logo em { font-style: italic; font-weight: 400; }
+    .nav-right { display: flex; align-items: center; gap: 0.75rem; }
+    .nav-link {
+      font-size: 0.8rem; font-weight: 500; color: var(--text-2);
+      text-decoration: none; transition: color 0.2s;
+    }
+    .nav-link:hover { color: var(--text-1); }
+    .btn-nav {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.8rem; font-weight: 600;
+      background: var(--text-1); color: #fff;
+      text-decoration: none; padding: 0.52rem 1.2rem;
+      border-radius: var(--r-sm); transition: all 0.2s;
+      letter-spacing: 0.01em;
+    }
+    .btn-nav:hover { background: var(--accent-2); transform: translateY(-1px); box-shadow: var(--shadow-md); }
+
+    /* ── HERO ── */
+    .hero {
+      max-width: 1120px; margin: 0 auto;
+      padding: 7rem 2.5rem 5rem;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 4rem; align-items: center;
+    }
+    .hero-left { max-width: 520px; }
+    .hero-tag {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      font-size: 0.7rem; font-weight: 600; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--text-2);
+      background: var(--bg-subtle); border: 1px solid var(--border);
+      padding: 0.28rem 0.75rem; border-radius: 20px;
+      margin-bottom: 1.6rem;
+    }
+    .hero-tag-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--text-1); }
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.8rem, 5vw, 4.2rem);
+      font-weight: 600; line-height: 1.08;
+      letter-spacing: -0.02em;
+      color: var(--text-1);
+      margin-bottom: 1.4rem;
+    }
+    h1 em { font-style: italic; font-weight: 400; color: var(--text-2); }
+    .hero-desc {
+      font-size: 1rem; font-weight: 300; color: var(--text-2);
+      line-height: 1.75; margin-bottom: 2.5rem; max-width: 440px;
+    }
+    .hero-actions { display: flex; align-items: center; gap: 1rem; margin-bottom: 2.8rem; }
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.88rem; font-weight: 600;
+      background: var(--text-1); color: #fff;
+      text-decoration: none; padding: 0.82rem 1.8rem;
+      border-radius: var(--r-sm);
+      box-shadow: var(--shadow-sm);
+      transition: all 0.22s;
+    }
+    .btn-primary:hover { background: var(--accent-2); transform: translateY(-2px); box-shadow: var(--shadow-md); }
+    .btn-primary .arr { transition: transform 0.2s; }
+    .btn-primary:hover .arr { transform: translateX(3px); }
+    .btn-secondary {
+      font-size: 0.85rem; font-weight: 500; color: var(--text-2);
+      text-decoration: none; transition: color 0.2s;
+      display: inline-flex; align-items: center; gap: 0.3rem;
+    }
+    .btn-secondary:hover { color: var(--text-1); }
+
+    /* hero stats */
+    .hero-stats { display: flex; align-items: center; gap: 1.8rem; }
+    .hs { }
+    .hs-n {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem; font-weight: 600; color: var(--text-1);
+      line-height: 1;
+    }
+    .hs-l { font-size: 0.68rem; color: var(--text-3); margin-top: 0.2rem; letter-spacing: 0.05em; }
+    .hs-sep { width: 1px; height: 28px; background: var(--border-md); }
+
+    /* ── HERO RIGHT — doc mockup ── */
+    .hero-right { position: relative; display: flex; justify-content: center; }
+    .mock-stack { position: relative; width: 320px; height: 420px; }
+    .mock-card {
+      position: absolute;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      padding: 1.6rem;
+      box-shadow: var(--shadow-lg);
+    }
+    .mock-main {
+      width: 300px; top: 0; left: 50%; transform: translateX(-50%);
+      z-index: 3; animation: float 5s ease-in-out infinite;
+    }
+    .mock-back {
+      width: 280px; top: 30px; left: 50%; transform: translateX(-45%) rotate(3.5deg);
+      z-index: 2; opacity: 0.55; animation: float2 6s ease-in-out infinite;
+    }
+    @keyframes float { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(-8px)} }
+    @keyframes float2 { 0%,100%{transform:translateX(-45%) rotate(3.5deg) translateY(0)} 50%{transform:translateX(-45%) rotate(3.5deg) translateY(-5px)} }
+
+    .mock-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem; font-weight: 600;
+      border-bottom: 1.5px solid var(--text-1);
+      padding-bottom: 0.5rem; margin-bottom: 0.7rem;
+    }
+    .mock-meta { font-size: 0.58rem; color: var(--text-3); margin-bottom: 1rem; letter-spacing: 0.04em; }
+    .mock-sec { font-size: 0.5rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-2); margin: 0.9rem 0 0.4rem; }
+    .ml { height: 5px; background: var(--bg-subtle); border-radius: 2px; margin-bottom: 0.32rem; }
+    .ml.lo{width:92%}.ml.me{width:70%}.ml.sh{width:48%}
+    .mock-tag {
+      display: inline-block; font-size: 0.48rem; font-weight: 600;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      padding: 0.18rem 0.5rem; border-radius: 4px;
+      background: var(--bg-subtle); border: 1px solid var(--border);
+      color: var(--text-2); margin: 0.12rem 0.08rem;
+    }
+
+    /* ── SECTION — How it works ── */
+    .section { max-width: 1120px; margin: 0 auto; padding: 6rem 2.5rem; }
+    .sec-label {
+      font-size: 0.68rem; font-weight: 600; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--text-3); margin-bottom: 0.75rem;
+    }
+    .sec-h {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.9rem, 3.5vw, 2.8rem);
+      font-weight: 600; letter-spacing: -0.02em; line-height: 1.1;
+      margin-bottom: 3.5rem; color: var(--text-1);
+    }
+    .sec-h em { font-style: italic; font-weight: 400; color: var(--text-2); }
+
+    /* step cards */
+    .steps { display: grid; grid-template-columns: repeat(4,1fr); gap: 1.5rem; }
+    .step-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      padding: 1.8rem 1.5rem;
+      box-shadow: var(--shadow-sm);
+      transition: box-shadow 0.25s, transform 0.2s;
+    }
+    .step-card:hover { box-shadow: var(--shadow-md); transform: translateY(-3px); }
+    .step-n {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem; font-weight: 600;
+      color: var(--border-md); line-height: 1; margin-bottom: 1.2rem;
+    }
+    .step-icon {
+      width: 36px; height: 36px; border-radius: 8px;
+      background: var(--bg-subtle); border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem; margin-bottom: 0.9rem;
+    }
+    .step-t { font-size: 0.92rem; font-weight: 600; margin-bottom: 0.4rem; }
+    .step-d { font-size: 0.78rem; color: var(--text-2); line-height: 1.65; font-weight: 300; }
+
+    /* ── DIVIDER ── */
+    .full-divider { border: none; border-top: 1px solid var(--border); margin: 0; }
+
+    /* ── CTA ── */
+    .section-cta { text-align: center; padding: 6rem 2.5rem; max-width: 1120px; margin: 0 auto; }
+    .cta-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 4rem 3rem;
+      box-shadow: var(--shadow-md);
+      max-width: 560px; margin: 0 auto;
+    }
+    .cta-h {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.7rem, 3.5vw, 2.5rem);
+      font-weight: 600; letter-spacing: -0.02em;
+      margin-bottom: 0.9rem;
+    }
+    .cta-s { font-size: 0.88rem; color: var(--text-2); line-height: 1.7; margin-bottom: 2rem; font-weight: 300; }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 1.6rem 2.5rem;
+      display: flex; justify-content: space-between; align-items: center;
+      background: var(--bg);
+    }
+    .footer-logo { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 600; color: var(--text-1); }
+    .footer-logo em { font-style: italic; font-weight: 400; }
+    footer p { font-size: 0.72rem; color: var(--text-3); }
+
+    @media(max-width:900px){
+      .hero{grid-template-columns:1fr;padding:4rem 1.5rem 3rem;gap:3rem}
+      .hero-right{display:none}
+      .steps{grid-template-columns:1fr 1fr}
+      .section{padding:4rem 1.5rem}
+      footer{padding:1.4rem 1.5rem;flex-direction:column;gap:0.4rem;text-align:center}
+      nav{padding:0 1.5rem}
+    }
+    @media(max-width:540px){
+      .steps{grid-template-columns:1fr}
+      .hero-actions{flex-direction:column;align-items:flex-start}
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo">CV<em>bykiyomi</em></a>
+  <div class="nav-right">
+    <a href="#how" class="nav-link">How it works</a>
+    <a href="form.html" class="btn-nav">Create CV →</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-tag"><div class="hero-tag-dot"></div>Free to use · No sign-up</div>
+    <h1>Tailor your CV to <em>any job,</em> instantly.</h1>
+    <p class="hero-desc">Enter your details, paste a job description, and get a clean, professional CV and cover letter — ready to print and send in under a minute.</p>
+    <div class="hero-actions">
+      <a href="form.html" class="btn-primary">Create my CV <span class="arr">→</span></a>
+      <a href="#how" class="btn-secondary">See how it works ↓</a>
+    </div>
+    <div class="hero-stats">
+      <div class="hs"><div class="hs-n">4</div><div class="hs-l">Simple steps</div></div>
+      <div class="hs-sep"></div>
+      <div class="hs"><div class="hs-n">&lt;60s</div><div class="hs-l">To generate</div></div>
+      <div class="hs-sep"></div>
+      <div class="hs"><div class="hs-n">100%</div><div class="hs-l">Free forever</div></div>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="mock-stack">
+      <div class="mock-card mock-back">
+        <div class="ml lo"></div><div class="ml me"></div><div class="ml lo"></div><div class="ml sh"></div>
+        <div class="ml me" style="margin-top:0.8rem"></div><div class="ml lo"></div>
+      </div>
+      <div class="mock-card mock-main">
+        <div class="mock-name">Alexandra Okafor</div>
+        <div class="mock-meta">Lagos, NG &nbsp;·&nbsp; hello@example.com &nbsp;·&nbsp; +234 800 000 0000</div>
+        <div class="mock-sec">Experience</div>
+        <div class="ml lo"></div><div class="ml me"></div><div class="ml lo"></div><div class="ml sh"></div>
+        <div class="mock-sec">Skills</div>
+        <span class="mock-tag">Product Design</span>
+        <span class="mock-tag">Figma</span>
+        <span class="mock-tag">React</span>
+        <span class="mock-tag">Strategy</span>
+        <div class="mock-sec">Education</div>
+        <div class="ml me"></div><div class="ml sh"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="full-divider"/>
+
+<section class="section" id="how">
+  <p class="sec-label">How it works</p>
+  <h2 class="sec-h">Four steps to a <em>tailored</em> CV</h2>
+  <div class="steps">
+    <div class="step-card">
+      <div class="step-n">01</div>
+      <div class="step-icon">👤</div>
+      <div class="step-t">Your details</div>
+      <p class="step-d">Enter your name, contact info, work history and professional summary.</p>
+    </div>
+    <div class="step-card">
+      <div class="step-n">02</div>
+      <div class="step-icon">📋</div>
+      <div class="step-t">Paste the job</div>
+      <p class="step-d">Copy and paste the full job description you're applying for.</p>
+    </div>
+    <div class="step-card">
+      <div class="step-n">03</div>
+      <div class="step-icon">✦</div>
+      <div class="step-t">Generate</div>
+      <p class="step-d">Get a tailored CV and matching cover letter — instantly.</p>
+    </div>
+    <div class="step-card">
+      <div class="step-n">04</div>
+      <div class="step-icon">🖨</div>
+      <div class="step-t">Print & send</div>
+      <p class="step-d">Download or print your documents and apply with confidence.</p>
+    </div>
+  </div>
+</section>
+
+<hr class="full-divider"/>
+
+<section class="section-cta">
+  <div class="cta-box">
+    <h2 class="cta-h">Ready to get hired?</h2>
+    <p class="cta-s">No sign-up. No credit card. Just paste a job description and watch the magic happen.</p>
+    <a href="form.html" class="btn-primary" style="display:inline-flex;">Create my CV now <span class="arr">→</span></a>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">CV<em>bykiyomi</em></div>
+  <p>© 2025 CVbykiyomi · Sprint 1 · Built for job seekers</p>
+</footer>
+
+</body>
+</html>

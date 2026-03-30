@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cover Letter — CVbykiyomi</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#F8F7F5;--bg-card:#FFFFFF;--bg-subtle:#F2F1EE;
+      --border:#E8E6E1;--border-md:#D6D3CC;
+      --text-1:#111111;--text-2:#6B6B6B;--text-3:#9A9A9A;
+      --shadow-sm:0 1px 4px rgba(0,0,0,0.06),0 2px 8px rgba(0,0,0,0.04);
+      --shadow-md:0 2px 12px rgba(0,0,0,0.07),0 6px 24px rgba(0,0,0,0.05);
+      --shadow-lg:0 8px 40px rgba(0,0,0,0.1),0 2px 8px rgba(0,0,0,0.05);
+      --r:10px;--r-sm:6px;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text-1);-webkit-font-smoothing:antialiased}
+
+    /* TOOLBAR */
+    .toolbar{
+      position:sticky;top:0;z-index:100;
+      background:rgba(248,247,245,0.92);backdrop-filter:blur(16px);
+      border-bottom:1px solid var(--border);
+      height:60px;padding:0 2.5rem;
+      display:flex;align-items:center;justify-content:space-between;
+    }
+    .logo{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:600;color:var(--text-1);text-decoration:none;letter-spacing:-0.01em}
+    .logo em{font-style:italic;font-weight:400}
+    .tb-right{display:flex;align-items:center;gap:0.6rem}
+    .tab-group{display:flex;background:var(--bg-subtle);border:1px solid var(--border);border-radius:var(--r-sm);padding:3px;gap:2px}
+    .tab{font-family:'Plus Jakarta Sans',sans-serif;font-size:0.74rem;font-weight:500;padding:0.35rem 0.9rem;border-radius:4px;cursor:pointer;color:var(--text-2);text-decoration:none;transition:all 0.18s;background:none;border:none}
+    .tab.active,.tab:hover{background:var(--bg-card);color:var(--text-1);box-shadow:var(--shadow-sm)}
+    .btn-tb{font-family:'Plus Jakarta Sans',sans-serif;font-size:0.76rem;font-weight:600;padding:0.5rem 1.1rem;border-radius:var(--r-sm);cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:0.35rem;transition:all 0.2s}
+    .btn-solid{background:var(--text-1);color:#fff;border:none;box-shadow:var(--shadow-sm)}
+    .btn-solid:hover{background:#3D3D3D;box-shadow:var(--shadow-md);transform:translateY(-1px)}
+    .btn-outline{color:var(--text-2);background:var(--bg-card);border:1.5px solid var(--border-md)}
+    .btn-outline:hover{color:var(--text-1);border-color:var(--text-1)}
+
+    /* WRAPPER */
+    .preview-wrap{padding:2.5rem;display:flex;justify-content:center}
+
+    /* ══════════════════════════════════
+       LETTER DOCUMENT (white, A4)
+    ══════════════════════════════════ */
+    .letter-doc{
+      width:210mm;min-height:297mm;
+      background:#FFFFFF;
+      box-shadow:var(--shadow-lg);
+      border-radius:4px;overflow:hidden;
+      font-family:'Plus Jakarta Sans',sans-serif;
+    }
+
+    /* Top accent bar */
+    .letter-accent-bar{height:4px;background:#111111}
+
+    .letter-inner{padding:3.5rem 3.8rem}
+
+    /* Letterhead */
+    .letter-head{
+      display:flex;justify-content:space-between;align-items:flex-start;
+      padding-bottom:2rem;margin-bottom:2.5rem;
+      border-bottom:1.5px solid #E8E6E1;
+    }
+    .letter-sender-name{
+      font-family:'Playfair Display',serif;
+      font-size:1.7rem;font-weight:600;letter-spacing:-0.02em;
+      color:#111;margin-bottom:0.3rem;
+    }
+    .letter-sender-contact{font-size:0.7rem;color:#9A9A9A;line-height:1.75}
+    .letter-date{font-size:0.74rem;color:#9A9A9A;text-align:right}
+
+    /* Recipient */
+    .letter-to{margin-bottom:2rem}
+    .letter-to p{font-size:0.82rem;line-height:1.65;color:#333}
+    .letter-to .co{font-weight:600;color:#111}
+
+    /* Subject */
+    .letter-subject{margin-bottom:1.8rem}
+    .letter-subject p{font-size:0.84rem;font-weight:600;color:#111}
+
+    /* Body */
+    .letter-body p{font-size:0.82rem;line-height:1.9;color:#444;font-weight:300;margin-bottom:1.2rem}
+    .letter-body strong{font-weight:600;color:#222}
+
+    /* Sign-off */
+    .letter-signoff{margin-top:2.5rem}
+    .letter-signoff p{font-size:0.82rem;color:#444;margin-bottom:0.3rem;font-weight:300}
+    .letter-sig{
+      font-family:'Playfair Display',serif;
+      font-size:1.5rem;font-weight:600;letter-spacing:-0.02em;
+      margin-top:1rem;color:#111;
+    }
+    .letter-sig-contact{font-size:0.7rem;color:#9A9A9A;margin-top:0.3rem}
+
+    @media print{
+      @page{margin:0;size:A4}
+      body{background:#fff}
+      .toolbar{display:none}
+      .preview-wrap{padding:0}
+      .letter-doc{box-shadow:none;width:100%;border-radius:0}
+    }
+    @media(max-width:900px){
+      .toolbar{padding:0 1.2rem}
+      .preview-wrap{padding:1rem}
+      .letter-doc{width:100%}
+      .letter-inner{padding:2.5rem 2rem}
+      .letter-head{flex-direction:column;gap:0.8rem}
+      .letter-date{text-align:left}
+    }
+  </style>
+</head>
+<body>
+
+<div class="toolbar">
+  <a href="index.html" class="logo">CV<em>bykiyomi</em></a>
+  <div class="tb-right">
+    <div class="tab-group">
+      <a href="cv-preview.html" class="tab">CV</a>
+      <span class="tab active">Cover Letter</span>
+    </div>
+    <button class="btn-tb btn-solid" onclick="window.print()">⬇ Print / Download</button>
+    <a href="form.html" class="btn-tb btn-outline">Edit ↩</a>
+  </div>
+</div>
+
+<div class="preview-wrap">
+  <div class="letter-doc" id="letter-doc"></div>
+</div>
+
+<script>
+  const raw=sessionStorage.getItem('cvData');
+  const d=raw?JSON.parse(raw):null;
+  const el=document.getElementById('letter-doc');
+
+  if(!d){
+    el.innerHTML=`<div style="padding:4rem;text-align:center;color:#9A9A9A"><p style="margin-bottom:1rem">No data found.</p><a href="form.html" style="color:#111;font-weight:600;font-size:0.88rem">← Fill in your details</a></div>`;
+  } else { renderLetter(d); }
+
+  function getJobTitle(jd,override){
+    if(override&&override.length>2)return override;
+    const lines=jd.split('\n').map(l=>l.trim()).filter(Boolean);
+    for(const l of lines.slice(0,6)){if(l.length<80&&!/[.:]$/.test(l))return l;}
+    return 'the advertised position';
+  }
+  function getMatchedSkills(jd,skills){
+    return (skills||[]).filter(s=>jd.toLowerCase().includes(s.toLowerCase())).slice(0,3);
+  }
+  function today(){
+    return new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
+  }
+  function descSentence(desc){
+    const l=(desc.split('\n').find(x=>x.trim().length>10)||'').replace(/^[•\-–·]\s*/,'').toLowerCase().replace(/\.$/,'');
+    return l||'consistently delivered high-impact outcomes';
+  }
+
+  function renderLetter(d){
+    const name=`${d.firstName} ${d.lastName}`.trim();
+    const jobTitle=getJobTitle(d.jobDesc,d.jobTitle);
+    const company=d.companyName||'your organisation';
+    const matched=getMatchedSkills(d.jobDesc,d.skills);
+    const contactLine=[d.location,d.email,d.phone].filter(Boolean).join(' · ');
+    const topExp=d.experience.find(e=>e.role&&e.company);
+    const expLine=topExp?`In my most recent role as <strong>${topExp.role}</strong> at <strong>${topExp.company}</strong>, I ${topExp.desc?descSentence(topExp.desc):'developed strong expertise across key areas'}.`:'';
+    const skillsLine=matched.length
+      ?`My skills in <strong>${matched.join(', ')}</strong> align closely with what you are looking for.`
+      :d.skills.length?`My background encompasses <strong>${d.skills.slice(0,3).join(', ')}</strong> — skills I am eager to bring to this role.`:'';
+    const summaryPara=d.summary?`<p>${d.summary}</p>`:'';
+
+    el.innerHTML=`
+      <div class="letter-accent-bar"></div>
+      <div class="letter-inner">
+        <div class="letter-head">
+          <div>
+            <div class="letter-sender-name">${name}</div>
+            <div class="letter-sender-contact">${contactLine}</div>
+          </div>
+          <div class="letter-date">${today()}</div>
+        </div>
+
+        <div class="letter-to">
+          <p>The Hiring Manager</p>
+          <p class="co">${company}</p>
+        </div>
+
+        <div class="letter-subject">
+          <p>Re: Application for ${jobTitle}</p>
+        </div>
+
+        <div class="letter-body">
+          <p>Dear Hiring Manager,</p>
+
+          <p>I am writing to express my strong interest in the <strong>${jobTitle}</strong> position at <strong>${company}</strong>. With my background in ${d.skills.slice(0,2).join(' and ')||'my field'} and a track record of delivering meaningful results, I am confident I would make a valuable contribution to your team.</p>
+
+          ${summaryPara}
+
+          ${expLine?`<p>${expLine}</p>`:''}
+
+          ${skillsLine?`<p>${skillsLine} I thrive in environments that value initiative, collaboration, and measurable impact.</p>`:''}
+
+          <p>I am particularly drawn to <strong>${company}</strong> and the opportunity this role presents to contribute to a high-performing team. I am excited by the prospect of bringing my skills and experience to help drive your organisation's goals forward.</p>
+
+          <p>I would welcome the opportunity to discuss how my background aligns with your needs. Please find my CV attached — I look forward to speaking with you.</p>
+        </div>
+
+        <div class="letter-signoff">
+          <p>Yours sincerely,</p>
+          <div class="letter-sig">${name}</div>
+          <div class="letter-sig-contact">${[d.email,d.phone].filter(Boolean).join(' · ')}</div>
+        </div>
+      </div>`;
+  }
+</script>
+</body>
+</html>
