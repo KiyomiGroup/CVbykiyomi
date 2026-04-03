@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Create Your CV — CVbykiyomi</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --blue:#2F6BFF; --blue-hover:#1A57F0; --blue-light:#EAF1FF; --blue-mid:#C7D9FF;
+      --bg:#FAFBFF; --white:#FFFFFF;
+      --text-1:#1A1A1A; --text-2:#6B7280; --text-3:#9CA3AF;
+      --border:#E5E7EB; --border-md:#D1D5DB;
+      --shadow-sm:0 1px 3px rgba(0,0,0,0.06),0 1px 2px rgba(0,0,0,0.04);
+      --shadow-md:0 4px 16px rgba(0,0,0,0.08),0 1px 4px rgba(0,0,0,0.04);
+      --shadow-blue:0 4px 20px rgba(47,107,255,0.22);
+      --r:10px; --r-sm:8px;
+      --red:#DC2626;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text-1);min-height:100vh;-webkit-font-smoothing:antialiased}
+
+    /* NAV */
+    nav{
+      position:sticky;top:0;z-index:200;
+      background:rgba(250,251,255,0.94);backdrop-filter:blur(16px);
+      border-bottom:1px solid var(--border);
+      height:64px;padding:0 2rem;
+      display:flex;align-items:center;justify-content:space-between;
+    }
+    .logo{font-size:1.05rem;font-weight:700;color:var(--text-1);text-decoration:none;letter-spacing:-0.02em;display:flex;align-items:center;gap:0.4rem}
+    .logo-mark{width:26px;height:26px;border-radius:6px;background:var(--blue);display:flex;align-items:center;justify-content:center;font-size:0.62rem;font-weight:700;color:#fff}
+    .back{font-size:0.8rem;font-weight:500;color:var(--text-2);text-decoration:none;display:flex;align-items:center;gap:0.3rem;padding:0.4rem 0.75rem;border-radius:6px;transition:all 0.18s}
+    .back:hover{color:var(--text-1);background:var(--blue-light)}
+
+    /* PROGRESS BAR */
+    .progress-bar-wrap{
+      border-bottom:1px solid var(--border);
+      background:var(--white);
+      padding:0 2rem;
+    }
+    .progress-bar{
+      max-width:900px;margin:0 auto;
+      display:flex;align-items:stretch;
+      height:52px;gap:0;
+    }
+    .pb-step{
+      flex:1;display:flex;align-items:center;justify-content:center;
+      gap:0.5rem;cursor:default;position:relative;
+      font-size:0.78rem;font-weight:500;color:var(--text-3);
+      border-bottom:2.5px solid transparent;
+      transition:all 0.2s;padding:0 0.5rem;
+    }
+    .pb-step.done{color:var(--text-2);border-bottom-color:var(--border-md)}
+    .pb-step.active{color:var(--blue);font-weight:600;border-bottom-color:var(--blue)}
+    .pb-num{
+      width:22px;height:22px;border-radius:50%;
+      display:flex;align-items:center;justify-content:center;
+      font-size:0.65rem;font-weight:700;flex-shrink:0;
+      background:var(--border);color:var(--text-3);transition:all 0.2s;
+    }
+    .pb-step.active .pb-num{background:var(--blue);color:#fff}
+    .pb-step.done .pb-num{background:var(--text-2);color:#fff}
+    .pb-label{white-space:nowrap}
+
+    /* MAIN */
+    .main{max-width:900px;margin:0 auto;padding:3rem 2rem 6rem}
+
+    /* PAPER SHEET */
+    .sheet{
+      background:var(--white);
+      border:1px solid var(--border);
+      border-radius:16px;
+      box-shadow:var(--shadow-md);
+      padding:2.8rem 3rem;
+      transition:box-shadow 0.2s;
+    }
+
+    .step-pg{display:none}
+    .step-pg.active{display:block;animation:fadeIn 0.3s ease}
+    @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+
+    .step-eye{font-size:0.68rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--blue);margin-bottom:0.5rem}
+    .step-h{font-size:1.65rem;font-weight:700;letter-spacing:-0.025em;color:var(--text-1);margin-bottom:0.35rem}
+    .step-sub{font-size:0.88rem;color:var(--text-2);margin-bottom:2.2rem;line-height:1.65;font-weight:400}
+
+    .section-divider{height:1px;background:var(--border);margin:2rem 0}
+
+    /* FIELDS */
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:1.1rem;margin-bottom:1.1rem}
+    .row.one{grid-template-columns:1fr}
+    .fg{display:flex;flex-direction:column;gap:0.38rem}
+    label{font-size:0.7rem;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:var(--text-2)}
+    input,textarea{
+      font-family:'Plus Jakarta Sans',sans-serif;font-size:0.92rem;font-weight:400;
+      padding:0.75rem 1rem;
+      border:1.5px solid var(--border);
+      background:var(--white);color:var(--text-1);
+      border-radius:var(--r-sm);outline:none;width:100%;
+      transition:border-color 0.2s,box-shadow 0.2s;
+    }
+    input::placeholder,textarea::placeholder{color:var(--text-3)}
+    input:focus,textarea:focus{
+      border-color:var(--blue);
+      box-shadow:0 0 0 3px rgba(47,107,255,0.12);
+    }
+    textarea{resize:vertical;min-height:100px;line-height:1.65}
+
+    /* EXP BLOCKS */
+    .exp-block{
+      background:var(--bg);border:1.5px solid var(--border);
+      border-radius:var(--r);padding:1.5rem;margin-bottom:1rem;
+      transition:border-color 0.2s;
+    }
+    .exp-block:focus-within{border-color:var(--blue-mid)}
+    .exp-bh{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.2rem}
+    .exp-bt{
+      font-size:0.68rem;font-weight:700;letter-spacing:0.08em;
+      text-transform:uppercase;color:var(--blue);
+      display:flex;align-items:center;gap:0.4rem;
+    }
+    .exp-bt-num{
+      width:20px;height:20px;border-radius:50%;
+      background:var(--blue-light);color:var(--blue);
+      display:flex;align-items:center;justify-content:center;
+      font-size:0.62rem;font-weight:700;
+    }
+    .btn-rem{background:none;border:none;color:var(--text-3);cursor:pointer;font-size:0.75rem;padding:0.25rem 0.5rem;border-radius:5px;transition:all 0.18s;font-family:'Plus Jakarta Sans',sans-serif}
+    .btn-rem:hover{color:var(--red);background:#FEF2F2}
+    .btn-add{
+      display:flex;align-items:center;justify-content:center;gap:0.45rem;
+      width:100%;background:none;
+      border:1.5px dashed var(--border-md);color:var(--text-2);
+      font-family:'Plus Jakarta Sans',sans-serif;font-size:0.82rem;font-weight:500;
+      padding:0.75rem;cursor:pointer;border-radius:var(--r-sm);
+      transition:all 0.2s;margin-top:0.4rem;
+    }
+    .btn-add:hover{border-color:var(--blue);color:var(--blue);background:var(--blue-light)}
+
+    /* SKILLS */
+    .skill-row{display:flex;gap:0.6rem;margin-bottom:0.6rem}
+    .skill-row input{flex:1}
+    .btn-sa{
+      background:var(--blue);color:#fff;border:none;
+      font-family:'Plus Jakarta Sans',sans-serif;font-size:0.8rem;font-weight:600;
+      padding:0 1.2rem;cursor:pointer;border-radius:var(--r-sm);white-space:nowrap;
+      transition:all 0.2s;box-shadow:var(--shadow-blue);
+    }
+    .btn-sa:hover{background:var(--blue-hover)}
+    .tags-wrap{display:flex;flex-wrap:wrap;gap:0.45rem;margin-top:0.6rem}
+    .tag{
+      display:inline-flex;align-items:center;gap:0.35rem;
+      background:var(--blue-light);border:1px solid var(--blue-mid);
+      color:var(--blue);font-size:0.76rem;font-weight:600;
+      padding:0.3rem 0.8rem;border-radius:20px;
+    }
+    .tag button{background:none;border:none;color:var(--blue-mid);cursor:pointer;font-size:0.9rem;line-height:1;padding:0;transition:color 0.18s}
+    .tag button:hover{color:var(--red)}
+
+    .divider{height:1px;background:var(--border);margin:2rem 0}
+
+    /* NAV BTNS */
+    .form-nav{display:flex;justify-content:space-between;align-items:center;margin-top:2.5rem;padding-top:2rem;border-top:1px solid var(--border)}
+    .btn-prev{
+      background:var(--white);border:1.5px solid var(--border-md);color:var(--text-2);
+      font-family:'Plus Jakarta Sans',sans-serif;font-size:0.84rem;font-weight:500;
+      padding:0.72rem 1.5rem;cursor:pointer;border-radius:var(--r-sm);transition:all 0.2s;
+    }
+    .btn-prev:hover{border-color:var(--text-1);color:var(--text-1)}
+    .btn-next{
+      background:var(--white);color:var(--blue);
+      border:1.5px solid var(--blue);
+      font-family:'Plus Jakarta Sans',sans-serif;font-size:0.84rem;font-weight:600;
+      padding:0.72rem 1.8rem;cursor:pointer;border-radius:var(--r-sm);
+      display:inline-flex;align-items:center;gap:0.45rem;transition:all 0.2s;
+    }
+    .btn-next:hover{background:var(--blue-light);box-shadow:0 0 0 3px rgba(47,107,255,0.12)}
+    .btn-generate{
+      background:var(--blue);color:#fff;border:none;
+      font-family:'Plus Jakarta Sans',sans-serif;font-size:0.9rem;font-weight:700;
+      padding:0.82rem 2.2rem;cursor:pointer;border-radius:var(--r-sm);
+      display:inline-flex;align-items:center;gap:0.5rem;
+      box-shadow:var(--shadow-blue);transition:all 0.22s;
+    }
+    .btn-generate:hover{background:var(--blue-hover);transform:translateY(-2px);box-shadow:0 8px 28px rgba(47,107,255,0.35)}
+    .btn-generate:active{transform:scale(0.98)}
+
+    /* LOADING STATE */
+    .loading-overlay{
+      display:none;position:fixed;inset:0;z-index:500;
+      background:rgba(250,251,255,0.88);backdrop-filter:blur(8px);
+      flex-direction:column;align-items:center;justify-content:center;gap:1.2rem;
+    }
+    .loading-overlay.show{display:flex}
+    .loading-spinner{
+      width:44px;height:44px;border-radius:50%;
+      border:3px solid var(--blue-light);border-top-color:var(--blue);
+      animation:spin 0.7s linear infinite;
+    }
+    @keyframes spin{to{transform:rotate(360deg)}}
+    .loading-text{font-size:1rem;font-weight:600;color:var(--text-1)}
+    .loading-sub{font-size:0.82rem;color:var(--text-2)}
+
+    @media(max-width:760px){
+      nav{padding:0 1.5rem}
+      .progress-bar-wrap{padding:0 1.5rem}
+      .pb-label{display:none}
+      .pb-num{width:26px;height:26px;font-size:0.7rem}
+      .main{padding:2rem 1.5rem 4rem}
+      .sheet{padding:2rem 1.5rem}
+      .row{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+
+<!-- LOADING OVERLAY -->
+<div class="loading-overlay" id="loading">
+  <div class="loading-spinner"></div>
+  <div class="loading-text">Tailoring your CV...</div>
+  <div class="loading-sub">Matching your experience to the job description</div>
+</div>
+
+<nav>
+  <a href="index.html" class="logo">
+    <div class="logo-mark">CV</div>
+    CVbykiyomi
+  </a>
+  <a href="index.html" class="back">← Back to home</a>
+</nav>
+
+<!-- PROGRESS BAR -->
+<div class="progress-bar-wrap">
+  <div class="progress-bar">
+    <div class="pb-step active" id="pb1">
+      <div class="pb-num"><span class="pn">1</span></div>
+      <span class="pb-label">Personal Info</span>
+    </div>
+    <div class="pb-step" id="pb2">
+      <div class="pb-num"><span class="pn">2</span></div>
+      <span class="pb-label">Experience</span>
+    </div>
+    <div class="pb-step" id="pb3">
+      <div class="pb-num"><span class="pn">3</span></div>
+      <span class="pb-label">Skills</span>
+    </div>
+    <div class="pb-step" id="pb4">
+      <div class="pb-num"><span class="pn">4</span></div>
+      <span class="pb-label">Job Description</span>
+    </div>
+  </div>
+</div>
+
+<div class="main">
+  <div class="sheet">
+
+    <!-- STEP 1 -->
+    <div class="step-pg active" id="step1">
+      <p class="step-eye">Step 1 of 4</p>
+      <h2 class="step-h">Personal Information</h2>
+      <p class="step-sub">Start with the basics — your name and contact details so employers know how to reach you.</p>
+
+      <div class="row">
+        <div class="fg"><label>First Name *</label><input id="firstName" type="text" placeholder="Alexandra"/></div>
+        <div class="fg"><label>Last Name *</label><input id="lastName" type="text" placeholder="Okafor"/></div>
+      </div>
+      <div class="row">
+        <div class="fg"><label>Email Address *</label><input id="email" type="email" placeholder="hello@example.com"/></div>
+        <div class="fg"><label>Phone Number</label><input id="phone" type="tel" placeholder="+234 800 000 0000"/></div>
+      </div>
+      <div class="row">
+        <div class="fg"><label>Location</label><input id="location" type="text" placeholder="Lagos, Nigeria"/></div>
+        <div class="fg"><label>LinkedIn / Portfolio URL</label><input id="linkedin" type="url" placeholder="linkedin.com/in/yourname"/></div>
+      </div>
+
+      <div class="section-divider"></div>
+
+      <div class="row one">
+        <div class="fg">
+          <label>Professional Summary</label>
+          <p style="font-size:0.75rem;color:var(--text-3);margin-bottom:0.5rem">A brief 2–3 sentence overview of your background and what makes you stand out.</p>
+          <textarea id="summary" placeholder="e.g. Results-driven Product Manager with 6+ years of experience building digital products across fintech and e-commerce. I specialise in..."></textarea>
+        </div>
+      </div>
+
+      <div class="form-nav">
+        <span></span>
+        <button class="btn-next" onclick="goStep(2)">Continue to Experience →</button>
+      </div>
+    </div>
+
+    <!-- STEP 2 -->
+    <div class="step-pg" id="step2">
+      <p class="step-eye">Step 2 of 4</p>
+      <h2 class="step-h">Work Experience</h2>
+      <p class="step-sub">Add your most recent and relevant roles. Start with your latest position and work backwards.</p>
+
+      <div id="exp-wrap"></div>
+      <button class="btn-add" onclick="addExp()">+ Add another role</button>
+
+      <div class="form-nav">
+        <button class="btn-prev" onclick="goStep(1)">← Back</button>
+        <button class="btn-next" onclick="goStep(3)">Continue to Skills →</button>
+      </div>
+    </div>
+
+    <!-- STEP 3 -->
+    <div class="step-pg" id="step3">
+      <p class="step-eye">Step 3 of 4</p>
+      <h2 class="step-h">Skills &amp; Education</h2>
+      <p class="step-sub">Add your key skills — type one and press Enter or click Add. Then include your education below.</p>
+
+      <div class="skill-row">
+        <input type="text" id="skillInput" placeholder="e.g. Project Management, Figma, Python..." onkeydown="if(event.key==='Enter'){event.preventDefault();addSkill()}"/>
+        <button class="btn-sa" onclick="addSkill()">Add Skill</button>
+      </div>
+      <div class="tags-wrap" id="tags"></div>
+
+      <div class="divider"></div>
+
+      <div class="fg">
+        <label>Education & Certifications</label>
+        <p style="font-size:0.75rem;color:var(--text-3);margin-bottom:0.5rem">Include degrees, diplomas, and relevant certifications.</p>
+        <textarea id="education" placeholder="e.g. BSc Computer Science, University of Lagos (2018)&#10;AWS Certified Solutions Architect (2022)&#10;Google Project Management Certificate (2023)"></textarea>
+      </div>
+
+      <div class="form-nav">
+        <button class="btn-prev" onclick="goStep(2)">← Back</button>
+        <button class="btn-next" onclick="goStep(4)">Continue to Job Description →</button>
+      </div>
+    </div>
+
+    <!-- STEP 4 -->
+    <div class="step-pg" id="step4">
+      <p class="step-eye">Step 4 of 4 — Final Step</p>
+      <h2 class="step-h">Job Description</h2>
+      <p class="step-sub">Paste the full job description below. We'll tailor your CV and cover letter to match the role's requirements and language.</p>
+
+      <div class="row">
+        <div class="fg"><label>Job Title (optional)</label><input id="jobTitle" type="text" placeholder="e.g. Senior Product Manager"/></div>
+        <div class="fg"><label>Company Name (optional)</label><input id="companyName" type="text" placeholder="e.g. Flutterwave"/></div>
+      </div>
+      <div class="row one">
+        <div class="fg">
+          <label>Full Job Description *</label>
+          <p style="font-size:0.75rem;color:var(--text-3);margin-bottom:0.5rem">Copy and paste the complete job posting — the more detail you give us, the better the match.</p>
+          <textarea id="jobDesc" style="min-height:220px" placeholder="Paste the full job description here..."></textarea>
+        </div>
+      </div>
+
+      <div class="form-nav">
+        <button class="btn-prev" onclick="goStep(3)">← Back</button>
+        <button class="btn-generate" onclick="generate()">✦ Generate my CV &amp; Cover Letter</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  let skills=[], expCount=0;
+
+  function goStep(n){
+    document.querySelectorAll('.step-pg').forEach(p=>p.classList.remove('active'));
+    document.getElementById('step'+n).classList.add('active');
+    for(let i=1;i<=4;i++){
+      const pb=document.getElementById('pb'+i);
+      pb.classList.remove('active','done');
+      const pn=pb.querySelector('.pn');
+      if(i<n){pb.classList.add('done');pn.textContent='✓';}
+      else if(i===n){pb.classList.add('active');pn.textContent=i;}
+      else{pn.textContent=i;}
+    }
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+
+  function addExp(){
+    expCount++;
+    const w=document.getElementById('exp-wrap');
+    const d=document.createElement('div');
+    d.className='exp-block';d.id='exp-'+expCount;
+    d.innerHTML=`
+      <div class="exp-bh">
+        <span class="exp-bt"><div class="exp-bt-num">${expCount}</div> Role ${expCount}</span>
+        ${expCount>1?`<button class="btn-rem" onclick="document.getElementById('exp-${expCount}').remove()">✕ Remove</button>`:''}
+      </div>
+      <div class="row">
+        <div class="fg"><label>Job Title</label><input class="exp-role" type="text" placeholder="Senior Product Manager"/></div>
+        <div class="fg"><label>Company</label><input class="exp-company" type="text" placeholder="Flutterwave"/></div>
+      </div>
+      <div class="row">
+        <div class="fg"><label>Start Date</label><input class="exp-start" type="text" placeholder="Jan 2022"/></div>
+        <div class="fg"><label>End Date</label><input class="exp-end" type="text" placeholder="Present"/></div>
+      </div>
+      <div class="row one">
+        <div class="fg"><label>Responsibilities &amp; Achievements</label>
+        <textarea class="exp-desc" placeholder="• Led a cross-functional team of 8 to deliver a payments product used by 500k+ users&#10;• Increased conversion rate by 30% through A/B testing and user research"></textarea></div>
+      </div>`;
+    w.appendChild(d);
+  }
+
+  function addSkill(){
+    const i=document.getElementById('skillInput');
+    const v=i.value.trim();
+    if(!v||skills.includes(v)){i.value='';return;}
+    skills.push(v);renderTags();i.value='';
+    i.focus();
+  }
+  function removeSkill(s){skills=skills.filter(x=>x!==s);renderTags();}
+  function renderTags(){
+    document.getElementById('tags').innerHTML=skills.map(s=>`<span class="tag">${s}<button onclick="removeSkill('${s}')">×</button></span>`).join('');
+  }
+
+  function generate(){
+    const jd=document.getElementById('jobDesc').value.trim();
+    if(!document.getElementById('firstName').value.trim()){alert('Please enter your first name.');goStep(1);return;}
+    if(!jd){alert('Please paste a job description.');return;}
+
+    // Show loading
+    document.getElementById('loading').classList.add('show');
+
+    const data={
+      firstName:document.getElementById('firstName').value.trim(),
+      lastName:document.getElementById('lastName').value.trim(),
+      email:document.getElementById('email').value.trim(),
+      phone:document.getElementById('phone').value.trim(),
+      location:document.getElementById('location').value.trim(),
+      linkedin:document.getElementById('linkedin').value.trim(),
+      summary:document.getElementById('summary').value.trim(),
+      education:document.getElementById('education').value.trim(),
+      skills:[...skills],
+      jobTitle:document.getElementById('jobTitle').value.trim(),
+      companyName:document.getElementById('companyName').value.trim(),
+      jobDesc:jd,experience:[]
+    };
+    document.querySelectorAll('.exp-block').forEach(b=>{
+      data.experience.push({
+        role:b.querySelector('.exp-role')?.value.trim()||'',
+        company:b.querySelector('.exp-company')?.value.trim()||'',
+        start:b.querySelector('.exp-start')?.value.trim()||'',
+        end:b.querySelector('.exp-end')?.value.trim()||'',
+        desc:b.querySelector('.exp-desc')?.value.trim()||''
+      });
+    });
+    if(!data.jobTitle){
+      const l=jd.split('\n').slice(0,5);
+      data.jobTitle=l[0].replace(/[^a-zA-Z0-9\s,&]/g,'').trim()||'the advertised position';
+    }
+    sessionStorage.setItem('cvData',JSON.stringify(data));
+
+    // Simulate brief loading then navigate
+    setTimeout(()=>{ window.location.href='cv-preview.html'; }, 1400);
+  }
+
+  addExp();
+</script>
+</body>
+</html>

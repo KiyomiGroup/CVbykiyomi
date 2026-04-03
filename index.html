@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CVbykiyomi — Tailor your CV instantly</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --blue:        #2F6BFF;
+      --blue-hover:  #1A57F0;
+      --blue-light:  #EAF1FF;
+      --blue-mid:    #C7D9FF;
+      --bg:          #FAFBFF;
+      --white:       #FFFFFF;
+      --text-1:      #1A1A1A;
+      --text-2:      #6B7280;
+      --text-3:      #9CA3AF;
+      --border:      #E5E7EB;
+      --border-md:   #D1D5DB;
+      --shadow-sm:   0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+      --shadow-md:   0 4px 16px rgba(0,0,0,0.08), 0 1px 4px rgba(0,0,0,0.04);
+      --shadow-lg:   0 8px 32px rgba(0,0,0,0.10), 0 2px 8px rgba(0,0,0,0.05);
+      --shadow-blue: 0 4px 20px rgba(47,107,255,0.22);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text-1);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(250,251,255,0.92);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      height: 64px;
+      padding: 0 2rem;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .logo {
+      font-size: 1.15rem; font-weight: 700;
+      color: var(--text-1); text-decoration: none;
+      letter-spacing: -0.02em;
+      display: flex; align-items: center; gap: 0.4rem;
+    }
+    .logo-mark {
+      width: 28px; height: 28px; border-radius: 7px;
+      background: var(--blue);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.7rem; font-weight: 700; color: #fff;
+      letter-spacing: -0.02em;
+    }
+    .nav-links { display: flex; align-items: center; gap: 0.5rem; }
+    .nav-link {
+      font-size: 0.82rem; font-weight: 500; color: var(--text-2);
+      text-decoration: none; padding: 0.4rem 0.75rem;
+      border-radius: 6px; transition: all 0.18s;
+    }
+    .nav-link:hover { color: var(--text-1); background: var(--blue-light); }
+    .btn-nav {
+      font-size: 0.82rem; font-weight: 600;
+      background: var(--blue); color: #fff;
+      text-decoration: none; padding: 0.52rem 1.2rem;
+      border-radius: 10px; transition: all 0.2s;
+      box-shadow: var(--shadow-blue);
+    }
+    .btn-nav:hover { background: var(--blue-hover); transform: translateY(-1px); box-shadow: 0 6px 24px rgba(47,107,255,0.3); }
+
+    /* ── HERO ── */
+    .hero {
+      max-width: 900px; margin: 0 auto;
+      padding: 6rem 2rem 5rem;
+      text-align: center;
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      font-size: 0.72rem; font-weight: 600; letter-spacing: 0.06em;
+      text-transform: uppercase; color: var(--blue);
+      background: var(--blue-light); border: 1px solid var(--blue-mid);
+      padding: 0.3rem 0.85rem; border-radius: 20px;
+      margin-bottom: 2rem;
+      animation: fadeUp 0.5s ease both;
+    }
+    .badge-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--blue); }
+    h1 {
+      font-size: clamp(2.4rem, 5vw, 3.6rem);
+      font-weight: 700; line-height: 1.12;
+      letter-spacing: -0.03em; color: var(--text-1);
+      margin-bottom: 1.4rem;
+      animation: fadeUp 0.5s 0.07s ease both;
+    }
+    h1 span { color: var(--blue); }
+    .hero-desc {
+      font-size: 1.05rem; font-weight: 400; color: var(--text-2);
+      line-height: 1.75; max-width: 520px; margin: 0 auto 2.8rem;
+      animation: fadeUp 0.5s 0.14s ease both;
+    }
+    .hero-actions {
+      display: flex; align-items: center; justify-content: center;
+      gap: 1rem; margin-bottom: 3.5rem;
+      animation: fadeUp 0.5s 0.21s ease both;
+    }
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.95rem; font-weight: 600;
+      background: var(--blue); color: #fff;
+      text-decoration: none; padding: 0.88rem 2rem;
+      border-radius: 10px;
+      box-shadow: var(--shadow-blue);
+      transition: all 0.22s;
+    }
+    .btn-primary:hover { background: var(--blue-hover); transform: translateY(-2px); box-shadow: 0 8px 28px rgba(47,107,255,0.35); }
+    .btn-primary .arr { transition: transform 0.2s; }
+    .btn-primary:hover .arr { transform: translateX(3px); }
+    .btn-ghost {
+      font-size: 0.9rem; font-weight: 500; color: var(--text-2);
+      text-decoration: none; padding: 0.88rem 1.6rem;
+      border-radius: 10px; border: 1px solid var(--border-md);
+      background: var(--white); transition: all 0.2s;
+      box-shadow: var(--shadow-sm);
+    }
+    .btn-ghost:hover { color: var(--text-1); border-color: var(--blue); box-shadow: 0 0 0 3px var(--blue-light); }
+
+    /* hero stats */
+    .hero-stats {
+      display: flex; align-items: center; justify-content: center;
+      gap: 2.5rem; padding-top: 1rem;
+      animation: fadeUp 0.5s 0.28s ease both;
+    }
+    .hs-n {
+      font-size: 1.6rem; font-weight: 700; color: var(--text-1);
+      line-height: 1; letter-spacing: -0.03em;
+    }
+    .hs-l { font-size: 0.72rem; color: var(--text-3); margin-top: 0.2rem; }
+    .hs-sep { width: 1px; height: 32px; background: var(--border-md); }
+
+    /* ── DOCUMENT PREVIEW ── */
+    .doc-preview-section {
+      max-width: 900px; margin: 0 auto;
+      padding: 0 2rem 5rem;
+      animation: fadeUp 0.6s 0.35s ease both;
+    }
+    .doc-preview-wrap {
+      position: relative;
+      display: flex; justify-content: center;
+    }
+    /* shadow behind */
+    .doc-preview-wrap::before {
+      content: '';
+      position: absolute;
+      width: 85%; height: 20px;
+      bottom: -16px; left: 50%;
+      transform: translateX(-50%);
+      background: rgba(47,107,255,0.12);
+      border-radius: 50%;
+      filter: blur(16px);
+    }
+    .doc-mock {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      box-shadow: var(--shadow-lg);
+      padding: 2.2rem 2.5rem;
+      width: 100%; max-width: 640px;
+      position: relative;
+    }
+    .doc-mock-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 1.6rem;
+    }
+    .doc-tabs { display: flex; gap: 0.4rem; }
+    .doc-tab {
+      font-size: 0.72rem; font-weight: 600; padding: 0.3rem 0.8rem;
+      border-radius: 6px; cursor: default;
+    }
+    .doc-tab.active { background: var(--blue); color: #fff; }
+    .doc-tab.inactive { background: var(--bg); color: var(--text-3); border: 1px solid var(--border); }
+    .doc-actions { display: flex; gap: 0.5rem; }
+    .doc-action-btn {
+      font-size: 0.68rem; font-weight: 500; padding: 0.28rem 0.7rem;
+      border-radius: 5px; background: var(--bg); border: 1px solid var(--border); color: var(--text-3);
+    }
+    /* mock CV content */
+    .mock-name { font-size: 1.3rem; font-weight: 700; color: var(--text-1); margin-bottom: 0.2rem; }
+    .mock-contact { font-size: 0.65rem; color: var(--text-3); margin-bottom: 1.4rem; }
+    .mock-divider { height: 1.5px; background: var(--blue); margin-bottom: 1rem; opacity: 0.25; }
+    .mock-sec-label {
+      font-size: 0.58rem; font-weight: 700; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--blue);
+      margin-bottom: 0.5rem; margin-top: 1rem;
+    }
+    .ml { height: 5px; background: var(--bg); border-radius: 3px; margin-bottom: 0.32rem; }
+    .ml.lo{width:90%}.ml.me{width:68%}.ml.sh{width:42%}.ml.xs{width:25%}
+    .mock-tags { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.4rem; }
+    .mock-tag {
+      font-size: 0.55rem; font-weight: 600; padding: 0.2rem 0.55rem;
+      border-radius: 4px; background: var(--blue-light);
+      color: var(--blue); border: 1px solid var(--blue-mid);
+    }
+
+    /* ── HOW IT WORKS ── */
+    .section {
+      max-width: 900px; margin: 0 auto;
+      padding: 5rem 2rem;
+      border-top: 1px solid var(--border);
+    }
+    .sec-label {
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--blue);
+      margin-bottom: 0.6rem;
+    }
+    .sec-h {
+      font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 700;
+      letter-spacing: -0.025em; line-height: 1.15;
+      margin-bottom: 3rem; color: var(--text-1);
+    }
+    .steps {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+    }
+    .step-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem 1.3rem;
+      box-shadow: var(--shadow-sm);
+      transition: box-shadow 0.22s, transform 0.2s, border-color 0.2s;
+      position: relative; overflow: hidden;
+    }
+    .step-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 3px; background: var(--blue); opacity: 0;
+      transition: opacity 0.2s;
+    }
+    .step-card:hover { box-shadow: var(--shadow-md); transform: translateY(-3px); border-color: var(--blue-mid); }
+    .step-card:hover::before { opacity: 1; }
+    .step-num {
+      font-size: 0.62rem; font-weight: 700; letter-spacing: 0.1em;
+      color: var(--blue); margin-bottom: 0.8rem;
+      display: flex; align-items: center; gap: 0.35rem;
+    }
+    .step-num-circle {
+      width: 22px; height: 22px; border-radius: 50%;
+      background: var(--blue-light); color: var(--blue);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.62rem; font-weight: 700;
+    }
+    .step-t { font-size: 0.92rem; font-weight: 600; margin-bottom: 0.4rem; color: var(--text-1); }
+    .step-d { font-size: 0.78rem; color: var(--text-2); line-height: 1.65; font-weight: 400; }
+
+    /* ── CTA ── */
+    .section-cta {
+      max-width: 900px; margin: 0 auto;
+      padding: 3rem 2rem 6rem;
+      text-align: center;
+    }
+    .cta-box {
+      background: var(--blue);
+      border-radius: 16px;
+      padding: 3.5rem 2rem;
+      box-shadow: 0 8px 40px rgba(47,107,255,0.25);
+      position: relative; overflow: hidden;
+    }
+    .cta-box::before {
+      content: '';
+      position: absolute; top: -60px; right: -60px;
+      width: 200px; height: 200px; border-radius: 50%;
+      background: rgba(255,255,255,0.06);
+    }
+    .cta-box::after {
+      content: '';
+      position: absolute; bottom: -40px; left: -40px;
+      width: 160px; height: 160px; border-radius: 50%;
+      background: rgba(255,255,255,0.04);
+    }
+    .cta-h {
+      font-size: clamp(1.6rem, 3vw, 2rem); font-weight: 700;
+      letter-spacing: -0.025em; color: #fff; margin-bottom: 0.8rem;
+    }
+    .cta-s { font-size: 0.9rem; color: rgba(255,255,255,0.75); line-height: 1.7; margin-bottom: 2rem; font-weight: 400; }
+    .btn-white {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.92rem; font-weight: 700;
+      background: #fff; color: var(--blue);
+      text-decoration: none; padding: 0.88rem 2rem;
+      border-radius: 10px; box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+      transition: all 0.22s;
+    }
+    .btn-white:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.2); }
+    .btn-white .arr { transition: transform 0.2s; }
+    .btn-white:hover .arr { transform: translateX(3px); }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 1.6rem 2rem;
+      display: flex; justify-content: space-between; align-items: center;
+      max-width: 900px; margin: 0 auto;
+    }
+    .footer-logo { display: flex; align-items: center; gap: 0.4rem; font-size: 0.92rem; font-weight: 700; color: var(--text-1); }
+    footer p { font-size: 0.72rem; color: var(--text-3); }
+
+    @keyframes fadeUp { from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)} }
+
+    @media(max-width:760px){
+      .hero{padding:4rem 1.5rem 3rem}
+      .steps{grid-template-columns:1fr 1fr}
+      .section{padding:3.5rem 1.5rem}
+      footer{padding:1.4rem 1.5rem;flex-direction:column;gap:0.4rem;text-align:center}
+      nav{padding:0 1.5rem}
+    }
+    @media(max-width:500px){
+      .steps{grid-template-columns:1fr}
+      .hero-actions{flex-direction:column;align-items:center}
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo">
+    <div class="logo-mark">CV</div>
+    CVbykiyomi
+  </a>
+  <div class="nav-links">
+    <a href="#how" class="nav-link">How it works</a>
+    <a href="form.html" class="btn-nav">Create CV →</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-badge"><div class="badge-dot"></div>Free · No sign-up required</div>
+  <h1>Your CV, <span>tailored</span> to<br>every job you apply for.</h1>
+  <p class="hero-desc">Enter your details, paste a job description, and instantly get a professional CV and cover letter — clean, ATS-friendly, ready to send.</p>
+  <div class="hero-actions">
+    <a href="form.html" class="btn-primary">Create my CV <span class="arr">→</span></a>
+    <a href="#how" class="btn-ghost">See how it works</a>
+  </div>
+  <div class="hero-stats">
+    <div><div class="hs-n">4</div><div class="hs-l">Simple steps</div></div>
+    <div class="hs-sep"></div>
+    <div><div class="hs-n">&lt;60s</div><div class="hs-l">To generate</div></div>
+    <div class="hs-sep"></div>
+    <div><div class="hs-n">100%</div><div class="hs-l">Free forever</div></div>
+  </div>
+</section>
+
+<!-- Document preview mockup -->
+<div class="doc-preview-section">
+  <div class="doc-preview-wrap">
+    <div class="doc-mock">
+      <div class="doc-mock-header">
+        <div class="doc-tabs">
+          <div class="doc-tab active">CV Preview</div>
+          <div class="doc-tab inactive">Cover Letter</div>
+        </div>
+        <div class="doc-actions">
+          <div class="doc-action-btn">⬇ Download</div>
+          <div class="doc-action-btn">🖨 Print</div>
+        </div>
+      </div>
+      <div class="mock-name">Alexandra Okafor</div>
+      <div class="mock-contact">Lagos, Nigeria &nbsp;·&nbsp; hello@example.com &nbsp;·&nbsp; +234 800 000 0000</div>
+      <div class="mock-divider"></div>
+      <div class="mock-sec-label">Professional Summary</div>
+      <div class="ml lo"></div><div class="ml me"></div>
+      <div class="mock-sec-label">Experience</div>
+      <div class="ml xs" style="background:var(--blue-light)"></div>
+      <div class="ml lo"></div><div class="ml me"></div><div class="ml lo"></div><div class="ml sh"></div>
+      <div class="mock-sec-label">Skills</div>
+      <div class="mock-tags">
+        <span class="mock-tag">Product Design</span>
+        <span class="mock-tag">Figma</span>
+        <span class="mock-tag">React</span>
+        <span class="mock-tag">Strategy</span>
+        <span class="mock-tag">Leadership</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section class="section" id="how">
+  <p class="sec-label">How it works</p>
+  <h2 class="sec-h">Four steps to a tailored CV</h2>
+  <div class="steps">
+    <div class="step-card">
+      <div class="step-num"><div class="step-num-circle">1</div></div>
+      <div class="step-t">Your details</div>
+      <p class="step-d">Enter your name, contact info, work history and professional summary.</p>
+    </div>
+    <div class="step-card">
+      <div class="step-num"><div class="step-num-circle">2</div></div>
+      <div class="step-t">Work experience</div>
+      <p class="step-d">Add your roles, companies, dates and key achievements.</p>
+    </div>
+    <div class="step-card">
+      <div class="step-num"><div class="step-num-circle">3</div></div>
+      <div class="step-t">Skills & education</div>
+      <p class="step-d">List your skills and educational background — we'll match them to the job.</p>
+    </div>
+    <div class="step-card">
+      <div class="step-num"><div class="step-num-circle">4</div></div>
+      <div class="step-t">Generate & send</div>
+      <p class="step-d">Paste the job description, generate your CV and cover letter, then print and apply.</p>
+    </div>
+  </div>
+</section>
+
+<div class="section-cta">
+  <div class="cta-box">
+    <h2 class="cta-h">Ready to stand out?</h2>
+    <p class="cta-s">No sign-up. No credit card. Create your tailored CV in under a minute.</p>
+    <a href="form.html" class="btn-white">Create my CV <span class="arr">→</span></a>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-logo">
+    <div class="logo-mark" style="width:22px;height:22px;font-size:0.58rem;border-radius:5px">CV</div>
+    CVbykiyomi
+  </div>
+  <p>© 2025 CVbykiyomi · Sprint 1</p>
+</footer>
+
+</body>
+</html>
