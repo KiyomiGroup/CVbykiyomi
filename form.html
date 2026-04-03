@@ -187,6 +187,20 @@
     .btn-generate:hover{background:var(--blue-hover);transform:translateY(-2px);box-shadow:0 8px 28px rgba(47,107,255,0.35)}
     .btn-generate:active{transform:scale(0.98)}
 
+    /* TONE SELECTOR */
+    .tone-group{display:grid;grid-template-columns:repeat(3,1fr);gap:0.75rem}
+    .tone-btn{
+      background:var(--white);border:1.5px solid var(--border-md);
+      border-radius:var(--r);padding:1rem;cursor:pointer;text-align:left;
+      transition:all 0.2s;display:flex;flex-direction:column;gap:0.25rem;
+      font-family:'Plus Jakarta Sans',sans-serif;
+    }
+    .tone-btn:hover{border-color:var(--blue);background:var(--blue-light)}
+    .tone-btn.active{border-color:var(--blue);background:var(--blue-light);box-shadow:0 0 0 3px rgba(47,107,255,0.1)}
+    .tone-icon{font-size:1.2rem}
+    .tone-label{font-size:0.82rem;font-weight:700;color:var(--text-1)}
+    .tone-desc{font-size:0.7rem;color:var(--text-2)}
+
     /* LOADING STATE */
     .loading-overlay{
       display:none;position:fixed;inset:0;z-index:500;
@@ -336,7 +350,7 @@
     <div class="step-pg" id="step4">
       <p class="step-eye">Step 4 of 4 — Final Step</p>
       <h2 class="step-h">Job Description</h2>
-      <p class="step-sub">Paste the full job description below. We'll tailor your CV and cover letter to match the role's requirements and language.</p>
+      <p class="step-sub">Paste the full job description below. Our AI will tailor your CV and cover letter to match the role's requirements and language.</p>
 
       <div class="row">
         <div class="fg"><label>Job Title (optional)</label><input id="jobTitle" type="text" placeholder="e.g. Senior Product Manager"/></div>
@@ -345,14 +359,37 @@
       <div class="row one">
         <div class="fg">
           <label>Full Job Description *</label>
-          <p style="font-size:0.75rem;color:var(--text-3);margin-bottom:0.5rem">Copy and paste the complete job posting — the more detail you give us, the better the match.</p>
+          <p style="font-size:0.75rem;color:var(--text-3);margin-bottom:0.5rem">Copy and paste the complete job posting — the more detail you give us, the better the AI match.</p>
           <textarea id="jobDesc" style="min-height:220px" placeholder="Paste the full job description here..."></textarea>
+        </div>
+      </div>
+
+      <!-- TONE SELECTOR -->
+      <div style="margin-top:1.4rem">
+        <label style="display:block;margin-bottom:0.6rem">Writing Tone</label>
+        <p style="font-size:0.75rem;color:var(--text-3);margin-bottom:0.9rem">Choose how your CV and cover letter should sound.</p>
+        <div class="tone-group" id="toneGroup">
+          <button class="tone-btn active" data-tone="professional" onclick="setTone(this)">
+            <span class="tone-icon">🎯</span>
+            <span class="tone-label">Professional</span>
+            <span class="tone-desc">Formal, precise, corporate</span>
+          </button>
+          <button class="tone-btn" data-tone="confident" onclick="setTone(this)">
+            <span class="tone-icon">⚡</span>
+            <span class="tone-label">Confident</span>
+            <span class="tone-desc">Bold, achievement-driven</span>
+          </button>
+          <button class="tone-btn" data-tone="creative" onclick="setTone(this)">
+            <span class="tone-icon">✨</span>
+            <span class="tone-label">Creative</span>
+            <span class="tone-desc">Engaging, personality-led</span>
+          </button>
         </div>
       </div>
 
       <div class="form-nav">
         <button class="btn-prev" onclick="goStep(3)">← Back</button>
-        <button class="btn-generate" onclick="generate()">✦ Generate my CV &amp; Cover Letter</button>
+        <button class="btn-generate" onclick="generate()">✦ Generate with AI</button>
       </div>
     </div>
 
@@ -360,7 +397,13 @@
 </div>
 
 <script>
-  let skills=[], expCount=0;
+  let skills=[], expCount=0, selectedTone='professional';
+
+  function setTone(btn){
+    document.querySelectorAll('.tone-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    selectedTone=btn.dataset.tone;
+  }
 
   function goStep(n){
     document.querySelectorAll('.step-pg').forEach(p=>p.classList.remove('active'));
@@ -433,7 +476,7 @@
       skills:[...skills],
       jobTitle:document.getElementById('jobTitle').value.trim(),
       companyName:document.getElementById('companyName').value.trim(),
-      jobDesc:jd,experience:[]
+      jobDesc:jd,experience:[],tone:selectedTone
     };
     document.querySelectorAll('.exp-block').forEach(b=>{
       data.experience.push({

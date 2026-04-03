@@ -20,14 +20,16 @@
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
     body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text-1);-webkit-font-smoothing:antialiased}
 
+    /* LOADING */
+    .ai-loading{position:fixed;inset:0;z-index:500;background:rgba(250,251,255,0.97);backdrop-filter:blur(10px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.1rem;text-align:center;padding:2rem}
+    .ai-loading.hidden{display:none}
+    .ai-spinner{width:48px;height:48px;border-radius:50%;border:3px solid var(--blue-light);border-top-color:var(--blue);animation:spin 0.75s linear infinite}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    .ai-load-title{font-size:1.05rem;font-weight:700;color:var(--text-1)}
+    .ai-load-sub{font-size:0.82rem;color:var(--text-2);max-width:320px;line-height:1.6}
+
     /* TOOLBAR */
-    .toolbar{
-      position:sticky;top:0;z-index:100;
-      background:rgba(250,251,255,0.94);backdrop-filter:blur(16px);
-      border-bottom:1px solid var(--border);
-      height:64px;padding:0 2rem;
-      display:flex;align-items:center;justify-content:space-between;
-    }
+    .toolbar{position:sticky;top:0;z-index:100;background:rgba(250,251,255,0.94);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);height:64px;padding:0 2rem;display:flex;align-items:center;justify-content:space-between}
     .logo{font-size:1.05rem;font-weight:700;color:var(--text-1);text-decoration:none;letter-spacing:-0.02em;display:flex;align-items:center;gap:0.4rem}
     .logo-mark{width:26px;height:26px;border-radius:6px;background:var(--blue);display:flex;align-items:center;justify-content:center;font-size:0.62rem;font-weight:700;color:#fff}
     .tb-right{display:flex;align-items:center;gap:0.6rem}
@@ -35,71 +37,62 @@
     .tab{font-family:'Plus Jakarta Sans',sans-serif;font-size:0.76rem;font-weight:500;padding:0.38rem 1rem;border-radius:5px;cursor:pointer;color:var(--text-2);text-decoration:none;transition:all 0.18s;background:none;border:none}
     .tab.active{background:var(--white);color:var(--blue);font-weight:600;box-shadow:var(--shadow-sm)}
     .tab:hover:not(.active){color:var(--text-1);background:rgba(0,0,0,0.03)}
-    .btn-tb{font-family:'Plus Jakarta Sans',sans-serif;font-size:0.78rem;font-weight:600;padding:0.5rem 1.1rem;border-radius:8px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:0.35rem;transition:all 0.2s}
-    .btn-solid{background:var(--blue);color:#fff;border:none;box-shadow:var(--shadow-blue)}
-    .btn-solid:hover{background:var(--blue-hover);transform:translateY(-1px);box-shadow:0 6px 24px rgba(47,107,255,0.3)}
-    .btn-outline{color:var(--text-2);background:var(--white);border:1.5px solid var(--border-md)}
-    .btn-outline:hover{color:var(--text-1);border-color:var(--blue);background:var(--blue-light)}
+    .btn-tb{font-family:'Plus Jakarta Sans',sans-serif;font-size:0.78rem;font-weight:600;padding:0.5rem 1.1rem;border-radius:8px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:0.35rem;transition:all 0.2s;white-space:nowrap;border:none}
+    .btn-solid{background:var(--blue);color:#fff;box-shadow:var(--shadow-blue)}
+    .btn-solid:hover{background:var(--blue-hover);transform:translateY(-1px)}
+    .btn-solid:disabled{opacity:0.5;cursor:not-allowed;transform:none}
+    .btn-outline{color:var(--text-2);background:var(--white);border:1.5px solid var(--border-md)!important}
+    .btn-outline:hover{color:var(--text-1);border-color:var(--blue)!important;background:var(--blue-light)}
 
-    /* PREVIEW WRAP */
-    .preview-wrap{padding:2.5rem 2rem;display:flex;justify-content:center;min-height:calc(100vh - 64px)}
+    /* AI INSIGHT BANNER */
+    .insight-wrap{max-width:900px;margin:1.5rem auto 0;padding:0 2rem;animation:fadeUp 0.4s ease}
+    .insight-card{background:var(--blue-light);border:1px solid var(--blue-mid);border-radius:12px;padding:1rem 1.4rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
+    .insight-icon{font-size:1.3rem;flex-shrink:0}
+    .insight-text{flex:1}
+    .insight-title{font-size:0.82rem;font-weight:700;color:var(--blue)}
+    .insight-sub{font-size:0.74rem;color:var(--text-2);margin-top:0.15rem}
+    .btn-regen-cl{font-family:'Plus Jakarta Sans',sans-serif;font-size:0.76rem;font-weight:600;color:var(--blue);background:var(--white);border:1px solid var(--blue-mid);padding:0.42rem 0.9rem;border-radius:7px;cursor:pointer;transition:all 0.2s;white-space:nowrap}
+    .btn-regen-cl:hover{background:var(--blue-mid)}
 
-    /* ════════════════════════════════════
-       LETTER DOCUMENT — white A4
-    ════════════════════════════════════ */
-    .letter-doc{
-      width:210mm;min-height:297mm;
-      background:#fff;
-      box-shadow:var(--shadow-lg);
-      border-radius:4px;
-      overflow:hidden;
-      font-family:'Plus Jakarta Sans',sans-serif;
-    }
+    /* PREVIEW */
+    .preview-wrap{padding:1.5rem 2rem 3rem;display:flex;justify-content:center}
 
-    /* Top accent */
-    .letter-top-rule{height:4px;background:var(--blue)}
-
+    /* LETTER DOC */
+    .letter-doc{width:210mm;min-height:297mm;background:#fff;box-shadow:var(--shadow-lg);border-radius:4px;overflow:hidden;font-family:'Plus Jakarta Sans',sans-serif}
+    .letter-top{height:4px;background:var(--blue)}
     .letter-inner{padding:3.2rem 3.5rem}
-
-    /* Letterhead */
-    .letter-head{
-      display:flex;justify-content:space-between;align-items:flex-start;
-      padding-bottom:1.8rem;margin-bottom:2.2rem;
-      border-bottom:1.5px solid #EAF1FF;
-    }
-    .letter-sender-name{font-size:1.55rem;font-weight:700;letter-spacing:-0.02em;color:#111;margin-bottom:0.25rem}
-    .letter-sender-contact{font-size:0.7rem;color:#9CA3AF;line-height:1.75}
+    .letter-head{display:flex;justify-content:space-between;align-items:flex-start;padding-bottom:1.8rem;margin-bottom:2.2rem;border-bottom:1.5px solid #EAF1FF}
+    .letter-name{font-size:1.55rem;font-weight:700;letter-spacing:-0.02em;color:#111;margin-bottom:0.25rem}
+    .letter-contact{font-size:0.7rem;color:#9CA3AF;line-height:1.75}
     .letter-date{font-size:0.74rem;color:#9CA3AF;text-align:right;padding-top:0.3rem}
-
-    /* Recipient */
     .letter-to{margin-bottom:2rem}
     .letter-to p{font-size:0.82rem;line-height:1.65;color:#374151}
     .letter-to .co{font-weight:700;color:#111}
-
-    /* Subject */
-    .letter-subject{
-      background:var(--blue-light);border:1px solid var(--blue-mid);
-      border-radius:8px;padding:0.7rem 1rem;
-      margin-bottom:2rem;
-    }
+    .letter-subject{background:var(--blue-light);border:1px solid var(--blue-mid);border-radius:8px;padding:0.7rem 1rem;margin-bottom:2rem}
     .letter-subject p{font-size:0.82rem;font-weight:600;color:var(--blue)}
-
-    /* Body */
-    .letter-body p{font-size:0.84rem;line-height:1.88;color:#374151;font-weight:400;margin-bottom:1.2rem}
+    .letter-body p{font-size:0.84rem;line-height:1.9;color:#374151;font-weight:400;margin-bottom:1.2rem}
     .letter-body strong{font-weight:600;color:#111}
-
-    /* Sign-off */
+    /* editable paragraphs */
+    .letter-body p[contenteditable="true"]{outline:1px dashed var(--blue-mid);border-radius:4px;padding:0.3rem;cursor:text;background:rgba(47,107,255,0.02)}
+    .letter-body p[contenteditable="true"]:focus{outline:1.5px solid var(--blue);background:var(--blue-light)}
     .letter-signoff{margin-top:2.5rem;padding-top:2rem;border-top:1px solid #F3F4F6}
     .letter-signoff p{font-size:0.82rem;color:#374151;margin-bottom:0.3rem}
     .letter-sig{font-size:1.3rem;font-weight:700;letter-spacing:-0.02em;margin-top:1rem;color:#111}
     .letter-sig-contact{font-size:0.7rem;color:#9CA3AF;margin-top:0.3rem}
 
+    /* edit mode bar */
+    .edit-bar{max-width:900px;margin:0.8rem auto 0;padding:0 2rem}
+    .edit-bar-inner{background:var(--blue-light);border:1px solid var(--blue-mid);border-radius:8px;padding:0.6rem 1rem;display:flex;align-items:center;justify-content:space-between;font-size:0.76rem;color:var(--blue);font-weight:500}
+    .btn-done-edit{background:var(--blue);color:#fff;border:none;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.72rem;font-weight:600;padding:0.28rem 0.75rem;border-radius:5px;cursor:pointer;margin-left:1rem}
+
     @media print{
       @page{margin:0;size:A4}
       body{background:#fff}
-      .toolbar{display:none}
-      .preview-wrap{padding:0;min-height:0}
+      .toolbar,.insight-wrap,.edit-bar{display:none!important}
+      .preview-wrap{padding:0}
       .letter-doc{box-shadow:none;width:100%;border-radius:0}
+      [contenteditable]{outline:none!important;background:none!important}
+      .ai-loading{display:none!important}
     }
     @media(max-width:760px){
       .toolbar{padding:0 1.2rem}
@@ -108,113 +101,233 @@
       .letter-inner{padding:2.2rem 1.8rem}
       .letter-head{flex-direction:column;gap:0.8rem}
       .letter-date{text-align:left}
-      .tb-right .btn-outline{display:none}
+      .insight-wrap,.edit-bar{padding:0 1rem}
+      .tb-right .btn-outline:last-child{display:none}
     }
+    @keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
   </style>
 </head>
 <body>
 
-<div class="toolbar">
+<!-- AI LOADING -->
+<div class="ai-loading" id="aiLoading">
+  <div class="ai-spinner"></div>
+  <div class="ai-load-title">Generating your cover letter…</div>
+  <div class="ai-load-sub">Writing a personalised letter tailored to this job</div>
+</div>
+
+<!-- TOOLBAR -->
+<div class="toolbar" id="toolbar" style="display:none">
   <a href="index.html" class="logo"><div class="logo-mark">CV</div>CVbykiyomi</a>
   <div class="tb-right">
     <div class="tab-group">
       <a href="cv-preview.html" class="tab">CV</a>
       <span class="tab active">Cover Letter</span>
     </div>
-    <button class="btn-tb btn-solid" onclick="window.print()">⬇ Print / Download</button>
+    <button class="btn-tb btn-outline" id="editBtn" onclick="toggleEdit()">✏️ Edit Mode</button>
+    <button class="btn-tb btn-solid" id="printBtn" onclick="window.print()" disabled>⬇ Print / Download</button>
     <a href="form.html" class="btn-tb btn-outline">↩ Edit Details</a>
   </div>
 </div>
 
-<div class="preview-wrap">
-  <div class="letter-doc" id="letter-doc"></div>
+<!-- AI INSIGHT -->
+<div class="insight-wrap" id="insightWrap" style="display:none">
+  <div class="insight-card">
+    <div class="insight-icon">✦</div>
+    <div class="insight-text">
+      <div class="insight-title" id="insightTitle">AI-personalised cover letter</div>
+      <div class="insight-sub" id="insightSub">Written to match this specific role and company</div>
+    </div>
+    <button class="btn-regen-cl" onclick="regenLetter()">↻ Regenerate</button>
+  </div>
+</div>
+
+<!-- EDIT BAR -->
+<div class="edit-bar" id="editBarWrap" style="display:none">
+  <div class="edit-bar-inner">
+    ✏️ Edit mode on — click any paragraph to edit it directly.
+    <button class="btn-done-edit" onclick="toggleEdit()">Done Editing</button>
+  </div>
+</div>
+
+<!-- LETTER PREVIEW -->
+<div class="preview-wrap" id="previewWrap" style="display:none">
+  <div class="letter-doc" id="letterDoc"></div>
 </div>
 
 <script>
-  const raw=sessionStorage.getItem('cvData');
-  const d=raw?JSON.parse(raw):null;
-  const el=document.getElementById('letter-doc');
+const raw = sessionStorage.getItem('cvData');
+const d   = raw ? JSON.parse(raw) : null;
+const aiRaw = sessionStorage.getItem('aiResult');
+let aiResult = aiRaw ? JSON.parse(aiRaw) : null;
+let letterParagraphs = [];
+let editMode = false;
 
-  if(!d){
-    el.innerHTML=`<div style="padding:4rem 2rem;text-align:center;color:#9CA3AF">
-      <p style="margin-bottom:1rem;font-size:1rem">No data found.</p>
-      <a href="form.html" style="color:#2F6BFF;font-weight:600;font-size:0.88rem">← Fill in your details</a>
+if (!d) {
+  showUI();
+  document.getElementById('letterDoc').innerHTML = `<div style="padding:4rem 2rem;text-align:center;color:#9CA3AF"><p style="font-size:1.1rem;margin-bottom:1rem">No data found.</p><a href="form.html" style="color:#2F6BFF;font-weight:700">← Fill in your details</a></div>`;
+} else {
+  callLetterAI();
+}
+
+async function callLetterAI() {
+  const tone = d.tone || 'professional';
+  const toneMap = {
+    professional: 'formal and professional',
+    confident:    'confident, bold and achievement-focused',
+    creative:     'engaging, warm and personable while staying professional'
+  };
+
+  const matchedKws = (aiResult?.matchedKeywords||[]).join(', ') || 'not available';
+  const topExp = (d.experience||[]).find(e=>e.role&&e.company);
+  const topExpLine = topExp ? `Most recent role: ${topExp.role} at ${topExp.company} (${topExp.start}–${topExp.end})` : '';
+  const aiBullets = aiResult?.experience?.[0]?.bullets?.slice(0,2).join('; ') || '';
+
+  const prompt = `You are an expert cover letter writer. Write a personalised, compelling cover letter for this candidate.
+
+CANDIDATE:
+Name: ${d.firstName} ${d.lastName}
+${topExpLine}
+Skills: ${(d.skills||[]).join(', ')||'Not provided'}
+Summary: ${d.summary||'Not provided'}
+${aiBullets ? `Key achievements: ${aiBullets}` : ''}
+
+JOB DESCRIPTION:
+${d.jobDesc}
+
+TARGET ROLE: ${d.jobTitle||'the advertised position'}
+COMPANY: ${d.companyName||'the company'}
+TONE: ${toneMap[tone]}
+KEYWORDS TO NATURALLY INCLUDE: ${matchedKws}
+
+WRITE A COVER LETTER WITH EXACTLY THESE 4 PARAGRAPHS:
+1. Opening — express genuine interest in the specific role and company, mention the role title
+2. Experience paragraph — highlight the most relevant experience and 1–2 specific achievements that match the JD
+3. Skills & fit paragraph — connect key skills to the job requirements, show cultural/team fit, use JD language naturally
+4. Closing — express enthusiasm, mention availability, invite next steps
+
+RULES:
+- Do NOT use generic phrases like "I am writing to apply for..."
+- Each paragraph should be 3–5 sentences
+- Sound human and genuine, not like a template
+- Address the company by name where it feels natural
+- Return ONLY the 4 paragraphs as a JSON array, no extra text, no markdown:
+["paragraph 1 text", "paragraph 2 text", "paragraph 3 text", "paragraph 4 text"]`;
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ model:'claude-sonnet-4-20250514', max_tokens:1200, messages:[{role:'user',content:prompt}] })
+    });
+    const data = await res.json();
+    const txt = (data.content?.[0]?.text||'').replace(/```json|```/g,'').trim();
+    letterParagraphs = JSON.parse(txt);
+  } catch(e) {
+    console.warn('Cover letter AI fallback:', e);
+    letterParagraphs = buildFallbackLetter(d, aiResult);
+  }
+
+  showUI();
+  renderLetter();
+}
+
+function buildFallbackLetter(d, ai) {
+  const jobTitle = d.jobTitle || 'the advertised position';
+  const company  = d.companyName || 'your organisation';
+  const topSkills = (d.skills||[]).slice(0,3).join(', ') || 'my field';
+  const topExp = (d.experience||[]).find(e=>e.role&&e.company);
+  const matched  = (ai?.matchedKeywords||[]).slice(0,3).join(', ');
+
+  return [
+    `Having followed ${company}'s work closely, I was immediately drawn to the ${jobTitle} opening — it sits at the precise intersection of what I do best and what I want to build next.`,
+    topExp
+      ? `In my most recent role as ${topExp.role} at ${topExp.company}, I built a strong foundation in ${topSkills}. ${topExp.desc ? topExp.desc.split('\n').filter(Boolean)[0]?.replace(/^[•\-–·]\s*/,'') || '' : ''}`
+      : `Throughout my career I have developed deep expertise in ${topSkills}, consistently delivering results that matter.`,
+    matched
+      ? `My hands-on experience with ${matched} maps directly to what you've described in the job posting. I thrive in environments that reward initiative, clear thinking, and a genuine commitment to outcomes.`
+      : `I bring a combination of technical expertise and collaborative instincts that I believe would complement your team well.`,
+    `I am excited by the opportunity and would welcome the chance to discuss how I can contribute to ${company}. I am available at your convenience and look forward to hearing from you.`
+  ];
+}
+
+function showUI() {
+  document.getElementById('aiLoading').classList.add('hidden');
+  document.getElementById('toolbar').style.display = 'flex';
+  document.getElementById('insightWrap').style.display = 'block';
+  document.getElementById('previewWrap').style.display = 'flex';
+  document.getElementById('printBtn').disabled = false;
+
+  const score = aiResult?.matchScore;
+  if (score) {
+    document.getElementById('insightTitle').textContent = `AI cover letter — ${score}% match score`;
+    document.getElementById('insightSub').textContent = `Tailored to the ${d.jobTitle||'role'} at ${d.companyName||'the company'} using your experience and the job keywords`;
+  }
+}
+
+function renderLetter() {
+  const name = `${d.firstName} ${d.lastName}`.trim();
+  const contactLine = [d.location, d.email, d.phone].filter(Boolean).join(' · ');
+  const jobTitle = d.jobTitle || 'the advertised position';
+  const company  = d.companyName || 'your organisation';
+  const dateStr  = new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
+
+  const bodyParas = (letterParagraphs||[]).map(p =>
+    `<p contenteditable="false">${p}</p>`
+  ).join('');
+
+  document.getElementById('letterDoc').innerHTML = `
+    <div class="letter-top"></div>
+    <div class="letter-inner">
+      <div class="letter-head">
+        <div>
+          <div class="letter-name">${name}</div>
+          <div class="letter-contact">${contactLine}</div>
+        </div>
+        <div class="letter-date">${dateStr}</div>
+      </div>
+
+      <div class="letter-to">
+        <p>The Hiring Manager</p>
+        <p class="co">${company}</p>
+      </div>
+
+      <div class="letter-subject">
+        <p>Re: Application for ${jobTitle}</p>
+      </div>
+
+      <div class="letter-body">
+        <p contenteditable="false">Dear Hiring Manager,</p>
+        ${bodyParas}
+      </div>
+
+      <div class="letter-signoff">
+        <p>Yours sincerely,</p>
+        <div class="letter-sig">${name}</div>
+        <div class="letter-sig-contact">${[d.email, d.phone].filter(Boolean).join(' · ')}</div>
+      </div>
     </div>`;
-  } else { renderLetter(d); }
+}
 
-  function getJobTitle(jd,override){
-    if(override&&override.length>2)return override;
-    const lines=jd.split('\n').map(l=>l.trim()).filter(Boolean);
-    for(const l of lines.slice(0,6)){if(l.length<80&&!/[.:]$/.test(l))return l;}
-    return 'the advertised position';
-  }
-  function getMatchedSkills(jd,skills){
-    return(skills||[]).filter(s=>jd.toLowerCase().includes(s.toLowerCase())).slice(0,3);
-  }
-  function today(){
-    return new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
-  }
-  function descSentence(desc){
-    const l=(desc.split('\n').find(x=>x.trim().length>10)||'').replace(/^[•\-–·]\s*/,'').toLowerCase().replace(/\.$/,'');
-    return l||'consistently delivered high-impact outcomes';
-  }
+function toggleEdit() {
+  editMode = !editMode;
+  document.querySelectorAll('.letter-body p').forEach(p => { p.contentEditable = editMode ? 'true' : 'false'; });
+  const btn = document.getElementById('editBtn');
+  btn.textContent = editMode ? '✓ Done Editing' : '✏️ Edit Mode';
+  btn.style.background = editMode ? '#EAF1FF' : '';
+  btn.style.color = editMode ? '#2F6BFF' : '';
+  document.getElementById('editBarWrap').style.display = editMode ? 'block' : 'none';
+}
 
-  function renderLetter(d){
-    const name=`${d.firstName} ${d.lastName}`.trim();
-    const jobTitle=getJobTitle(d.jobDesc,d.jobTitle);
-    const company=d.companyName||'your organisation';
-    const matched=getMatchedSkills(d.jobDesc,d.skills);
-    const contactLine=[d.location,d.email,d.phone].filter(Boolean).join(' · ');
-    const topExp=d.experience.find(e=>e.role&&e.company);
-    const expLine=topExp?`In my most recent role as <strong>${topExp.role}</strong> at <strong>${topExp.company}</strong>, I ${topExp.desc?descSentence(topExp.desc):'developed strong expertise across key areas'}.`:'';
-    const skillsLine=matched.length
-      ?`My hands-on experience with <strong>${matched.join(', ')}</strong> aligns directly with what you are looking for, and I am confident in my ability to make an immediate contribution.`
-      :d.skills.length?`My expertise in <strong>${d.skills.slice(0,3).join(', ')}</strong> positions me well to deliver results in this role.`:'';
-    const summaryPara=d.summary?`<p>${d.summary}</p>`:'';
-
-    el.innerHTML=`
-      <div class="letter-top-rule"></div>
-      <div class="letter-inner">
-        <div class="letter-head">
-          <div>
-            <div class="letter-sender-name">${name}</div>
-            <div class="letter-sender-contact">${contactLine}</div>
-          </div>
-          <div class="letter-date">${today()}</div>
-        </div>
-
-        <div class="letter-to">
-          <p>The Hiring Manager</p>
-          <p class="co">${company}</p>
-        </div>
-
-        <div class="letter-subject">
-          <p>Re: Application for ${jobTitle}</p>
-        </div>
-
-        <div class="letter-body">
-          <p>Dear Hiring Manager,</p>
-
-          <p>I am writing to express my strong interest in the <strong>${jobTitle}</strong> position at <strong>${company}</strong>. With my background in ${d.skills.slice(0,2).join(' and ')||'my field'} and a consistent track record of delivering meaningful results, I am excited by the opportunity to contribute to your team.</p>
-
-          ${summaryPara}
-
-          ${expLine?`<p>${expLine}</p>`:''}
-
-          ${skillsLine?`<p>${skillsLine} I thrive in collaborative environments that value ownership, clear communication, and measurable impact.</p>`:''}
-
-          <p>I am particularly drawn to <strong>${company}</strong> and believe this role is a strong match for both my skills and my professional ambitions. I would welcome the opportunity to discuss how I can add value to your team.</p>
-
-          <p>Thank you for your time and consideration. Please find my CV attached — I look forward to hearing from you.</p>
-        </div>
-
-        <div class="letter-signoff">
-          <p>Yours sincerely,</p>
-          <div class="letter-sig">${name}</div>
-          <div class="letter-sig-contact">${[d.email,d.phone].filter(Boolean).join(' · ')}</div>
-        </div>
-      </div>`;
-  }
+function regenLetter() {
+  editMode = false;
+  document.getElementById('toolbar').style.display = 'none';
+  document.getElementById('insightWrap').style.display = 'none';
+  document.getElementById('previewWrap').style.display = 'none';
+  document.getElementById('editBarWrap').style.display = 'none';
+  document.getElementById('aiLoading').classList.remove('hidden');
+  callLetterAI();
+}
 </script>
 </body>
 </html>

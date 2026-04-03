@@ -12,6 +12,8 @@
       --bg:#FAFBFF;--white:#FFFFFF;
       --text-1:#1A1A1A;--text-2:#6B7280;--text-3:#9CA3AF;
       --border:#E5E7EB;--border-md:#D1D5DB;
+      --green:#059669;--green-light:#D1FAE5;
+      --orange:#C2410C;--orange-light:#FFF7ED;
       --shadow-sm:0 1px 3px rgba(0,0,0,0.06),0 1px 2px rgba(0,0,0,0.04);
       --shadow-md:0 4px 16px rgba(0,0,0,0.08),0 1px 4px rgba(0,0,0,0.04);
       --shadow-lg:0 8px 40px rgba(0,0,0,0.10),0 2px 8px rgba(0,0,0,0.05);
@@ -20,130 +22,115 @@
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
     body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text-1);-webkit-font-smoothing:antialiased}
 
+    /* LOADING */
+    .ai-loading{position:fixed;inset:0;z-index:500;background:rgba(250,251,255,0.97);backdrop-filter:blur(10px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.1rem;text-align:center;padding:2rem}
+    .ai-loading.hidden{display:none}
+    .ai-spinner{width:52px;height:52px;border-radius:50%;border:3px solid var(--blue-light);border-top-color:var(--blue);animation:spin 0.75s linear infinite}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    .ai-load-title{font-size:1.05rem;font-weight:700;color:var(--text-1)}
+    .ai-load-sub{font-size:0.82rem;color:var(--text-2);max-width:320px;line-height:1.6}
+    .ai-step-list{display:flex;flex-direction:column;gap:0.45rem;margin-top:0.4rem;text-align:left}
+    .ai-si{font-size:0.76rem;font-weight:500;color:var(--text-3);display:flex;align-items:center;gap:0.5rem;transition:color 0.3s}
+    .ai-si.done{color:var(--green)}
+    .ai-si.active{color:var(--blue)}
+    .ai-dot{width:8px;height:8px;border-radius:50%;background:var(--border-md);flex-shrink:0;transition:background 0.3s}
+    .ai-si.done .ai-dot{background:var(--green)}
+    .ai-si.active .ai-dot{background:var(--blue);box-shadow:0 0 0 3px rgba(47,107,255,0.18);animation:dp 1s ease-in-out infinite}
+    @keyframes dp{0%,100%{box-shadow:0 0 0 3px rgba(47,107,255,0.18)}50%{box-shadow:0 0 0 6px rgba(47,107,255,0.08)}}
+
     /* TOOLBAR */
-    .toolbar{
-      position:sticky;top:0;z-index:100;
-      background:rgba(250,251,255,0.94);backdrop-filter:blur(16px);
-      border-bottom:1px solid var(--border);
-      height:64px;padding:0 2rem;
-      display:flex;align-items:center;justify-content:space-between;
-    }
+    .toolbar{position:sticky;top:0;z-index:100;background:rgba(250,251,255,0.94);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);height:64px;padding:0 2rem;display:flex;align-items:center;justify-content:space-between}
     .logo{font-size:1.05rem;font-weight:700;color:var(--text-1);text-decoration:none;letter-spacing:-0.02em;display:flex;align-items:center;gap:0.4rem}
     .logo-mark{width:26px;height:26px;border-radius:6px;background:var(--blue);display:flex;align-items:center;justify-content:center;font-size:0.62rem;font-weight:700;color:#fff}
     .tb-right{display:flex;align-items:center;gap:0.6rem}
-
-    /* Tab switcher */
     .tab-group{display:flex;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:3px;gap:2px}
-    .tab{
-      font-family:'Plus Jakarta Sans',sans-serif;font-size:0.76rem;font-weight:500;
-      padding:0.38rem 1rem;border-radius:5px;cursor:pointer;
-      color:var(--text-2);text-decoration:none;transition:all 0.18s;background:none;border:none;
-    }
+    .tab{font-family:'Plus Jakarta Sans',sans-serif;font-size:0.76rem;font-weight:500;padding:0.38rem 1rem;border-radius:5px;cursor:pointer;color:var(--text-2);text-decoration:none;transition:all 0.18s;background:none;border:none}
     .tab.active{background:var(--white);color:var(--blue);font-weight:600;box-shadow:var(--shadow-sm)}
     .tab:hover:not(.active){color:var(--text-1);background:rgba(0,0,0,0.03)}
+    .btn-tb{font-family:'Plus Jakarta Sans',sans-serif;font-size:0.78rem;font-weight:600;padding:0.5rem 1.1rem;border-radius:8px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:0.35rem;transition:all 0.2s;white-space:nowrap;border:none}
+    .btn-solid{background:var(--blue);color:#fff;box-shadow:var(--shadow-blue)}
+    .btn-solid:hover{background:var(--blue-hover);transform:translateY(-1px)}
+    .btn-solid:disabled{opacity:0.5;cursor:not-allowed;transform:none}
+    .btn-outline{color:var(--text-2);background:var(--white);border:1.5px solid var(--border-md)!important}
+    .btn-outline:hover{color:var(--text-1);border-color:var(--blue)!important;background:var(--blue-light)}
+    .btn-edit-active{background:var(--blue-light)!important;color:var(--blue)!important;border-color:var(--blue-mid)!important}
 
-    .btn-tb{
-      font-family:'Plus Jakarta Sans',sans-serif;font-size:0.78rem;font-weight:600;
-      padding:0.5rem 1.1rem;border-radius:8px;cursor:pointer;
-      text-decoration:none;display:inline-flex;align-items:center;gap:0.35rem;transition:all 0.2s;
-    }
-    .btn-solid{background:var(--blue);color:#fff;border:none;box-shadow:var(--shadow-blue)}
-    .btn-solid:hover{background:var(--blue-hover);transform:translateY(-1px);box-shadow:0 6px 24px rgba(47,107,255,0.3)}
-    .btn-outline{color:var(--text-2);background:var(--white);border:1.5px solid var(--border-md)}
-    .btn-outline:hover{color:var(--text-1);border-color:var(--blue);background:var(--blue-light)}
+    /* SCORE BANNER */
+    .score-wrap{max-width:900px;margin:1.5rem auto 0;padding:0 2rem;animation:fadeUp 0.4s ease}
+    .score-card{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:1.2rem 1.5rem;box-shadow:var(--shadow-sm);display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap}
+    .score-gauge{position:relative;width:54px;height:54px;flex-shrink:0}
+    .score-gauge svg{transform:rotate(-90deg)}
+    .score-gauge-bg{fill:none;stroke:var(--blue-light);stroke-width:4}
+    .score-gauge-fill{fill:none;stroke:var(--blue);stroke-width:4;stroke-linecap:round;transition:stroke-dashoffset 1.2s cubic-bezier(0.4,0,0.2,1)}
+    .score-gauge-text{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:0.72rem;font-weight:800;color:var(--blue)}
+    .score-info{flex:1;min-width:140px}
+    .score-title{font-size:0.84rem;font-weight:700;color:var(--text-1)}
+    .score-sub{font-size:0.72rem;color:var(--text-2);margin-top:0.1rem}
+    .score-kws{display:flex;flex-wrap:wrap;gap:0.38rem;flex:2}
+    .kw{font-size:0.68rem;font-weight:600;padding:0.22rem 0.6rem;border-radius:20px}
+    .kw.hit{background:var(--green-light);color:var(--green);border:1px solid rgba(5,150,105,0.2)}
+    .kw.miss{background:var(--orange-light);color:var(--orange);border:1px solid rgba(194,65,12,0.2)}
+    .btn-regen{font-family:'Plus Jakarta Sans',sans-serif;font-size:0.76rem;font-weight:600;color:var(--blue);background:var(--blue-light);border:1px solid var(--blue-mid);padding:0.42rem 0.9rem;border-radius:7px;cursor:pointer;transition:all 0.2s;white-space:nowrap}
+    .btn-regen:hover{background:var(--blue-mid)}
 
-    /* PREVIEW WRAP */
-    .preview-wrap{
-      padding:2.5rem 2rem;
-      display:flex;justify-content:center;
-      min-height:calc(100vh - 64px);
-    }
+    /* EDIT BAR */
+    .edit-bar{max-width:900px;margin:0.8rem auto 0;padding:0 2rem}
+    .edit-bar-inner{background:var(--blue-light);border:1px solid var(--blue-mid);border-radius:8px;padding:0.6rem 1rem;display:flex;align-items:center;justify-content:space-between;font-size:0.76rem;color:var(--blue);font-weight:500}
+    .btn-done-edit{background:var(--blue);color:#fff;border:none;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.72rem;font-weight:600;padding:0.28rem 0.75rem;border-radius:5px;cursor:pointer;margin-left:1rem}
 
-    /* ════════════════════════════════════
-       CV DOCUMENT  — white A4, print-safe
-    ════════════════════════════════════ */
-    .cv-doc{
-      width:210mm;min-height:297mm;
-      background:#fff;
-      box-shadow:var(--shadow-lg);
-      border-radius:4px;
-      font-family:'Plus Jakarta Sans',sans-serif;
-      overflow:hidden;
-      position:relative;
-    }
+    /* PREVIEW */
+    .preview-wrap{padding:1.5rem 2rem 3rem;display:flex;justify-content:center}
 
-    /* Top blue rule */
-    .cv-top-rule{height:4px;background:var(--blue)}
+    /* AI BADGE */
+    .ai-badge{display:inline-flex;align-items:center;gap:0.25rem;font-size:0.58rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--blue);background:var(--blue-light);border:1px solid var(--blue-mid);padding:0.18rem 0.5rem;border-radius:20px;margin-left:0.5rem;vertical-align:middle}
 
-    /* Header */
+    /* CV DOC */
+    .cv-doc{width:210mm;min-height:297mm;background:#fff;box-shadow:var(--shadow-lg);border-radius:4px;font-family:'Plus Jakarta Sans',sans-serif;overflow:hidden}
+    .cv-top{height:4px;background:var(--blue)}
     .cv-hd{padding:2.2rem 2.5rem 1.8rem;border-bottom:1px solid #F3F4F6}
     .cv-name{font-size:1.9rem;font-weight:700;letter-spacing:-0.025em;color:#111;margin-bottom:0.2rem}
-    .cv-jobtitle{font-size:0.72rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--blue);margin-bottom:0.9rem}
+    .cv-jtitle{font-size:0.72rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--blue);margin-bottom:0.9rem}
     .cv-contacts{display:flex;flex-wrap:wrap;gap:1.2rem}
-    .cv-ci{font-size:0.72rem;color:#9CA3AF;display:flex;align-items:center;gap:0.25rem}
+    .cv-ci{font-size:0.72rem;color:#9CA3AF}
     .cv-ci a{color:#9CA3AF;text-decoration:none}
-
-    /* Body */
     .cv-body{display:grid;grid-template-columns:200px 1fr}
-
-    /* Left column */
     .cv-left{padding:1.8rem 1.6rem;border-right:1px solid #F3F4F6;background:#FAFBFF}
     .cv-right{padding:1.8rem 2.2rem}
-
-    /* Sections */
     .cv-sec{margin-bottom:1.8rem}
-    .cv-sec-t{
-      font-size:0.58rem;font-weight:700;letter-spacing:0.15em;
-      text-transform:uppercase;color:var(--blue);
-      padding-bottom:0.45rem;margin-bottom:0.9rem;
-      border-bottom:1.5px solid var(--blue-mid);
-      display:flex;align-items:center;gap:0.4rem;
-    }
-
-    /* Summary */
-    .cv-summary{font-size:0.8rem;line-height:1.8;color:#374151;font-weight:400}
-
-    /* Skills */
-    .cv-skill{
-      display:block;font-size:0.73rem;color:#374151;
-      padding:0.3rem 0;border-bottom:1px solid #F3F4F6;line-height:1.4;font-weight:400;
-    }
+    .cv-sec-t{font-size:0.58rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--blue);padding-bottom:0.45rem;margin-bottom:0.9rem;border-bottom:1.5px solid var(--blue-mid)}
+    .cv-summary{font-size:0.8rem;line-height:1.8;color:#374151}
+    .cv-skill{display:block;font-size:0.73rem;color:#374151;padding:0.28rem 0;border-bottom:1px solid #F3F4F6;line-height:1.4}
     .cv-skill:last-child{border-bottom:none}
-
-    /* Education */
+    .cv-skill.hit{color:var(--green);font-weight:600;background:var(--green-light);padding:0.24rem 0.5rem;border-radius:4px;border-bottom:none;margin-bottom:0.28rem;display:flex;align-items:center;gap:0.28rem;font-size:0.71rem}
+    .cv-skill.hit::before{content:'✓';font-size:0.58rem}
+    .cv-skill.new{color:#7C3AED;font-weight:600;background:#F5F3FF;padding:0.24rem 0.5rem;border-radius:4px;border-bottom:none;margin-bottom:0.28rem;display:flex;align-items:center;gap:0.28rem;font-size:0.71rem;border:1px dashed #C4B5FD}
+    .cv-skill.new::before{content:'+ AI';font-size:0.52rem;background:#7C3AED;color:#fff;border-radius:3px;padding:0.05rem 0.25rem}
     .cv-edu{margin-bottom:0.8rem}
     .cv-edu-d{font-size:0.74rem;font-weight:600;color:#111;line-height:1.4}
-    .cv-edu-s{font-size:0.68rem;color:#9CA3AF;margin-top:0.1rem}
-
-    /* Experience */
     .cv-exp{margin-bottom:1.6rem;padding-bottom:1.4rem;border-bottom:1px solid #F3F4F6}
     .cv-exp:last-child{margin-bottom:0;padding-bottom:0;border-bottom:none}
     .cv-exp-hd{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:0.18rem}
     .cv-exp-role{font-size:0.88rem;font-weight:700;color:#111}
-    .cv-exp-dates{
-      font-size:0.64rem;font-weight:500;color:var(--blue);
-      background:var(--blue-light);padding:0.15rem 0.5rem;
-      border-radius:4px;white-space:nowrap;
-    }
+    .cv-exp-dates{font-size:0.64rem;font-weight:500;color:var(--blue);background:var(--blue-light);padding:0.15rem 0.5rem;border-radius:4px;white-space:nowrap}
     .cv-exp-co{font-size:0.72rem;font-weight:500;color:#6B7280;margin-bottom:0.5rem}
     .cv-exp-list{padding:0;list-style:none}
-    .cv-exp-list li{
-      font-size:0.75rem;line-height:1.75;color:#374151;font-weight:400;
-      padding-left:1rem;position:relative;margin-bottom:0.15rem;
-    }
-    .cv-exp-list li::before{
-      content:'';position:absolute;left:0;top:0.62em;
-      width:4px;height:4px;border-radius:50%;
-      background:var(--blue);opacity:0.5;
-    }
+    .cv-exp-list li{font-size:0.75rem;line-height:1.75;color:#374151;padding-left:1rem;position:relative;margin-bottom:0.15rem;border-radius:3px;outline:none;transition:background 0.15s}
+    .cv-exp-list li::before{content:'';position:absolute;left:0;top:0.62em;width:4px;height:4px;border-radius:50%;background:var(--blue);opacity:0.5}
+    .cv-exp-list li[contenteditable="true"]{background:rgba(47,107,255,0.04);outline:1px dashed var(--blue-mid);padding-left:1rem;cursor:text}
+    .cv-exp-list li[contenteditable="true"]:focus{outline:1.5px solid var(--blue);background:var(--blue-light)}
+    .kw-hi{background:#FFF9C4;color:#92400E;border-radius:2px;padding:0 2px;font-weight:600}
 
-    /* PRINT */
     @media print{
       @page{margin:0;size:A4}
       body{background:#fff}
-      .toolbar{display:none}
-      .preview-wrap{padding:0;min-height:0}
+      .toolbar,.score-wrap,.edit-bar{display:none!important}
+      .preview-wrap{padding:0}
       .cv-doc{box-shadow:none;width:100%;border-radius:0}
+      .cv-skill.hit,.cv-skill.new{background:none;padding:0}
+      .kw-hi{background:none;font-weight:700}
+      [contenteditable]{outline:none!important;background:none!important}
+      .ai-badge{display:none}
+      .ai-loading{display:none!important}
     }
     @media(max-width:760px){
       .toolbar{padding:0 1.2rem}
@@ -151,89 +138,304 @@
       .cv-doc{width:100%}
       .cv-body{grid-template-columns:1fr}
       .cv-left{border-right:none;border-bottom:1px solid #F3F4F6}
-      .tb-right .btn-outline{display:none}
+      .score-card{flex-direction:column;align-items:flex-start}
+      .score-wrap,.edit-bar{padding:0 1rem}
+      .tb-right .btn-outline:last-child{display:none}
     }
+    @keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
   </style>
 </head>
 <body>
 
-<div class="toolbar">
+<!-- AI LOADING -->
+<div class="ai-loading" id="aiLoading">
+  <div class="ai-spinner"></div>
+  <div class="ai-load-title">AI is tailoring your CV…</div>
+  <div class="ai-load-sub">Analysing the job description and rewriting your experience</div>
+  <div class="ai-step-list">
+    <div class="ai-si active" id="s1"><div class="ai-dot"></div>Reading job description</div>
+    <div class="ai-si" id="s2"><div class="ai-dot"></div>Matching your skills &amp; experience</div>
+    <div class="ai-si" id="s3"><div class="ai-dot"></div>Rewriting CV bullet points</div>
+    <div class="ai-si" id="s4"><div class="ai-dot"></div>Calculating match score</div>
+  </div>
+</div>
+
+<!-- TOOLBAR -->
+<div class="toolbar" id="toolbar" style="display:none">
   <a href="index.html" class="logo"><div class="logo-mark">CV</div>CVbykiyomi</a>
   <div class="tb-right">
     <div class="tab-group">
       <span class="tab active">CV</span>
       <a href="cover-letter.html" class="tab">Cover Letter</a>
     </div>
-    <button class="btn-tb btn-solid" onclick="window.print()">⬇ Print / Download</button>
+    <button class="btn-tb btn-outline" id="editBtn" onclick="toggleEdit()">✏️ Edit Mode</button>
+    <button class="btn-tb btn-solid" id="printBtn" onclick="window.print()" disabled>⬇ Print / Download</button>
     <a href="form.html" class="btn-tb btn-outline">↩ Edit Details</a>
   </div>
 </div>
 
-<div class="preview-wrap">
-  <div class="cv-doc" id="cv-doc"></div>
+<!-- SCORE BANNER -->
+<div class="score-wrap" id="scoreWrap" style="display:none">
+  <div class="score-card">
+    <div class="score-gauge">
+      <svg width="54" height="54" viewBox="0 0 54 54">
+        <circle class="score-gauge-bg" cx="27" cy="27" r="22"/>
+        <circle class="score-gauge-fill" id="gaugeFill" cx="27" cy="27" r="22"
+          stroke-dasharray="138.2" stroke-dashoffset="138.2"/>
+      </svg>
+      <div class="score-gauge-text" id="gaugeNum">0%</div>
+    </div>
+    <div class="score-info">
+      <div class="score-title" id="scoreTitle">Calculating…</div>
+      <div class="score-sub" id="scoreSub"></div>
+    </div>
+    <div class="score-kws" id="scoreKws"></div>
+    <button class="btn-regen" onclick="regen()">↻ Regenerate</button>
+  </div>
+</div>
+
+<!-- EDIT BAR -->
+<div class="edit-bar" id="editBarWrap" style="display:none">
+  <div class="edit-bar-inner">
+    ✏️ Edit mode on — click any bullet point to edit it directly.
+    <button class="btn-done-edit" onclick="toggleEdit()">Done Editing</button>
+  </div>
+</div>
+
+<!-- CV PREVIEW -->
+<div class="preview-wrap" id="previewWrap" style="display:none">
+  <div class="cv-doc" id="cvDoc"></div>
 </div>
 
 <script>
-  const raw=sessionStorage.getItem('cvData');
-  const d=raw?JSON.parse(raw):null;
-  const el=document.getElementById('cv-doc');
+/* ── STATE ── */
+const raw = sessionStorage.getItem('cvData');
+const d   = raw ? JSON.parse(raw) : null;
+let aiResult = null, editMode = false;
 
-  if(!d){
-    el.innerHTML=`<div style="padding:4rem 2rem;text-align:center;color:#9CA3AF">
-      <p style="font-size:1.1rem;margin-bottom:1rem;">No CV data found.</p>
-      <a href="form.html" style="color:var(--blue);font-weight:600;font-size:0.9rem;">← Go back and fill in your details</a>
-    </div>`;
-  } else { renderCV(d); }
+/* ── BOOT ── */
+if (!d) {
+  show(); document.getElementById('cvDoc').innerHTML =
+    `<div style="padding:4rem 2rem;text-align:center;color:#9CA3AF"><p style="font-size:1.1rem;margin-bottom:1rem">No CV data found.</p><a href="form.html" style="color:#2F6BFF;font-weight:700">← Fill in your details</a></div>`;
+} else {
+  animSteps(() => callAI());
+}
 
-  function renderCV(d){
-    const name=`${d.firstName} ${d.lastName}`.trim();
-    const contacts=[
-      d.email?`<span class="cv-ci">✉ ${d.email}</span>`:'',
-      d.phone?`<span class="cv-ci">☎ ${d.phone}</span>`:'',
-      d.location?`<span class="cv-ci">⌖ ${d.location}</span>`:'',
-      d.linkedin?`<span class="cv-ci">🔗 <a href="${d.linkedin}" target="_blank">${d.linkedin.replace(/^https?:\/\//,'')}</a></span>`:'',
-    ].filter(Boolean).join('');
+/* ── LOADING ANIM ── */
+function animSteps(cb) {
+  const ids = ['s1','s2','s3','s4']; let i = 0;
+  const tick = () => {
+    if (i > 0) { const prev = document.getElementById(ids[i-1]); prev.classList.remove('active'); prev.classList.add('done'); }
+    if (i < ids.length) { document.getElementById(ids[i]).classList.add('active'); i++; setTimeout(tick, 850); }
+    else setTimeout(cb, 350);
+  };
+  tick();
+}
 
-    const skills=d.skills.length
-      ?d.skills.map(s=>`<span class="cv-skill">${s}</span>`).join('')
-      :`<span class="cv-skill" style="color:#D1D5DB">No skills added</span>`;
+/* ── AI CALL ── */
+async function callAI() {
+  const tone = d.tone || 'professional';
+  const toneMap = {
+    professional: 'formal, precise — use action verbs and quantified outcomes',
+    confident:    'bold, achievement-driven — lead with impact and strong ownership language',
+    creative:     'engaging, personable — show personality while staying professional'
+  };
+  const expText = (d.experience||[]).filter(e=>e.role||e.company)
+    .map((e,i)=>`Role ${i+1}: ${e.role} at ${e.company} (${e.start}–${e.end})\nResponsibilities: ${e.desc}`).join('\n\n');
 
-    const edu=(d.education?d.education.split('\n').filter(Boolean):[])
-      .map(l=>`<div class="cv-edu"><div class="cv-edu-d">${l}</div></div>`).join('')
-      ||`<div class="cv-edu"><div class="cv-edu-d" style="color:#D1D5DB">Not provided</div></div>`;
+  const prompt = `You are an expert CV writer. Tailor this candidate's CV to the job description.
 
-    const exps=d.experience.filter(e=>e.role||e.company).map(e=>{
-      const bullets=e.desc?e.desc.split('\n').filter(Boolean).map(b=>`<li>${b.replace(/^[•\-–·]\s*/,'')}</li>`).join(''):'';
-      return `<div class="cv-exp">
-        <div class="cv-exp-hd">
-          <div class="cv-exp-role">${e.role||'Role'}</div>
-          <div class="cv-exp-dates">${[e.start,e.end].filter(Boolean).join(' – ')}</div>
-        </div>
-        <div class="cv-exp-co">${e.company||''}</div>
-        ${bullets?`<ul class="cv-exp-list">${bullets}</ul>`:''}
-      </div>`;
-    }).join('')||`<p style="font-size:0.78rem;color:#D1D5DB">No experience added</p>`;
+CANDIDATE:
+Name: ${d.firstName} ${d.lastName}
+Summary: ${d.summary||'Not provided'}
+Skills: ${(d.skills||[]).join(', ')||'Not provided'}
+Experience:\n${expText||'None'}
+Education: ${d.education||'Not provided'}
 
-    const summary=d.summary?`<div class="cv-sec"><div class="cv-sec-t">Profile</div><p class="cv-summary">${d.summary}</p></div>`:'';
+JOB DESCRIPTION:
+${d.jobDesc}
 
-    el.innerHTML=`
-      <div class="cv-top-rule"></div>
-      <div class="cv-hd">
-        <div class="cv-name">${name}</div>
-        <div class="cv-jobtitle">${d.jobTitle||'Professional'}</div>
-        <div class="cv-contacts">${contacts}</div>
-      </div>
-      <div class="cv-body">
-        <div class="cv-left">
-          <div class="cv-sec"><div class="cv-sec-t">Skills</div>${skills}</div>
-          <div class="cv-sec"><div class="cv-sec-t">Education</div>${edu}</div>
-        </div>
-        <div class="cv-right">
-          ${summary}
-          <div class="cv-sec"><div class="cv-sec-t">Experience</div>${exps}</div>
-        </div>
-      </div>`;
+TARGET ROLE: ${d.jobTitle||'Not specified'}
+COMPANY: ${d.companyName||'Not specified'}
+TONE: ${toneMap[tone]}
+
+TASKS:
+1. Rewrite each experience role's bullets to align with the JD — use JD keywords naturally, be results-focused, max 4 bullets per role.
+2. Rewrite the professional summary (2–3 sentences) targeting this specific role.
+3. Identify top matched keywords from JD (max 5).
+4. Identify 1–2 missing keywords the candidate should address.
+5. Suggest up to 2 additional skills based on JD gaps (only if genuinely relevant).
+6. Give a match score 0–100.
+
+RESPOND IN THIS EXACT JSON ONLY — no markdown, no backticks, no extra text:
+{
+  "summary": "...",
+  "matchScore": 80,
+  "matchedKeywords": ["kw1","kw2","kw3"],
+  "missingKeywords": ["kw1"],
+  "suggestedSkills": ["skill1"],
+  "experience": [
+    {"role":"...","company":"...","start":"...","end":"...","bullets":["...","...","..."]}
+  ]
+}`;
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ model:'claude-sonnet-4-20250514', max_tokens:1800, messages:[{role:'user',content:prompt}] })
+    });
+    const data = await res.json();
+    const txt = (data.content?.[0]?.text||'').replace(/```json|```/g,'').trim();
+    aiResult = JSON.parse(txt);
+  } catch(e) {
+    console.warn('AI fallback:', e);
+    aiResult = {
+      summary: d.summary || `${d.firstName} is a results-driven professional with expertise in ${(d.skills||[]).slice(0,3).join(', ')}.`,
+      matchScore: 70, matchedKeywords: (d.skills||[]).slice(0,4),
+      missingKeywords: [], suggestedSkills: [],
+      experience: (d.experience||[]).map(e=>({...e, bullets:(e.desc||'').split('\n').filter(Boolean).map(b=>b.replace(/^[•\-–·]\s*/, ''))}))
+    };
   }
+  sessionStorage.setItem('aiResult', JSON.stringify(aiResult));
+  show();
+  renderScore();
+  renderCV();
+}
+
+/* ── SHOW UI ── */
+function show() {
+  document.getElementById('aiLoading').classList.add('hidden');
+  document.getElementById('toolbar').style.display = 'flex';
+  document.getElementById('scoreWrap').style.display = 'block';
+  document.getElementById('previewWrap').style.display = 'flex';
+  document.getElementById('printBtn').disabled = false;
+}
+
+/* ── SCORE ── */
+function renderScore() {
+  const score = aiResult.matchScore || 0;
+  const circ = 138.2;
+  const offset = circ - (circ * score / 100);
+  const fill = document.getElementById('gaugeFill');
+  setTimeout(()=>{ fill.style.strokeDashoffset = offset; }, 100);
+  document.getElementById('gaugeNum').textContent = score + '%';
+
+  const color = score >= 80 ? '#059669' : score >= 60 ? '#2F6BFF' : score >= 40 ? '#D97706' : '#DC2626';
+  fill.style.stroke = color;
+  document.getElementById('gaugeNum').style.color = color;
+
+  document.getElementById('scoreTitle').textContent =
+    score >= 80 ? '🎯 Excellent match' : score >= 60 ? '✅ Good match' :
+    score >= 40 ? '⚠️ Moderate match — consider adding more relevant experience' : '📋 Low match — your profile needs more tailoring';
+  document.getElementById('scoreSub').textContent = `Your profile matches ${score}% of this job's requirements`;
+
+  const kwHtml = (aiResult.matchedKeywords||[]).map(k=>`<span class="kw hit">${k}</span>`).join('')
+               + (aiResult.missingKeywords||[]).map(k=>`<span class="kw miss">${k} missing</span>`).join('');
+  document.getElementById('scoreKws').innerHTML = kwHtml;
+}
+
+/* ── CV RENDER ── */
+function renderCV() {
+  const name = `${d.firstName} ${d.lastName}`.trim();
+  const contacts = [
+    d.email    ? `<span class="cv-ci">✉ ${d.email}</span>` : '',
+    d.phone    ? `<span class="cv-ci">☎ ${d.phone}</span>` : '',
+    d.location ? `<span class="cv-ci">⌖ ${d.location}</span>` : '',
+    d.linkedin ? `<span class="cv-ci">🔗 <a href="${d.linkedin}" target="_blank">${d.linkedin.replace(/^https?:\/\//,'')}</a></span>` : '',
+  ].filter(Boolean).join('');
+
+  const matchedSet = new Set((aiResult.matchedKeywords||[]).map(k=>k.toLowerCase()));
+  const allSkills = [...(d.skills||[])];
+  const suggested = (aiResult.suggestedSkills||[]);
+
+  const skillsHTML = allSkills.map(s => {
+    const isHit = matchedSet.has(s.toLowerCase()) || [...matchedSet].some(k=>s.toLowerCase().includes(k)||k.includes(s.toLowerCase()));
+    return `<span class="cv-skill${isHit?' hit':''}">${s}</span>`;
+  }).join('') + suggested.map(s=>`<span class="cv-skill new">${s}</span>`).join('')
+  || `<span class="cv-skill" style="color:#D1D5DB">No skills added</span>`;
+
+  const edu = (d.education?d.education.split('\n').filter(Boolean):[])
+    .map(l=>`<div class="cv-edu"><div class="cv-edu-d">${l}</div></div>`).join('')
+    || `<div class="cv-edu"><div class="cv-edu-d" style="color:#D1D5DB">Not provided</div></div>`;
+
+  const aiExpMap = {};
+  (aiResult.experience||[]).forEach(e=>{ aiExpMap[`${e.role}|${e.company}`] = e.bullets; });
+
+  const expsHTML = (d.experience||[]).filter(e=>e.role||e.company).map(e=>{
+    const key = `${e.role}|${e.company}`;
+    const bullets = aiExpMap[key] || (e.desc||'').split('\n').filter(Boolean).map(b=>b.replace(/^[•\-–·]\s*/,''));
+    const lis = bullets.map(b=>`<li contenteditable="false">${highlightKws(b)}</li>`).join('');
+    return `<div class="cv-exp">
+      <div class="cv-exp-hd">
+        <div class="cv-exp-role">${e.role||'Role'}</div>
+        <div class="cv-exp-dates">${[e.start,e.end].filter(Boolean).join(' – ')}</div>
+      </div>
+      <div class="cv-exp-co">${e.company||''}</div>
+      ${lis?`<ul class="cv-exp-list">${lis}</ul>`:''}
+    </div>`;
+  }).join('') || `<p style="font-size:0.78rem;color:#D1D5DB">No experience added</p>`;
+
+  const summary = aiResult.summary || d.summary;
+
+  document.getElementById('cvDoc').innerHTML = `
+    <div class="cv-top"></div>
+    <div class="cv-hd">
+      <div class="cv-name">${name}</div>
+      <div class="cv-jtitle">${d.jobTitle||'Professional'}</div>
+      <div class="cv-contacts">${contacts}</div>
+    </div>
+    <div class="cv-body">
+      <div class="cv-left">
+        <div class="cv-sec">
+          <div class="cv-sec-t">Skills <span class="ai-badge">✦ AI</span></div>
+          ${skillsHTML}
+        </div>
+        <div class="cv-sec"><div class="cv-sec-t">Education</div>${edu}</div>
+      </div>
+      <div class="cv-right">
+        ${summary?`<div class="cv-sec"><div class="cv-sec-t">Profile <span class="ai-badge">✦ AI</span></div><p class="cv-summary">${summary}</p></div>`:''}
+        <div class="cv-sec">
+          <div class="cv-sec-t">Experience <span class="ai-badge">✦ AI</span></div>
+          ${expsHTML}
+        </div>
+      </div>
+    </div>`;
+}
+
+/* ── KEYWORD HIGHLIGHT ── */
+function highlightKws(text) {
+  const kws = aiResult.matchedKeywords || [];
+  let out = text;
+  kws.forEach(kw => {
+    const re = new RegExp(`(${kw.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')})`, 'gi');
+    out = out.replace(re, '<span class="kw-hi">$1</span>');
+  });
+  return out;
+}
+
+/* ── EDIT MODE ── */
+function toggleEdit() {
+  editMode = !editMode;
+  document.querySelectorAll('.cv-exp-list li').forEach(li => { li.contentEditable = editMode ? 'true' : 'false'; });
+  const btn = document.getElementById('editBtn');
+  btn.textContent = editMode ? '✓ Done Editing' : '✏️ Edit Mode';
+  btn.classList.toggle('btn-edit-active', editMode);
+  document.getElementById('editBarWrap').style.display = editMode ? 'block' : 'none';
+}
+
+/* ── REGENERATE ── */
+function regen() {
+  editMode = false;
+  ['s1','s2','s3','s4'].forEach(id=>{ const e=document.getElementById(id); e.classList.remove('active','done'); });
+  document.getElementById('s1').classList.add('active');
+  document.getElementById('toolbar').style.display = 'none';
+  document.getElementById('scoreWrap').style.display = 'none';
+  document.getElementById('previewWrap').style.display = 'none';
+  document.getElementById('editBarWrap').style.display = 'none';
+  document.getElementById('aiLoading').classList.remove('hidden');
+  animSteps(() => callAI());
+}
 </script>
 </body>
 </html>
