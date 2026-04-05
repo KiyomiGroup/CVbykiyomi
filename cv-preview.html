@@ -168,10 +168,34 @@
       <span class="tab active">CV</span>
       <a href="cover-letter.html" class="tab">Cover Letter</a>
     </div>
-    <button class="btn-tb btn-outline" id="editBtn" onclick="toggleEdit()">✏️ Edit Mode</button>
-    <button class="btn-tb btn-solid" id="printBtn" onclick="window.print()" disabled>⬇ Print / Download</button>
+    <button class="btn-tb btn-outline" id="editBtn" onclick="toggleEdit()">✏️ Edit</button>
+    <button class="btn-tb btn-outline" id="copyBtn" onclick="copyCV()" title="Copy CV text">📋 Copy</button>
+    <button class="btn-tb btn-solid" id="saveBtn" onclick="openSaveModal()" disabled>💾 Save to Dashboard</button>
+    <button class="btn-tb btn-solid" id="printBtn" onclick="window.print()" disabled style="background:#374151">⬇ Print</button>
     <a href="form.html" class="btn-tb btn-outline">↩ Edit Details</a>
   </div>
+</div>
+
+<!-- SAVE MODAL -->
+<div id="saveBg" style="position:fixed;inset:0;z-index:600;background:rgba(0,0,0,0.35);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;padding:1.5rem">
+  <div style="background:#fff;border-radius:16px;box-shadow:0 20px 60px rgba(0,0,0,0.2);padding:2.2rem;max-width:440px;width:100%;animation:fadeUp 0.2s ease">
+    <div style="font-size:1.1rem;font-weight:700;color:#1A1A1A;margin-bottom:0.4rem">Save this CV</div>
+    <div style="font-size:0.82rem;color:#6B7280;margin-bottom:1.3rem;line-height:1.6">Give it a name you'll recognise later — include the role and company for easy tracking.</div>
+    <input type="text" id="cvNameInput" placeholder="e.g. Flutterwave PM Role — March 2025"
+      style="font-family:'Plus Jakarta Sans',sans-serif;font-size:0.92rem;padding:0.75rem 1rem;border:1.5px solid #E5E7EB;border-radius:8px;outline:none;width:100%;margin-bottom:0.9rem;transition:border-color 0.2s,box-shadow 0.2s"
+      onfocus="this.style.borderColor='#2F6BFF';this.style.boxShadow='0 0 0 3px rgba(47,107,255,0.12)'"
+      onblur="this.style.borderColor='#E5E7EB';this.style.boxShadow='none'"
+      maxlength="80"/>
+    <div style="display:flex;gap:0.7rem;justify-content:flex-end">
+      <button onclick="closeSaveModal()" style="font-family:'Plus Jakarta Sans',sans-serif;font-size:0.84rem;font-weight:500;padding:0.65rem 1.3rem;border:1.5px solid #D1D5DB;background:#fff;color:#6B7280;border-radius:8px;cursor:pointer">Cancel</button>
+      <button onclick="confirmSave()" style="font-family:'Plus Jakarta Sans',sans-serif;font-size:0.84rem;font-weight:600;padding:0.65rem 1.3rem;background:#2F6BFF;color:#fff;border:none;border-radius:8px;cursor:pointer;box-shadow:0 4px 16px rgba(47,107,255,0.25)">Save CV →</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div id="cvToast" style="position:fixed;bottom:2rem;right:2rem;z-index:700;background:#1A1A1A;color:#fff;font-size:0.82rem;font-weight:500;padding:0.75rem 1.2rem;border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,0.2);display:flex;align-items:center;gap:0.5rem;transform:translateY(8px);opacity:0;transition:all 0.25s;pointer-events:none">
+  ✓ <span id="cvToastMsg"></span>
 </div>
 
 <!-- SCORE BANNER -->
@@ -207,11 +231,43 @@
   <div class="cv-doc" id="cvDoc"></div>
 </div>
 
+<!-- SAVE MODAL -->
+<div id="saveBg" style="position:fixed;inset:0;z-index:600;background:rgba(0,0,0,0.35);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;padding:1.5rem">
+  <div style="background:#fff;border-radius:16px;box-shadow:0 20px 60px rgba(0,0,0,0.2);padding:2.2rem;max-width:440px;width:100%">
+    <div style="font-size:1.1rem;font-weight:700;color:#1A1A1A;margin-bottom:0.4rem">Save this CV</div>
+    <div style="font-size:0.82rem;color:#6B7280;margin-bottom:1.3rem;line-height:1.6">Give it a name you'll recognise — include the role and company for easy tracking.</div>
+    <input type="text" id="cvNameInput" placeholder="e.g. Flutterwave PM Role — March 2025"
+      style="font-family:'Plus Jakarta Sans',sans-serif;font-size:0.92rem;padding:0.75rem 1rem;border:1.5px solid #E5E7EB;border-radius:8px;outline:none;width:100%;margin-bottom:0.9rem;transition:border-color 0.2s,box-shadow 0.2s"
+      onfocus="this.style.borderColor='#2F6BFF';this.style.boxShadow='0 0 0 3px rgba(47,107,255,0.12)'"
+      onblur="this.style.borderColor='#E5E7EB';this.style.boxShadow='none'" maxlength="80"/>
+    <div style="display:flex;gap:0.7rem;justify-content:flex-end">
+      <button onclick="closeSaveModal()" style="font-family:'Plus Jakarta Sans',sans-serif;font-size:0.84rem;font-weight:500;padding:0.65rem 1.3rem;border:1.5px solid #D1D5DB;background:#fff;color:#6B7280;border-radius:8px;cursor:pointer">Cancel</button>
+      <button onclick="confirmSave()" style="font-family:'Plus Jakarta Sans',sans-serif;font-size:0.84rem;font-weight:600;padding:0.65rem 1.3rem;background:#2F6BFF;color:#fff;border:none;border-radius:8px;cursor:pointer;box-shadow:0 4px 16px rgba(47,107,255,0.25)">Save CV →</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div id="cvToast" style="position:fixed;bottom:2rem;right:2rem;z-index:700;background:#1A1A1A;color:#fff;font-size:0.82rem;font-weight:500;padding:0.75rem 1.2rem;border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,0.2);display:flex;align-items:center;gap:0.5rem;transform:translateY(8px);opacity:0;transition:all 0.25s;pointer-events:none">
+  ✓ <span id="cvToastMsg"></span>
+</div>
+
 <script>
 /* ── STATE ── */
 const raw = sessionStorage.getItem('cvData');
 const d   = raw ? JSON.parse(raw) : null;
 let aiResult = null, editMode = false;
+
+/* ── HUMANIZE ── */
+function humanize(text) {
+  if (!text) return text;
+  text = text.replace(/\s*—\s*/g, ' - ').replace(/\s*–\s*/g, ' - ');
+  const swaps = [
+    [/\bleverage[sd]?\b/gi,'used'],[/\bleveraging\b/gi,'using'],[/\bsynergize[sd]?\b/gi,'collaborated'],[/\bsynergizing\b/gi,'collaborating'],[/\bsynergies\b/gi,'efficiencies'],[/\bspearheaded\b/gi,'led'],[/\bspearheading\b/gi,'leading'],[/\bspearhead\b/gi,'lead'],[/\bfacilitated\b/gi,'helped'],[/\bfacilitating\b/gi,'helping'],[/\butilized\b/gi,'used'],[/\butilizing\b/gi,'using'],[/\bmaximize[sd]?\b/gi,'improved'],[/\bmaximizing\b/gi,'improving'],[/\boptimize[sd]?\b/gi,'improved'],[/\boptimizing\b/gi,'improving'],[/\brobust\b/gi,'solid'],[/\bproactively\b/gi,'actively'],[/\bseamlessly\b/gi,'smoothly'],[/\bin order to\b/gi,'to'],[/\bpivotal\b/gi,'key'],[/\btransformative\b/gi,'significant'],[/\bimpactful\b/gi,'effective'],[/\binnovative solutions\b/gi,'new approaches'],[/\bsolutions-oriented\b/gi,'practical'],[/\bthought leadership\b/gi,'expertise'],[/\bvalue-add(?:ed)?\b/gi,'useful'],[/\bgo-to-market\b/gi,'launch'],[/\bdeep-?dive\b/gi,'close look'],[/\baction items\b/gi,'next steps'],[/\bstakeholders\b/gi,'the team'],[/\bparadigm shift\b/gi,'major change'],[/\bcore competencies\b/gi,'key strengths'],[/\bvalue proposition\b/gi,'key benefit'],[/\bdrove results\b/gi,'delivered results'],[/\bbest-in-class\b/gi,'high-quality'],[/\bworld-class\b/gi,'excellent'],[/\bcutting-edge\b/gi,'modern'],[/\bstate-of-the-art\b/gi,'modern'],
+  ];
+  swaps.forEach(([re,rep]) => { text = text.replace(re, rep); });
+  return text;
+}
 
 /* ── BOOT ── */
 if (!d) {
@@ -288,10 +344,12 @@ RESPOND IN THIS EXACT JSON ONLY — no markdown, no backticks, no extra text:
     const data = await res.json();
     const txt = (data.content?.[0]?.text||'').replace(/```json|```/g,'').trim();
     aiResult = JSON.parse(txt);
+    if (aiResult.summary) aiResult.summary = humanize(aiResult.summary);
+    if (aiResult.experience) aiResult.experience = aiResult.experience.map(e=>({...e,bullets:(e.bullets||[]).map(b=>humanize(b))}));
   } catch(e) {
     console.warn('AI fallback:', e);
     aiResult = {
-      summary: d.summary || `${d.firstName} is a results-driven professional with expertise in ${(d.skills||[]).slice(0,3).join(', ')}.`,
+      summary: humanize(d.summary || `${d.firstName} is a results-driven professional with expertise in ${(d.skills||[]).slice(0,3).join(', ')}.`),
       matchScore: 70, matchedKeywords: (d.skills||[]).slice(0,4),
       missingKeywords: [], suggestedSkills: [],
       experience: (d.experience||[]).map(e=>({...e, bullets:(e.desc||'').split('\n').filter(Boolean).map(b=>b.replace(/^[•\-–·]\s*/, ''))}))
@@ -310,6 +368,7 @@ function show() {
   document.getElementById('scoreWrap').style.display = 'block';
   document.getElementById('previewWrap').style.display = 'flex';
   document.getElementById('printBtn').disabled = false;
+  document.getElementById('saveBtn').disabled = false;
 }
 
 /* ── SCORE ── */
@@ -419,7 +478,7 @@ function toggleEdit() {
   editMode = !editMode;
   document.querySelectorAll('.cv-exp-list li').forEach(li => { li.contentEditable = editMode ? 'true' : 'false'; });
   const btn = document.getElementById('editBtn');
-  btn.textContent = editMode ? '✓ Done Editing' : '✏️ Edit Mode';
+  btn.textContent = editMode ? '✓ Done' : '✏️ Edit';
   btn.classList.toggle('btn-edit-active', editMode);
   document.getElementById('editBarWrap').style.display = editMode ? 'block' : 'none';
 }
@@ -435,6 +494,82 @@ function regen() {
   document.getElementById('editBarWrap').style.display = 'none';
   document.getElementById('aiLoading').classList.remove('hidden');
   animSteps(() => callAI());
+}
+
+/* ── COPY CV ── */
+function copyCV() {
+  const name = `${d.firstName} ${d.lastName}`.trim();
+  let text = '';
+  if (name) text += `${name}\n`;
+  if (d.email) text += d.email;
+  if (d.phone) text += ` | ${d.phone}`;
+  if (d.location) text += ` | ${d.location}`;
+  if (text) text += '\n\n';
+  if (aiResult?.summary) text += `PROFILE\n${aiResult.summary}\n\n`;
+  if (aiResult?.experience?.length) {
+    text += 'EXPERIENCE\n';
+    aiResult.experience.forEach(e => {
+      text += `${e.role} - ${e.company} (${e.start}-${e.end})\n`;
+      (e.bullets||[]).forEach(b => text += `- ${b}\n`);
+      text += '\n';
+    });
+  }
+  if (d.skills?.length) text += `SKILLS\n${d.skills.join(', ')}\n\n`;
+  if (d.education) text += `EDUCATION\n${d.education}\n`;
+  navigator.clipboard.writeText(text.trim())
+    .then(() => showToast('CV copied to clipboard!'))
+    .catch(() => showToast('Copy failed - please try manually'));
+}
+
+/* ── SAVE MODAL ── */
+function openSaveModal() {
+  const suggested = `${d.jobTitle||'CV'}${d.companyName ? ' - ' + d.companyName : ''} - ${new Date().toLocaleDateString('en-GB',{month:'short',year:'numeric'})}`;
+  document.getElementById('cvNameInput').value = suggested;
+  const bg = document.getElementById('saveBg');
+  bg.style.display = 'flex';
+  setTimeout(() => { const i = document.getElementById('cvNameInput'); i.focus(); i.select(); }, 100);
+}
+function closeSaveModal() { document.getElementById('saveBg').style.display = 'none'; }
+document.getElementById('saveBg').addEventListener('click', e => { if (e.target === document.getElementById('saveBg')) closeSaveModal(); });
+document.getElementById('cvNameInput').addEventListener('keydown', e => { if (e.key === 'Enter') confirmSave(); if (e.key === 'Escape') closeSaveModal(); });
+
+function confirmSave() {
+  const name = document.getElementById('cvNameInput').value.trim() || 'Untitled CV';
+  closeSaveModal();
+  let user = null;
+  try { user = JSON.parse(localStorage.getItem('cvk_user')); } catch(e) {}
+  if (!user) {
+    if (confirm('You need an account to save CVs. Go to sign up?')) { window.location.href = 'auth.html?mode=signup'; }
+    return;
+  }
+  const storageKey = 'cvk_cvs_' + user.id;
+  let cvs = [];
+  try { cvs = JSON.parse(localStorage.getItem(storageKey)) || []; } catch(e) {}
+  const editingId = sessionStorage.getItem('cvk_editing_id');
+  const cvId = editingId || ('cv_' + Date.now());
+  const cvRecord = {
+    id: cvId, name,
+    jobTitle: d.jobTitle || '', companyName: d.companyName || '',
+    matchScore: aiResult?.matchScore || null, status: 'draft',
+    createdAt: editingId ? (cvs.find(c=>c.id===editingId)?.createdAt || new Date().toISOString()) : new Date().toISOString(),
+    formData: d, aiResult
+  };
+  if (editingId) { const idx = cvs.findIndex(c=>c.id===editingId); if (idx !== -1) cvs[idx] = cvRecord; else cvs.unshift(cvRecord); }
+  else cvs.unshift(cvRecord);
+  localStorage.setItem(storageKey, JSON.stringify(cvs));
+  sessionStorage.removeItem('cvk_editing_id');
+  showToast('CV saved! Redirecting to dashboard…');
+  setTimeout(() => window.location.href = 'dashboard.html', 1400);
+}
+
+/* ── TOAST ── */
+let toastTimer;
+function showToast(msg) {
+  clearTimeout(toastTimer);
+  const el = document.getElementById('cvToast');
+  document.getElementById('cvToastMsg').textContent = msg;
+  el.style.opacity = '1'; el.style.transform = 'translateY(0)';
+  toastTimer = setTimeout(() => { el.style.opacity = '0'; el.style.transform = 'translateY(8px)'; }, 2800);
 }
 </script>
 </body>

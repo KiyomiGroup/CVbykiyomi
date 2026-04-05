@@ -125,6 +125,7 @@
       <span class="tab active">Cover Letter</span>
     </div>
     <button class="btn-tb btn-outline" id="editBtn" onclick="toggleEdit()">✏️ Edit Mode</button>
+    <button class="btn-tb btn-outline" onclick="copyCoverLetter()" title="Copy cover letter text">📋 Copy text</button>
     <button class="btn-tb btn-solid" id="printBtn" onclick="window.print()" disabled>⬇ Print / Download</button>
     <a href="form.html" class="btn-tb btn-outline">↩ Edit Details</a>
   </div>
@@ -162,6 +163,14 @@ const aiRaw = sessionStorage.getItem('aiResult');
 let aiResult = aiRaw ? JSON.parse(aiRaw) : null;
 let letterParagraphs = [];
 let editMode = false;
+
+function humanize(text) {
+  if (!text) return text;
+  text = text.replace(/\s*—\s*/g, ' - ').replace(/\s*–\s*/g, ' - ');
+  const swaps = [[/\bleverage[sd]?\b/gi,'used'],[/\bleveraging\b/gi,'using'],[/\bspearheaded\b/gi,'led'],[/\bspearheading\b/gi,'leading'],[/\bfacilitated\b/gi,'helped'],[/\butilized\b/gi,'used'],[/\butilizing\b/gi,'using'],[/\brobust\b/gi,'solid'],[/\bproactively\b/gi,'actively'],[/\bseamlessly\b/gi,'smoothly'],[/\bin order to\b/gi,'to'],[/\bpivotal\b/gi,'key'],[/\btransformative\b/gi,'significant'],[/\bimpactful\b/gi,'effective'],[/\bsolutions-oriented\b/gi,'practical'],[/\bthought leadership\b/gi,'expertise'],[/\bcutting-edge\b/gi,'modern'],[/\bworld-class\b/gi,'excellent'],[/\bsynergize[sd]?\b/gi,'collaborated']];
+  swaps.forEach(([re,rep]) => { text = text.replace(re, rep); });
+  return text;
+}
 
 if (!d) {
   showUI();
@@ -222,7 +231,7 @@ RULES:
     });
     const data = await res.json();
     const txt = (data.content?.[0]?.text||'').replace(/```json|```/g,'').trim();
-    letterParagraphs = JSON.parse(txt);
+    letterParagraphs = JSON.parse(txt).map(p => humanize(p));
   } catch(e) {
     console.warn('Cover letter AI fallback:', e);
     letterParagraphs = buildFallbackLetter(d, aiResult);
@@ -327,6 +336,30 @@ function regenLetter() {
   document.getElementById('editBarWrap').style.display = 'none';
   document.getElementById('aiLoading').classList.remove('hidden');
   callLetterAI();
+}
+
+function copyCoverLetter() {
+  const paras = document.querySelectorAll('.letter-body p');
+  let text = '';
+  paras.forEach(p => { text += p.textContent + '\n\n'; });
+  navigator.clipboard.writeText(text.trim())
+    .then(() => { showCLToast('Cover letter copied to clipboard!'); })
+    .catch(() => { showCLToast('Copy failed — please try manually'); });
+}
+
+let clToastTimer;
+function showCLToast(msg) {
+  clearTimeout(clToastTimer);
+  let el = document.getElementById('clToast');
+  if (!el) {
+    el = document.createElement('div');
+    el.id = 'clToast';
+    el.style.cssText = 'position:fixed;bottom:2rem;right:2rem;z-index:700;background:#1A1A1A;color:#fff;font-size:0.82rem;font-weight:500;padding:0.75rem 1.2rem;border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,0.2);display:flex;align-items:center;gap:0.5rem;transform:translateY(8px);opacity:0;transition:all 0.25s;pointer-events:none';
+    document.body.appendChild(el);
+  }
+  el.textContent = '✓ ' + msg;
+  el.style.opacity = '1'; el.style.transform = 'translateY(0)';
+  clToastTimer = setTimeout(() => { el.style.opacity = '0'; el.style.transform = 'translateY(8px)'; }, 2800);
 }
 </script>
 </body>
