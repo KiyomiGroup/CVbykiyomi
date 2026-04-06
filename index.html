@@ -122,6 +122,7 @@
     <div class="nav-auth" id="navLoggedIn" style="display:none">
       <span class="nav-user"><div class="nav-avatar" id="navAvatar">?</div><span id="navName">User</span></span>
       <a href="dashboard.html" class="nav-link">My CVs</a>
+      <a href="upgrade.html" class="nav-link" style="color:#7C3AED;font-weight:600">⚡ Pro</a>
       <button class="btn-nav-ghost" onclick="logout()">Log out</button>
     </div>
   </div>
@@ -159,7 +160,7 @@
         </div>
       </div>
       <div class="mock-name">Alexandra Okafor</div>
-      <div class="mock-contact">Lagos, Nigeria &nbsp;·&nbsp; hello@example.com &nbsp;·&nbsp; +234 800 000 0000</div>
+      <div class="mock-contact">Lagos, Nigeria &nbsp;·&nbsp; <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="b4dcd1d8d8dbf4d1ccd5d9c4d8d19ad7dbd9">[email&#160;protected]</a> &nbsp;·&nbsp; +234 800 000 0000</div>
       <div class="mock-divider"></div>
       <div class="mock-sec-label">Professional Summary</div>
       <div class="ml lo"></div><div class="ml me"></div>
@@ -205,7 +206,7 @@
   <p>© 2025 CVbykiyomi · Sprint 3</p>
 </footer>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
   function getUser() { try { return JSON.parse(localStorage.getItem('cvk_user')); } catch(e) { return null; } }
   function logout() { localStorage.removeItem('cvk_user'); location.reload(); }
 
@@ -216,10 +217,4 @@
     document.getElementById('navName').textContent = user.name.split(' ')[0];
     document.getElementById('navAvatar').textContent = user.name[0].toUpperCase();
     document.getElementById('dashBtn').style.display = 'inline-flex';
-    document.getElementById('howBtn').style.display = 'none';
-    document.getElementById('ctaBtn').href = 'dashboard.html';
-    document.getElementById('ctaBtn').textContent = 'Go to my dashboard →';
-  }
-</script>
-</body>
-</html>
+    d

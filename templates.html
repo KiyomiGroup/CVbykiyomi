@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Choose Template — CVbykiyomi</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Lora:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --blue:#2F6BFF;--blue-hover:#1A57F0;--blue-light:#EAF1FF;--blue-mid:#C7D9FF;
+      --bg:#FAFBFF;--white:#FFFFFF;
+      --text-1:#1A1A1A;--text-2:#6B7280;--text-3:#9CA3AF;
+      --border:#E5E7EB;--border-md:#D1D5DB;
+      --green:#059669;--green-light:#D1FAE5;
+      --amber:#D97706;--amber-light:#FEF3C7;
+      --shadow-sm:0 1px 3px rgba(0,0,0,0.06);
+      --shadow-md:0 4px 16px rgba(0,0,0,0.08);
+      --shadow-lg:0 8px 32px rgba(0,0,0,0.12);
+      --shadow-blue:0 4px 20px rgba(47,107,255,0.22);
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text-1);min-height:100vh;-webkit-font-smoothing:antialiased}
+
+    /* NAV */
+    nav{position:sticky;top:0;z-index:100;background:rgba(250,251,255,0.94);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);height:64px;padding:0 2rem;display:flex;align-items:center;justify-content:space-between}
+    .logo{font-size:1.05rem;font-weight:700;color:var(--text-1);text-decoration:none;letter-spacing:-0.02em;display:flex;align-items:center;gap:0.4rem}
+    .logo-mark{width:26px;height:26px;border-radius:6px;background:var(--blue);display:flex;align-items:center;justify-content:center;font-size:0.62rem;font-weight:700;color:#fff}
+    .nav-right{display:flex;align-items:center;gap:0.6rem}
+    .btn-nav-back{font-size:0.82rem;font-weight:500;color:var(--text-2);text-decoration:none;padding:0.4rem 0.75rem;border-radius:6px;transition:all 0.18s;display:flex;align-items:center;gap:0.3rem}
+    .btn-nav-back:hover{color:var(--text-1);background:var(--blue-light)}
+
+    /* STEPS HEADER */
+    .steps-header{background:var(--white);border-bottom:1px solid var(--border);padding:0 2rem}
+    .steps-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;height:52px;gap:0}
+    .sh-step{flex:1;display:flex;align-items:center;justify-content:center;gap:0.5rem;font-size:0.76rem;font-weight:500;color:var(--text-3);border-bottom:2.5px solid transparent;height:100%;padding:0 0.5rem}
+    .sh-step.done{color:var(--text-2);border-bottom-color:var(--border-md)}
+    .sh-step.active{color:var(--blue);font-weight:600;border-bottom-color:var(--blue)}
+    .sh-num{width:22px;height:22px;border-radius:50%;background:var(--border);color:var(--text-3);display:flex;align-items:center;justify-content:center;font-size:0.65rem;font-weight:700;transition:all 0.2s}
+    .sh-step.active .sh-num{background:var(--blue);color:#fff}
+    .sh-step.done .sh-num{background:var(--text-2);color:#fff}
+
+    /* MAIN */
+    .main{max-width:1100px;margin:0 auto;padding:2.5rem 2rem 5rem}
+
+    .page-title{font-size:1.65rem;font-weight:700;letter-spacing:-0.025em;margin-bottom:0.4rem}
+    .page-sub{font-size:0.88rem;color:var(--text-2);margin-bottom:2.2rem;line-height:1.65}
+
+    /* TEMPLATE GRID */
+    .template-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.2rem;margin-bottom:2.5rem}
+
+    .tpl-card{background:var(--white);border:2px solid var(--border);border-radius:14px;overflow:hidden;cursor:pointer;transition:all 0.22s;position:relative}
+    .tpl-card:hover{border-color:var(--blue-mid);box-shadow:var(--shadow-md);transform:translateY(-3px)}
+    .tpl-card.selected{border-color:var(--blue);box-shadow:0 0 0 3px rgba(47,107,255,0.14),var(--shadow-md)}
+    .tpl-check{position:absolute;top:10px;right:10px;width:24px;height:24px;border-radius:50%;background:var(--blue);color:#fff;display:none;align-items:center;justify-content:center;font-size:0.7rem;font-weight:700;z-index:10;box-shadow:0 2px 8px rgba(47,107,255,0.4)}
+    .tpl-card.selected .tpl-check{display:flex}
+
+    /* TEMPLATE THUMBNAIL PREVIEWS */
+    .tpl-thumb{height:240px;overflow:hidden;position:relative;background:#f8f9fa}
+    .tpl-thumb-inner{transform:scale(0.38);transform-origin:top left;width:264%;pointer-events:none;user-select:none}
+
+    /* CLASSIC TEMPLATE */
+    .thumb-classic{font-family:'Plus Jakarta Sans',sans-serif;background:#fff;padding:28px 30px}
+    .tc-topbar{height:5px;background:#2F6BFF;margin:-28px -30px 20px}
+    .tc-name{font-size:32px;font-weight:700;letter-spacing:-1px;color:#111;margin-bottom:3px}
+    .tc-title{font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#2F6BFF;margin-bottom:14px}
+    .tc-contact{display:flex;gap:16px;font-size:10px;color:#9CA3AF;margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid #F3F4F6}
+    .tc-body{display:grid;grid-template-columns:150px 1fr;gap:0}
+    .tc-left{padding-right:20px;border-right:1px solid #F3F4F6}
+    .tc-right{padding-left:22px}
+    .tc-seclabel{font-size:8px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#2F6BFF;border-bottom:1.5px solid #C7D9FF;padding-bottom:5px;margin-bottom:10px}
+    .tc-line{height:6px;background:#F3F4F6;border-radius:3px;margin-bottom:5px}
+    .tc-line.lo{width:90%}.tc-line.me{width:68%}.tc-line.sh{width:45%}
+    .tc-tag{display:inline-block;font-size:8px;background:#EAF1FF;color:#2F6BFF;padding:2px 7px;border-radius:10px;margin:2px 2px 0 0;border:1px solid #C7D9FF}
+    .tc-exphd{display:flex;justify-content:space-between;margin-bottom:4px}
+    .tc-role{font-size:11px;font-weight:700;color:#111}
+    .tc-dates{font-size:8px;color:#2F6BFF;background:#EAF1FF;padding:1px 5px;border-radius:3px}
+    .tc-co{font-size:9px;color:#6B7280;margin-bottom:6px}
+    .tc-bullet{font-size:9px;color:#374151;padding-left:10px;position:relative;margin-bottom:3px;line-height:1.5}
+    .tc-bullet::before{content:'';position:absolute;left:0;top:5px;width:3px;height:3px;border-radius:50%;background:#2F6BFF;opacity:0.5}
+
+    /* MODERN TEMPLATE */
+    .thumb-modern{font-family:'DM Sans',sans-serif;background:#fff;display:flex;min-height:300px}
+    .tm-sidebar{width:110px;background:#1A1A2E;padding:22px 16px;flex-shrink:0}
+    .tm-avatar{width:50px;height:50px;border-radius:50%;background:linear-gradient(135deg,#2F6BFF,#7C3AED);margin:0 auto 12px;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;color:#fff}
+    .tm-sname{font-size:11px;font-weight:700;color:#fff;text-align:center;margin-bottom:2px}
+    .tm-sjob{font-size:8px;color:rgba(255,255,255,0.5);text-align:center;margin-bottom:16px;line-height:1.4}
+    .tm-slabel{font-size:7px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-bottom:7px;margin-top:12px}
+    .tm-sline{height:5px;background:rgba(255,255,255,0.1);border-radius:2px;margin-bottom:4px}
+    .tm-sline.lo{width:85%}.tm-sline.me{width:60%}
+    .tm-skill{font-size:8px;color:rgba(255,255,255,0.7);padding:3px 0;border-bottom:1px solid rgba(255,255,255,0.07);line-height:1.3}
+    .tm-main{flex:1;padding:22px 20px}
+    .tm-seclabel{font-size:7px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#2F6BFF;display:flex;align-items:center;gap:6px;margin-bottom:10px}
+    .tm-seclabel::after{content:'';flex:1;height:1px;background:#F3F4F6}
+    .tm-summary{font-size:9px;line-height:1.7;color:#374151;margin-bottom:16px}
+    .tm-exphd{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:3px}
+    .tm-role{font-size:11px;font-weight:700;color:#111}
+    .tm-dates{font-size:8px;color:#fff;background:#2F6BFF;padding:2px 6px;border-radius:3px}
+    .tm-co{font-size:9px;color:#6B7280;margin-bottom:5px}
+    .tm-bullet{font-size:9px;color:#374151;padding-left:10px;position:relative;margin-bottom:3px;line-height:1.5}
+    .tm-bullet::before{content:'▸';position:absolute;left:0;font-size:7px;color:#2F6BFF}
+
+    /* MINIMAL TEMPLATE */
+    .thumb-minimal{font-family:'DM Sans',sans-serif;background:#fff;padding:28px 30px}
+    .tmin-name{font-size:30px;font-weight:300;color:#111;letter-spacing:-1px;margin-bottom:2px}
+    .tmin-title{font-size:11px;color:#9CA3AF;letter-spacing:1px;margin-bottom:12px}
+    .tmin-divider{height:1px;background:#111;margin-bottom:16px;width:40px}
+    .tmin-contact{display:flex;gap:14px;font-size:9px;color:#9CA3AF;margin-bottom:22px}
+    .tmin-seclabel{font-size:9px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:#111;margin-bottom:12px}
+    .tmin-summary{font-size:10px;line-height:1.8;color:#374151;margin-bottom:18px}
+    .tmin-exprow{display:flex;gap:16px;margin-bottom:14px}
+    .tmin-datelabel{width:60px;flex-shrink:0;font-size:8px;color:#9CA3AF;line-height:1.6;padding-top:2px}
+    .tmin-expbody{flex:1}
+    .tmin-role{font-size:11px;font-weight:600;color:#111;margin-bottom:1px}
+    .tmin-co{font-size:9px;color:#9CA3AF;margin-bottom:6px}
+    .tmin-bullet{font-size:9px;color:#374151;margin-bottom:3px;padding-left:10px;position:relative;line-height:1.5}
+    .tmin-bullet::before{content:'—';position:absolute;left:0;color:#D1D5DB;font-size:8px}
+    .tmin-skillrow{display:flex;flex-wrap:wrap;gap:5px}
+    .tmin-skill{font-size:8px;color:#374151;border:1px solid #E5E7EB;padding:2px 7px;border-radius:3px}
+
+    /* BOLD TEMPLATE */
+    .thumb-bold{font-family:'Plus Jakarta Sans',sans-serif;background:#111}
+    .tb-header{background:linear-gradient(135deg,#2F6BFF 0%,#7C3AED 100%);padding:22px 24px 18px}
+    .tb-name{font-size:28px;font-weight:700;color:#fff;letter-spacing:-1px;margin-bottom:2px}
+    .tb-title{font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.7);margin-bottom:10px}
+    .tb-contact{display:flex;gap:12px;font-size:8px;color:rgba(255,255,255,0.6)}
+    .tb-body{display:grid;grid-template-columns:140px 1fr;background:#1a1a2e}
+    .tb-left{padding:18px 16px;border-right:1px solid rgba(255,255,255,0.07)}
+    .tb-right{padding:18px 18px;background:#fff}
+    .tb-slabel{font-size:7px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-bottom:8px;margin-top:14px}
+    .tb-slabel:first-child{margin-top:0}
+    .tb-skill{font-size:9px;color:rgba(255,255,255,0.8);padding:3px 0;border-bottom:1px solid rgba(255,255,255,0.06)}
+    .tb-seclabel{font-size:7px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#2F6BFF;border-bottom:1.5px solid #EAF1FF;padding-bottom:5px;margin-bottom:10px;margin-top:14px}
+    .tb-seclabel:first-child{margin-top:0}
+    .tb-role{font-size:11px;font-weight:700;color:#111;margin-bottom:2px}
+    .tb-co{font-size:9px;color:#6B7280;margin-bottom:5px;display:flex;align-items:center;justify-content:space-between}
+    .tb-dates{font-size:8px;color:#2F6BFF}
+    .tb-line{height:5px;background:#F3F4F6;border-radius:2px;margin-bottom:4px}
+    .tb-line.lo{width:88%}.tb-line.me{width:65%}.tb-line.sh{width:42%}
+
+    /* TEMPLATE CARD INFO */
+    .tpl-info{padding:1rem 1.1rem}
+    .tpl-name{font-size:0.88rem;font-weight:700;color:var(--text-1);margin-bottom:0.25rem}
+    .tpl-desc{font-size:0.73rem;color:var(--text-2);line-height:1.5;margin-bottom:0.7rem}
+    .tpl-badges{display:flex;gap:0.35rem;flex-wrap:wrap}
+    .tpl-badge{font-size:0.64rem;font-weight:600;padding:0.18rem 0.55rem;border-radius:10px}
+    .badge-ats-high{background:var(--green-light);color:var(--green)}
+    .badge-ats-mid{background:var(--amber-light);color:var(--amber)}
+    .badge-free{background:var(--blue-light);color:var(--blue)}
+    .badge-pro{background:#F5F3FF;color:#7C3AED;border:1px solid #C4B5FD}
+    .badge-pro::before{content:'⚡ '}
+
+    /* CUSTOMIZATION PANEL */
+    .custom-panel{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:1.8rem;margin-bottom:2rem;box-shadow:var(--shadow-sm)}
+    .custom-title{font-size:1rem;font-weight:700;color:var(--text-1);margin-bottom:0.3rem}
+    .custom-sub{font-size:0.78rem;color:var(--text-2);margin-bottom:1.4rem}
+    .custom-row{display:flex;gap:2rem;flex-wrap:wrap;align-items:flex-start}
+    .custom-group{display:flex;flex-direction:column;gap:0.5rem}
+    .custom-label{font-size:0.7rem;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:var(--text-2)}
+    .color-swatches{display:flex;gap:0.5rem;flex-wrap:wrap}
+    .swatch{width:28px;height:28px;border-radius:50%;cursor:pointer;transition:transform 0.15s,box-shadow 0.15s;border:2px solid transparent}
+    .swatch:hover{transform:scale(1.15)}
+    .swatch.active{border-color:#fff;box-shadow:0 0 0 2px var(--text-1),0 2px 8px rgba(0,0,0,0.2);transform:scale(1.1)}
+    .font-options{display:flex;gap:0.5rem}
+    .font-opt{font-size:0.78rem;font-weight:500;padding:0.38rem 0.85rem;border-radius:6px;border:1.5px solid var(--border-md);background:var(--white);color:var(--text-2);cursor:pointer;transition:all 0.18s}
+    .font-opt:hover{border-color:var(--blue);color:var(--blue);background:var(--blue-light)}
+    .font-opt.active{border-color:var(--blue);background:var(--blue-light);color:var(--blue);font-weight:600}
+    .pro-lock{opacity:0.55;position:relative;cursor:not-allowed !important}
+    .pro-lock::after{content:'⚡ Pro';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:0.62rem;font-weight:700;color:#7C3AED;background:rgba(245,243,255,0.85);border-radius:6px}
+
+    /* CONTINUE BUTTON */
+    .continue-row{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+    .continue-info{font-size:0.82rem;color:var(--text-2)}
+    .continue-info strong{color:var(--text-1)}
+    .btn-continue{display:inline-flex;align-items:center;gap:0.5rem;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.94rem;font-weight:700;background:var(--blue);color:#fff;border:none;padding:0.9rem 2.2rem;border-radius:10px;cursor:pointer;box-shadow:var(--shadow-blue);transition:all 0.22s}
+    .btn-continue:hover{background:var(--blue-hover);transform:translateY(-2px);box-shadow:0 8px 28px rgba(47,107,255,0.35)}
+    .btn-continue .arr{transition:transform 0.2s}
+    .btn-continue:hover .arr{transform:translateX(3px)}
+
+    @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+    @media(max-width:900px){.template-grid{grid-template-columns:1fr 1fr}}
+    @media(max-width:560px){.template-grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo"><div class="logo-mark">CV</div>CVbykiyomi</a>
+  <div class="nav-right">
+    <a href="cv-preview.html" class="btn-nav-back">← Back to CV</a>
+  </div>
+</nav>
+
+<div class="steps-header">
+  <div class="steps-inner">
+    <div class="sh-step done"><div class="sh-num">✓</div><span>Generate</span></div>
+    <div class="sh-step active"><div class="sh-num">2</div><span>Choose Template</span></div>
+    <div class="sh-step"><div class="sh-num">3</div><span>Export</span></div>
+  </div>
+</div>
+
+<div class="main">
+  <h1 class="page-title">Choose your template</h1>
+  <p class="page-sub">Select a layout and customise the look. All templates are ATS-compatible — some just have more visual personality.</p>
+
+  <!-- TEMPLATE GRID -->
+  <div class="template-grid" id="templateGrid">
+
+    <!-- CLASSIC -->
+    <div class="tpl-card selected" data-tpl="classic" onclick="selectTemplate(this)">
+      <div class="tpl-check">✓</div>
+      <div class="tpl-thumb">
+        <div class="tpl-thumb-inner">
+          <div class="thumb-classic">
+            <div class="tc-topbar"></div>
+            <div class="tc-name" id="tc-name">Alexandra Okafor</div>
+            <div class="tc-title" id="tc-title">Senior Product Manager</div>
+            <div class="tc-contact"><span>✉ hello@example.com</span><span>☎ +234 800 000 0000</span><span>Lagos</span></div>
+            <div class="tc-body">
+              <div class="tc-left">
+                <div class="tc-seclabel">Skills</div>
+                <div class="tc-tag">Product Strategy</div><div class="tc-tag">Figma</div><div class="tc-tag">React</div><div class="tc-tag">Analytics</div>
+                <div style="margin-top:14px"><div class="tc-seclabel">Education</div><div class="tc-line lo"></div><div class="tc-line me"></div></div>
+              </div>
+              <div class="tc-right">
+                <div class="tc-seclabel">Profile</div>
+                <div class="tc-line lo"></div><div class="tc-line me"></div><div class="tc-line sh"></div>
+                <div style="margin-top:12px"><div class="tc-seclabel">Experience</div></div>
+                <div class="tc-exphd"><div class="tc-role">Senior PM</div><div class="tc-dates">2022–Present</div></div>
+                <div class="tc-co">Flutterwave</div>
+                <div class="tc-bullet">Led product roadmap for core payments platform</div>
+                <div class="tc-bullet">Increased conversion by 30% through A/B testing</div>
+                <div class="tc-bullet">Shipped 6 features used by 500k+ merchants</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="tpl-info">
+        <div class="tpl-name">Classic</div>
+        <div class="tpl-desc">Clean two-column layout. Most ATS-friendly. Works for any industry.</div>
+        <div class="tpl-badges">
+          <span class="tpl-badge badge-ats-high">✓ ATS: Excellent</span>
+          <span class="tpl-badge badge-free">Free</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODERN -->
+    <div class="tpl-card" data-tpl="modern" onclick="selectTemplate(this)">
+      <div class="tpl-check">✓</div>
+      <div class="tpl-thumb">
+        <div class="tpl-thumb-inner">
+          <div class="thumb-modern">
+            <div class="tm-sidebar">
+              <div class="tm-avatar">A</div>
+              <div class="tm-sname">Alexandra Okafor</div>
+              <div class="tm-sjob">Senior Product Manager</div>
+              <div class="tm-slabel">Skills</div>
+              <div class="tm-skill">Product Strategy</div>
+              <div class="tm-skill">Figma & Design</div>
+              <div class="tm-skill">Data Analytics</div>
+              <div class="tm-skill">React / APIs</div>
+              <div class="tm-slabel">Contact</div>
+              <div class="tm-sline lo"></div><div class="tm-sline me"></div><div class="tm-sline me"></div>
+            </div>
+            <div class="tm-main">
+              <div class="tm-seclabel">Profile</div>
+              <div class="tm-summary">Results-driven PM with 6+ years building payments and fintech products across Africa. Known for shipping fast and building with data.</div>
+              <div class="tm-seclabel">Experience</div>
+              <div class="tm-exphd"><div class="tm-role">Senior PM</div><div class="tm-dates">2022–Now</div></div>
+              <div class="tm-co">Flutterwave</div>
+              <div class="tm-bullet">Led roadmap for core payments</div>
+              <div class="tm-bullet">+30% conversion via A/B tests</div>
+              <div class="tm-bullet">500k+ merchant impact</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="tpl-info">
+        <div class="tpl-name">Modern</div>
+        <div class="tpl-desc">Dark sidebar with initials avatar. Strong visual hierarchy. Tech & startup-ready.</div>
+        <div class="tpl-badges">
+          <span class="tpl-badge badge-ats-high">✓ ATS: Good</span>
+          <span class="tpl-badge badge-pro">Pro</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- MINIMAL -->
+    <div class="tpl-card" data-tpl="minimal" onclick="selectTemplate(this)">
+      <div class="tpl-check">✓</div>
+      <div class="tpl-thumb">
+        <div class="tpl-thumb-inner">
+          <div class="thumb-minimal">
+            <div class="tmin-name">Alexandra Okafor</div>
+            <div class="tmin-title">Senior Product Manager</div>
+            <div class="tmin-divider"></div>
+            <div class="tmin-contact"><span>hello@example.com</span><span>Lagos, Nigeria</span><span>linkedin.com/in/ao</span></div>
+            <div class="tmin-seclabel">Profile</div>
+            <div class="tmin-summary">Results-driven product manager with deep expertise in payments and fintech across Africa. Builder of products used by millions.</div>
+            <div class="tmin-seclabel">Experience</div>
+            <div class="tmin-exprow">
+              <div class="tmin-datelabel">2022 – Present</div>
+              <div class="tmin-expbody">
+                <div class="tmin-role">Senior PM — Flutterwave</div>
+                <div class="tmin-co">Lagos, Nigeria</div>
+                <div class="tmin-bullet">Led core payments roadmap</div>
+                <div class="tmin-bullet">+30% conversion improvement</div>
+              </div>
+            </div>
+            <div class="tmin-seclabel" style="margin-top:12px">Skills</div>
+            <div class="tmin-skillrow"><span class="tmin-skill">Product Strategy</span><span class="tmin-skill">Figma</span><span class="tmin-skill">Analytics</span><span class="tmin-skill">React</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="tpl-info">
+        <div class="tpl-name">Minimal</div>
+        <div class="tpl-desc">Ultra-clean with generous whitespace. Preferred by designers & executives.</div>
+        <div class="tpl-badges">
+          <span class="tpl-badge badge-ats-high">✓ ATS: Excellent</span>
+          <span class="tpl-badge badge-pro">Pro</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- BOLD -->
+    <div class="tpl-card" data-tpl="bold" onclick="selectTemplate(this)">
+      <div class="tpl-check">✓</div>
+      <div class="tpl-thumb">
+        <div class="tpl-thumb-inner">
+          <div class="thumb-bold">
+            <div class="tb-header">
+              <div class="tb-name">Alexandra Okafor</div>
+              <div class="tb-title">Senior Product Manager</div>
+              <div class="tb-contact"><span>hello@example.com</span><span>+234 800 000 0000</span><span>Lagos</span></div>
+            </div>
+            <div class="tb-body">
+              <div class="tb-left">
+                <div class="tb-slabel">Skills</div>
+                <div class="tb-skill">Product Strategy</div>
+                <div class="tb-skill">Figma & Design</div>
+                <div class="tb-skill">Analytics</div>
+                <div class="tb-skill">React / APIs</div>
+                <div class="tb-slabel">Education</div>
+                <div class="tb-line lo"></div><div class="tb-line me"></div>
+              </div>
+              <div class="tb-right">
+                <div class="tb-seclabel">Profile</div>
+                <div class="tb-line lo"></div><div class="tb-line me"></div>
+                <div class="tb-seclabel">Experience</div>
+                <div class="tb-role">Senior PM</div>
+                <div class="tb-co"><span>Flutterwave</span><span class="tb-dates">2022–Present</span></div>
+                <div class="tb-line lo"></div><div class="tb-line me"></div><div class="tb-line sh"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="tpl-info">
+        <div class="tpl-name">Bold</div>
+        <div class="tpl-desc">Gradient header with dark sidebar. High-impact. Creative industries & senior roles.</div>
+        <div class="tpl-badges">
+          <span class="tpl-badge badge-ats-mid">⚠ ATS: Fair</span>
+          <span class="tpl-badge badge-pro">Pro</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- CUSTOMIZATION PANEL -->
+  <div class="custom-panel">
+    <div class="custom-title">Customise your CV</div>
+    <div class="custom-sub">Adjust accent colour and font to make it your own.</div>
+    <div class="custom-row">
+      <div class="custom-group">
+        <span class="custom-label">Accent Colour</span>
+        <div class="color-swatches" id="colorSwatches">
+          <div class="swatch active" data-color="#2F6BFF" style="background:#2F6BFF" title="Blue" onclick="setColor(this)"></div>
+          <div class="swatch" data-color="#059669" style="background:#059669" title="Emerald" onclick="setColor(this)"></div>
+          <div class="swatch" data-color="#7C3AED" style="background:#7C3AED" title="Violet" onclick="setColor(this)"></div>
+          <div class="swatch" data-color="#DC2626" style="background:#DC2626" title="Red" onclick="setColor(this)"></div>
+          <div class="swatch" data-color="#D97706" style="background:#D97706" title="Amber" onclick="setColor(this)"></div>
+          <div class="swatch" data-color="#0891B2" style="background:#0891B2" title="Cyan" onclick="setColor(this)"></div>
+          <div class="swatch pro-lock" data-color="#111" style="background:#111" title="Pro" onclick="requirePro()"></div>
+          <div class="swatch pro-lock" data-color="#BE185D" style="background:#BE185D" title="Pro" onclick="requirePro()"></div>
+        </div>
+      </div>
+      <div class="custom-group">
+        <span class="custom-label">Font</span>
+        <div class="font-options">
+          <button class="font-opt active" data-font="jakarta" onclick="setFont(this)">Plus Jakarta</button>
+          <button class="font-opt" data-font="lora" onclick="setFont(this)" style="font-family:Lora,serif">Lora</button>
+          <button class="font-opt" data-font="dm" onclick="setFont(this)" style="font-family:'DM Sans',sans-serif">DM Sans</button>
+          <button class="font-opt pro-lock" data-font="pro" onclick="requirePro()">Georgia ⚡</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTINUE -->
+  <div class="continue-row">
+    <div class="continue-info">Selected: <strong id="selectedName">Classic</strong> · <span id="selectedColorLabel" style="display:inline-flex;align-items:center;gap:0.3rem"><span id="colorDot" style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#2F6BFF;vertical-align:middle"></span> Blue</span></div>
+    <button class="btn-continue" onclick="proceed()">Continue to Export <span class="arr">→</span></button>
+  </div>
+</div>
+
+<script>
+  let selectedTpl = 'classic';
+  let selectedColor = '#2F6BFF';
+  let selectedFont = 'jakarta';
+
+  function selectTemplate(card) {
+    // Check if pro template
+    const tpl = card.dataset.tpl;
+    const isPro = card.querySelector('.badge-pro') !== null;
+    const hasPro = (() => { try { return JSON.parse(localStorage.getItem('cvk_pro')); } catch(e) { return false; } })();
+    if (isPro && !hasPro) {
+      // Still allow selection but remind user
+      const ok = confirm(`The "${card.querySelector('.tpl-name').textContent}" template is a Pro feature.\n\nUpgrade to Pro to unlock it — or click OK to preview it and upgrade on the export page.`);
+      if (!ok) return;
+    }
+    document.querySelectorAll('.tpl-card').forEach(c => c.classList.remove('selected'));
+    card.classList.add('selected');
+    selectedTpl = tpl;
+    document.getElementById('selectedName').textContent = card.querySelector('.tpl-name').textContent;
+  }
+
+  function setColor(swatch) {
+    document.querySelectorAll('.swatch:not(.pro-lock)').forEach(s => s.classList.remove('active'));
+    swatch.classList.add('active');
+    selectedColor = swatch.dataset.color;
+    const dot = document.getElementById('colorDot');
+    dot.style.background = selectedColor;
+    document.getElementById('selectedColorLabel').childNodes[1].nodeValue = ' ' + swatch.title;
+    // Live-update thumbnail colors
+    document.querySelectorAll('.tc-topbar,.tc-seclabel,.tc-dates,.tc-tag,.tc-title').forEach(el => {
+      if (el.classList.contains('tc-topbar') || el.classList.contains('tc-tag')) return;
+      el.style.color = selectedColor;
+    });
+    document.querySelectorAll('.tc-topbar').forEach(el => el.style.background = selectedColor);
+    document.querySelectorAll('.tc-tag').forEach(el => { el.style.background = selectedColor + '18'; el.style.color = selectedColor; el.style.borderColor = selectedColor + '55'; });
+  }
+
+  function setFont(btn) {
+    document.querySelectorAll('.font-opt:not(.pro-lock)').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    selectedFont = btn.dataset.font;
+  }
+
+  function requirePro() {
+    if (confirm('This feature requires CVbykiyomi Pro.\n\nUpgrade to unlock all templates, colours and fonts?')) {
+      window.location.href = 'upgrade.html';
+    }
+  }
+
+  function proceed() {
+    const choices = { template: selectedTpl, color: selectedColor, font: selectedFont };
+    sessionStorage.setItem('cvk_export_choices', JSON.stringify(choices));
+    window.location.href = 'export.html';
+  }
+
+  // Pre-fill with user's real name if available
+  const raw = sessionStorage.getItem('cvData');
+  if (raw) {
+    try {
+      const d = JSON.parse(raw);
+      const name = `${d.firstName||''} ${d.lastName||''}`.trim();
+      const title = d.jobTitle || 'Professional';
+      if (name) document.getElementById('tc-name').textContent = name;
+      if (title) document.getElementById('tc-title').textContent = title;
+    } catch(e) {}
+  }
+</script>
+</body>
+</html>

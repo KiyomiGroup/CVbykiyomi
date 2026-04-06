@@ -169,10 +169,10 @@
       <a href="cover-letter.html" class="tab">Cover Letter</a>
     </div>
     <button class="btn-tb btn-outline" id="editBtn" onclick="toggleEdit()">✏️ Edit</button>
-    <button class="btn-tb btn-outline" id="copyBtn" onclick="copyCV()" title="Copy CV text">📋 Copy</button>
-    <button class="btn-tb btn-solid" id="saveBtn" onclick="openSaveModal()" disabled>💾 Save to Dashboard</button>
-    <button class="btn-tb btn-solid" id="printBtn" onclick="window.print()" disabled style="background:#374151">⬇ Print</button>
-    <a href="form.html" class="btn-tb btn-outline">↩ Edit Details</a>
+    <button class="btn-tb btn-outline" id="copyBtn" onclick="copyCV()">📋 Copy</button>
+    <button class="btn-tb btn-solid" id="saveBtn" onclick="openSaveModal()" disabled>💾 Save</button>
+    <a href="templates.html" id="exportBtn" class="btn-tb btn-solid" style="background:#059669;box-shadow:0 4px 16px rgba(5,150,105,0.25);pointer-events:none;opacity:0.5;text-decoration:none">⬇ Export PDF →</a>
+    <a href="form.html" class="btn-tb btn-outline">↩ Edit</a>
   </div>
 </div>
 
@@ -367,8 +367,9 @@ function show() {
   document.getElementById('toolbar').style.display = 'flex';
   document.getElementById('scoreWrap').style.display = 'block';
   document.getElementById('previewWrap').style.display = 'flex';
-  document.getElementById('printBtn').disabled = false;
   document.getElementById('saveBtn').disabled = false;
+  const exportBtn = document.getElementById('exportBtn');
+  if (exportBtn) { exportBtn.style.pointerEvents = 'auto'; exportBtn.style.opacity = '1'; }
 }
 
 /* ── SCORE ── */

@@ -232,6 +232,7 @@ RULES:
     const data = await res.json();
     const txt = (data.content?.[0]?.text||'').replace(/```json|```/g,'').trim();
     letterParagraphs = JSON.parse(txt).map(p => humanize(p));
+    sessionStorage.setItem('cvk_cover_letter', JSON.stringify(letterParagraphs));
   } catch(e) {
     console.warn('Cover letter AI fallback:', e);
     letterParagraphs = buildFallbackLetter(d, aiResult);

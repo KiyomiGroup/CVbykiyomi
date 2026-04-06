@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Upgrade to Pro — CVbykiyomi</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --blue:#2F6BFF;--blue-hover:#1A57F0;--blue-light:#EAF1FF;--blue-mid:#C7D9FF;
+      --bg:#FAFBFF;--white:#FFFFFF;
+      --text-1:#1A1A1A;--text-2:#6B7280;--text-3:#9CA3AF;
+      --border:#E5E7EB;--border-md:#D1D5DB;
+      --green:#059669;--green-light:#D1FAE5;
+      --purple:#7C3AED;--purple-light:#F5F3FF;
+      --shadow-sm:0 1px 3px rgba(0,0,0,0.06);
+      --shadow-md:0 4px 16px rgba(0,0,0,0.08);
+      --shadow-lg:0 8px 32px rgba(0,0,0,0.12);
+      --shadow-blue:0 4px 20px rgba(47,107,255,0.22);
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text-1);min-height:100vh;-webkit-font-smoothing:antialiased}
+
+    nav{position:sticky;top:0;z-index:100;background:rgba(250,251,255,0.94);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);height:64px;padding:0 2rem;display:flex;align-items:center;justify-content:space-between}
+    .logo{font-size:1.05rem;font-weight:700;color:var(--text-1);text-decoration:none;letter-spacing:-0.02em;display:flex;align-items:center;gap:0.4rem}
+    .logo-mark{width:26px;height:26px;border-radius:6px;background:var(--blue);display:flex;align-items:center;justify-content:center;font-size:0.62rem;font-weight:700;color:#fff}
+    .nav-right{display:flex;align-items:center;gap:0.6rem}
+    .nav-user{font-size:0.82rem;font-weight:500;color:var(--text-2);display:flex;align-items:center;gap:0.4rem}
+    .nav-avatar{width:26px;height:26px;border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-size:0.62rem;font-weight:700}
+    .btn-nav-back{font-size:0.82rem;font-weight:500;color:var(--text-2);text-decoration:none;padding:0.4rem 0.75rem;border-radius:6px;transition:all 0.18s}
+    .btn-nav-back:hover{color:var(--text-1);background:var(--blue-light)}
+
+    .hero{text-align:center;padding:4rem 2rem 3rem;max-width:680px;margin:0 auto}
+    .hero-badge{display:inline-flex;align-items:center;gap:0.4rem;font-size:0.72rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--purple);background:var(--purple-light);border:1px solid #C4B5FD;padding:0.3rem 0.85rem;border-radius:20px;margin-bottom:1.5rem;animation:fadeUp 0.4s ease}
+    h1{font-size:clamp(2rem,4vw,3rem);font-weight:700;letter-spacing:-0.03em;line-height:1.12;margin-bottom:1rem;animation:fadeUp 0.4s 0.06s ease both}
+    h1 .grad{background:linear-gradient(135deg,var(--blue),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .hero-sub{font-size:1rem;color:var(--text-2);line-height:1.75;margin-bottom:0;animation:fadeUp 0.4s 0.12s ease both}
+
+    /* TOGGLE */
+    .billing-toggle{display:flex;align-items:center;justify-content:center;gap:0.75rem;margin:2rem 0;animation:fadeUp 0.4s 0.18s ease both}
+    .toggle-label{font-size:0.84rem;font-weight:500;color:var(--text-2)}
+    .toggle-pill{width:44px;height:24px;border-radius:12px;background:var(--blue);cursor:pointer;position:relative;transition:background 0.2s}
+    .toggle-thumb{width:18px;height:18px;border-radius:50%;background:#fff;position:absolute;top:3px;left:3px;transition:transform 0.2s;box-shadow:0 1px 4px rgba(0,0,0,0.2)}
+    .toggle-pill.annual .toggle-thumb{transform:translateX(20px)}
+    .annual-badge{font-size:0.68rem;font-weight:700;background:var(--green-light);color:var(--green);padding:0.18rem 0.5rem;border-radius:10px}
+
+    /* PRICING CARDS */
+    .pricing-wrap{max-width:860px;margin:0 auto;padding:0 2rem 5rem}
+    .pricing-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem;margin-bottom:3rem}
+    .price-card{background:var(--white);border:1.5px solid var(--border);border-radius:16px;padding:2.2rem;box-shadow:var(--shadow-sm);transition:box-shadow 0.2s;position:relative}
+    .price-card.featured{border-color:var(--blue);box-shadow:0 0 0 3px rgba(47,107,255,0.1),var(--shadow-md)}
+    .price-tag{position:absolute;top:-14px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,var(--blue),var(--purple));color:#fff;font-size:0.68rem;font-weight:700;padding:0.3rem 1rem;border-radius:20px;white-space:nowrap}
+    .plan-name{font-size:1.1rem;font-weight:700;color:var(--text-1);margin-bottom:0.3rem}
+    .plan-desc{font-size:0.8rem;color:var(--text-2);line-height:1.6;margin-bottom:1.5rem}
+    .plan-price{margin-bottom:0.5rem}
+    .price-amount{font-size:2.6rem;font-weight:700;letter-spacing:-0.04em;color:var(--text-1);line-height:1}
+    .price-currency{font-size:1.1rem;font-weight:600;vertical-align:top;margin-top:0.4rem;display:inline-block}
+    .price-period{font-size:0.78rem;color:var(--text-3)}
+    .price-billed{font-size:0.72rem;color:var(--text-3);margin-bottom:1.8rem;min-height:1.1rem}
+    .plan-cta{width:100%;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.94rem;font-weight:700;padding:0.9rem;border-radius:10px;cursor:pointer;border:none;display:flex;align-items:center;justify-content:center;gap:0.45rem;transition:all 0.22s;margin-bottom:1.8rem}
+    .cta-free{background:var(--white);color:var(--text-2);border:1.5px solid var(--border-md)!important}
+    .cta-free:hover{border-color:var(--blue)!important;color:var(--blue);background:var(--blue-light)}
+    .cta-pro{background:linear-gradient(135deg,var(--blue),var(--purple));color:#fff;box-shadow:0 4px 20px rgba(47,107,255,0.3)}
+    .cta-pro:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(47,107,255,0.4);opacity:0.95}
+    .cta-current{background:var(--green-light);color:var(--green);border:1.5px solid rgba(5,150,105,0.2)!important;cursor:default}
+
+    /* FEATURE LIST */
+    .feature-list{display:flex;flex-direction:column;gap:0.7rem}
+    .feat{display:flex;align-items:flex-start;gap:0.6rem;font-size:0.82rem;color:var(--text-2);line-height:1.5}
+    .feat-icon{font-size:0.82rem;flex-shrink:0;margin-top:0.05rem}
+    .feat-icon.yes{color:var(--green)}
+    .feat-icon.no{color:var(--border-md)}
+    .feat strong{color:var(--text-1);font-weight:600}
+    .feat.dim{color:var(--text-3)}
+    .feat.dim strong{color:var(--text-3)}
+    .feat-divider{height:1px;background:var(--border);margin:0.4rem 0}
+
+    /* COMPARISON TABLE */
+    .comparison{background:var(--white);border:1px solid var(--border);border-radius:14px;overflow:hidden;box-shadow:var(--shadow-sm);margin-bottom:3rem}
+    .comp-head{display:grid;grid-template-columns:1fr 120px 120px;background:var(--bg);border-bottom:1px solid var(--border);padding:1rem 1.5rem;font-size:0.72rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-3)}
+    .comp-head .ch-plan{text-align:center}
+    .comp-row{display:grid;grid-template-columns:1fr 120px 120px;padding:0.9rem 1.5rem;border-bottom:1px solid var(--border);align-items:center}
+    .comp-row:last-child{border-bottom:none}
+    .comp-row:hover{background:var(--bg)}
+    .comp-feat{font-size:0.82rem;color:var(--text-2)}
+    .comp-cell{text-align:center;font-size:0.82rem}
+    .comp-yes{color:var(--green);font-weight:700}
+    .comp-no{color:var(--border-md)}
+    .comp-val{color:var(--blue);font-weight:600}
+    .comp-section{display:grid;grid-template-columns:1fr 120px 120px;padding:0.6rem 1.5rem;background:var(--bg);border-bottom:1px solid var(--border)}
+    .comp-section-label{font-size:0.68rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-3)}
+
+    /* TESTIMONIALS */
+    .testimonials{margin-bottom:3rem}
+    .testimonials-title{font-size:1.1rem;font-weight:700;text-align:center;margin-bottom:1.5rem;color:var(--text-1)}
+    .testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+    .testi-card{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:1.3rem;box-shadow:var(--shadow-sm)}
+    .testi-stars{color:#F59E0B;font-size:0.78rem;margin-bottom:0.6rem;letter-spacing:0.05em}
+    .testi-text{font-size:0.8rem;color:var(--text-2);line-height:1.7;margin-bottom:0.9rem;font-style:italic}
+    .testi-author{font-size:0.74rem;font-weight:600;color:var(--text-1)}
+    .testi-role{font-size:0.68rem;color:var(--text-3)}
+
+    /* FAQ */
+    .faq{margin-bottom:3rem}
+    .faq-title{font-size:1.1rem;font-weight:700;text-align:center;margin-bottom:1.5rem}
+    .faq-item{background:var(--white);border:1px solid var(--border);border-radius:10px;margin-bottom:0.6rem;overflow:hidden}
+    .faq-q{font-size:0.88rem;font-weight:600;padding:1rem 1.3rem;cursor:pointer;display:flex;justify-content:space-between;align-items:center;color:var(--text-1);user-select:none}
+    .faq-q:hover{background:var(--bg)}
+    .faq-arrow{transition:transform 0.2s;color:var(--text-3);font-size:0.75rem}
+    .faq-item.open .faq-arrow{transform:rotate(180deg)}
+    .faq-a{font-size:0.82rem;color:var(--text-2);line-height:1.7;padding:0 1.3rem 1rem;display:none}
+    .faq-item.open .faq-a{display:block}
+
+    /* ACTIVE STATE */
+    .pro-active-banner{background:linear-gradient(135deg,var(--green) 0%,#0d9488 100%);border-radius:14px;padding:1.8rem 2rem;color:#fff;text-align:center;margin-bottom:2rem;display:none}
+    .pro-active-banner.show{display:block}
+    .pro-banner-icon{font-size:2.5rem;margin-bottom:0.6rem}
+    .pro-banner-title{font-size:1.2rem;font-weight:700;margin-bottom:0.3rem}
+    .pro-banner-sub{font-size:0.84rem;opacity:0.85;line-height:1.6}
+
+    @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+    @media(max-width:640px){.pricing-grid{grid-template-columns:1fr}.testi-grid{grid-template-columns:1fr}.comp-head,.comp-row,.comp-section{grid-template-columns:1fr 80px 80px}}
+  </style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="logo"><div class="logo-mark">CV</div>CVbykiyomi</a>
+  <div class="nav-right">
+    <div class="nav-user" id="navUser" style="display:none"><div class="nav-avatar" id="navAvatar">?</div><span id="navName">User</span></div>
+    <a href="dashboard.html" class="btn-nav-back">← Dashboard</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-badge">⚡ CVbykiyomi Pro</div>
+  <h1>Unlock everything.<br>Land the <span class="grad">right job faster.</span></h1>
+  <p class="hero-sub">Pro gives you all four templates, custom colours, unlimited exports, and priority AI — everything you need to put your best foot forward.</p>
+</div>
+
+<div class="pricing-wrap">
+
+  <!-- PRO ACTIVE BANNER -->
+  <div class="pro-active-banner" id="proActiveBanner">
+    <div class="pro-banner-icon">✓</div>
+    <div class="pro-banner-title">You're on Pro!</div>
+    <div class="pro-banner-sub">All templates, colours and features are unlocked. Go build something great.</div>
+  </div>
+
+  <!-- BILLING TOGGLE -->
+  <div class="billing-toggle">
+    <span class="toggle-label" id="monthlyLabel" style="color:var(--text-1);font-weight:600">Monthly</span>
+    <div class="toggle-pill annual" id="billingToggle" onclick="toggleBilling()"><div class="toggle-thumb"></div></div>
+    <span class="toggle-label" id="annualLabel">Annual <span class="annual-badge">Save 40%</span></span>
+  </div>
+
+  <!-- PRICING CARDS -->
+  <div class="pricing-grid">
+    <!-- FREE -->
+    <div class="price-card" id="freeCard">
+      <div class="plan-name">Free</div>
+      <div class="plan-desc">Everything you need to create a great tailored CV and land interviews.</div>
+      <div class="plan-price"><span class="price-currency">$</span><span class="price-amount">0</span></div>
+      <div class="price-billed">Free forever</div>
+      <button class="plan-cta cta-free" id="freeCta" onclick="goFree()">Get started free</button>
+      <div class="feature-list">
+        <div class="feat"><span class="feat-icon yes">✓</span><span>AI-tailored CV generation</span></div>
+        <div class="feat"><span class="feat-icon yes">✓</span><span>AI cover letter</span></div>
+        <div class="feat"><span class="feat-icon yes">✓</span><span><strong>Classic template</strong></span></div>
+        <div class="feat"><span class="feat-icon yes">✓</span><span>Match score & keyword analysis</span></div>
+        <div class="feat"><span class="feat-icon yes">✓</span><span>Save up to <strong>3 CVs</strong></span></div>
+        <div class="feat"><span class="feat-icon yes">✓</span><span>Copy to clipboard</span></div>
+        <div class="feat-divider"></div>
+        <div class="feat dim"><span class="feat-icon no">✕</span><span>Modern, Minimal & Bold templates</span></div>
+        <div class="feat dim"><span class="feat-icon no">✕</span><span>Custom accent colours</span></div>
+        <div class="feat dim"><span class="feat-icon no">✕</span><span>PDF export</span></div>
+        <div class="feat dim"><span class="feat-icon no">✕</span><span>Export package (ZIP)</span></div>
+        <div class="feat dim"><span class="feat-icon no">✕</span><span>Font customisation</span></div>
+        <div class="feat dim"><span class="feat-icon no">✕</span><span>Unlimited CV saves</span></div>
+      </div>
+    </div>
+
+    <!-- PRO -->
+    <div class="price-card featured" id="proCard">
+      <div class="price-tag">⚡ Most popular</div>
+      <div class="plan-name" style="color:var(--blue)">Pro</div>
+      <div class="plan-desc">The complete toolkit for serious job seekers who want every advantage.</div>
+      <div class="plan-price" id="proPrice">
+        <span class="price-currency">$</span><span class="price-amount" id="proPriceAmt">5</span>
+        <span class="price-period" id="proPricePer">/month</span>
+      </div>
+      <div class="price-billed" id="proBilled">Billed $60/year · cancel anytime</div>
+      <button class="plan-cta cta-pro" id="proCta" onclick="upgradePro()">⚡ Upgrade to Pro</button>
+      <div class="feature-list">
+        <div class="feat"><span class="feat-icon yes">✓</span><span>Everything in Free</span></div>
+        <div class="feat-divider"></div>
+        <div class="feat"><span class="feat-icon yes">✓</span><span><strong>All 4 templates</strong> (Classic, Modern, Minimal, Bold)</span></div>
+        <div class="feat"><span class="feat-icon yes">✓</span><span><strong>8 accent colours</strong> including custom</span></div>
+        <div class="feat"><span class="feat-icon yes">✓</span><span><strong>PDF export</strong> — named, print-perfect</span></div>
+        <div class="feat"><span class="feat-icon yes">✓</span><span><strong>Export package</strong> — CV + cover letter ZIP</span></div>
+        <div class="feat"><span class="feat-icon yes">✓</span><span><strong>3 font choices</strong></span></div>
+        <div class="feat"><span class="feat-icon yes">✓</span><span><strong>Unlimited</strong> CV saves</span></div>
+        <div class="feat"><span class="feat-icon yes">✓</span><span>Priority AI generation</span></div>
+        <div class="feat"><span class="feat-icon yes">✓</span><span>Early access to new features</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- COMPARISON TABLE -->
+  <div class="comparison">
+    <div class="comp-head"><span>Feature</span><span class="ch-plan">Free</span><span class="ch-plan" style="color:var(--blue)">Pro ⚡</span></div>
+    <div class="comp-section"><span class="comp-section-label">Core Features</span></div>
+    <div class="comp-row"><span class="comp-feat">AI CV tailoring</span><span class="comp-cell comp-yes">✓</span><span class="comp-cell comp-yes">✓</span></div>
+    <div class="comp-row"><span class="comp-feat">AI cover letter</span><span class="comp-cell comp-yes">✓</span><span class="comp-cell comp-yes">✓</span></div>
+    <div class="comp-row"><span class="comp-feat">Match score</span><span class="comp-cell comp-yes">✓</span><span class="comp-cell comp-yes">✓</span></div>
+    <div class="comp-row"><span class="comp-feat">Keyword analysis</span><span class="comp-cell comp-yes">✓</span><span class="comp-cell comp-yes">✓</span></div>
+    <div class="comp-section"><span class="comp-section-label">Templates & Design</span></div>
+    <div class="comp-row"><span class="comp-feat">Classic template</span><span class="comp-cell comp-yes">✓</span><span class="comp-cell comp-yes">✓</span></div>
+    <div class="comp-row"><span class="comp-feat">Modern, Minimal, Bold</span><span class="comp-cell comp-no">✕</span><span class="comp-cell comp-yes">✓</span></div>
+    <div class="comp-row"><span class="comp-feat">Accent colours</span><span class="comp-cell comp-val">3</span><span class="comp-cell comp-val">8</span></div>
+    <div class="comp-row"><span class="comp-feat">Font options</span><span class="comp-cell comp-val">1</span><span class="comp-cell comp-val">3</span></div>
+    <div class="comp-section"><span class="comp-section-label">Export & Storage</span></div>
+    <div class="comp-row"><span class="comp-feat">Copy to clipboard</span><span class="comp-cell comp-yes">✓</span><span class="comp-cell comp-yes">✓</span></div>
+    <div class="comp-row"><span class="comp-feat">PDF export</span><span class="comp-cell comp-no">✕</span><span class="comp-cell comp-yes">✓</span></div>
+    <div class="comp-row"><span class="comp-feat">Application ZIP package</span><span class="comp-cell comp-no">✕</span><span class="comp-cell comp-yes">✓</span></div>
+    <div class="comp-row"><span class="comp-feat">Saved CVs</span><span class="comp-cell comp-val">3</span><span class="comp-cell comp-val">Unlimited</span></div>
+  </div>
+
+  <!-- TESTIMONIALS -->
+  <div class="testimonials">
+    <div class="testimonials-title">What job seekers are saying</div>
+    <div class="testi-grid">
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <div class="testi-text">"I sent out 6 applications using the tailored CVs from this tool. Got 4 callbacks in a week. The export package feature saved me so much time."</div>
+        <div class="testi-author">Chioma A.</div>
+        <div class="testi-role">Product Manager, Lagos</div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <div class="testi-text">"The Modern template with the dark sidebar made my CV stand out. Landed a senior engineering role at a startup within 3 weeks."</div>
+        <div class="testi-author">Kwame T.</div>
+        <div class="testi-role">Senior Engineer, Accra</div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <div class="testi-text">"The humanised AI writing is really noticeable. Doesn't sound like a bot wrote it. My recruiter specifically commented on how natural the cover letter read."</div>
+        <div class="testi-author">Amara N.</div>
+        <div class="testi-role">Marketing Lead, Nairobi</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FAQ -->
+  <div class="faq">
+    <div class="faq-title">Frequently asked questions</div>
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q">Is the free plan actually free? <span class="faq-arrow">▾</span></div>
+      <div class="faq-a">Yes, completely. No credit card, no trial period, no bait-and-switch. The free plan includes AI tailoring, cover letters, and the Classic template forever.</div>
+    </div>
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q">What happens to my CVs if I cancel Pro? <span class="faq-arrow">▾</span></div>
+      <div class="faq-a">Your saved CVs stay in your account. You'll keep everything you created while on Pro, but new CVs will be limited to the Classic template and 3 saves.</div>
+    </div>
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q">Are the PDFs actually ATS-friendly? <span class="faq-arrow">▾</span></div>
+      <div class="faq-a">Yes. The Classic and Minimal templates score highest for ATS compatibility — no text boxes, no columns that confuse parsers, clean heading structure. The Modern template is good; Bold is rated Fair due to its dark sidebar.</div>
+    </div>
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q">Can I pay monthly and switch to annual later? <span class="faq-arrow">▾</span></div>
+      <div class="faq-a">Yes. You can upgrade from monthly to annual billing at any time and get a prorated credit for the remaining days.</div>
+    </div>
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q">Is my data stored on a server? <span class="faq-arrow">▾</span></div>
+      <div class="faq-a">Currently CVbykiyomi runs entirely in your browser — your data is stored locally via localStorage. No CV data is sent to or stored on any server (except the temporary AI API call for generation). Sprint 5 will introduce optional cloud sync.</div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  /* ── AUTH ── */
+  try {
+    const u = JSON.parse(localStorage.getItem('cvk_user'));
+    if (u) {
+      document.getElementById('navUser').style.display = 'flex';
+      document.getElementById('navName').textContent = u.name.split(' ')[0];
+      document.getElementById('navAvatar').textContent = u.name[0].toUpperCase();
+    }
+  } catch(e) {}
+
+  /* ── PRO STATUS ── */
+  const isPro = (() => { try { return !!JSON.parse(localStorage.getItem('cvk_pro')); } catch(e) { return false; } })();
+  if (isPro) {
+    document.getElementById('proActiveBanner').classList.add('show');
+    document.getElementById('proCta').textContent = '✓ Already on Pro';
+    document.getElementById('proCta').className = 'plan-cta cta-current';
+    document.getElementById('freeCta').textContent = 'You\'re on Pro';
+    document.getElementById('freeCta').disabled = true;
+  }
+
+  /* ── BILLING TOGGLE ── */
+  let isAnnual = true;
+  function toggleBilling() {
+    isAnnual = !isAnnual;
+    const pill = document.getElementById('billingToggle');
+    pill.classList.toggle('annual', isAnnual);
+    document.getElementById('monthlyLabel').style.fontWeight = isAnnual ? '400' : '600';
+    document.getElementById('monthlyLabel').style.color = isAnnual ? '' : 'var(--text-1)';
+    document.getElementById('annualLabel').style.fontWeight = isAnnual ? '600' : '400';
+    document.getElementById('proPriceAmt').textContent = isAnnual ? '5' : '8';
+    document.getElementById('proPricePer').textContent = '/month';
+    document.getElementById('proBilled').textContent = isAnnual ? 'Billed $60/year · cancel anytime' : 'Billed monthly · cancel anytime';
+  }
+
+  /* ── ACTIONS ── */
+  function goFree() { window.location.href = 'auth.html'; }
+
+  function upgradePro() {
+    if (isPro) return;
+    // Simulate payment flow — in Sprint 5 this hooks into Stripe/Paystack
+    const plan = isAnnual ? 'Annual ($60/year)' : 'Monthly ($8/month)';
+    const ok = confirm(`Ready to upgrade to CVbykiyomi Pro?\n\nPlan: ${plan}\n\n⚡ This is a demo — clicking OK will activate Pro immediately.\n\nIn Sprint 5, this will connect to a real payment provider.`);
+    if (!ok) return;
+    localStorage.setItem('cvk_pro', JSON.stringify({ plan: isAnnual ? 'annual' : 'monthly', activatedAt: new Date().toISOString() }));
+    document.getElementById('proActiveBanner').classList.add('show');
+    document.getElementById('proCta').textContent = '✓ Pro activated!';
+    document.getElementById('proCta').className = 'plan-cta cta-current';
+    showToast('🎉 Pro activated! All features unlocked.');
+    setTimeout(() => window.location.href = 'templates.html', 1800);
+  }
+
+  /* ── FAQ ── */
+  function toggleFaq(item) {
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+  }
+
+  /* ── TOAST ── */
+  function showToast(msg) {
+    let el = document.getElementById('upgradeToast');
+    if (!el) {
+      el = document.createElement('div');
+      el.id = 'upgradeToast';
+      el.style.cssText = 'position:fixed;bottom:2rem;right:2rem;z-index:700;background:#059669;color:#fff;font-size:0.84rem;font-weight:600;padding:0.85rem 1.4rem;border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,0.2);transform:translateY(8px);opacity:0;transition:all 0.25s;pointer-events:none';
+      document.body.appendChild(el);
+    }
+    el.textContent = msg;
+    el.style.opacity = '1'; el.style.transform = 'translateY(0)';
+    setTimeout(() => { el.style.opacity = '0'; el.style.transform = 'translateY(8px)'; }, 3500);
+  }
+</script>
+</body>
+</html>
