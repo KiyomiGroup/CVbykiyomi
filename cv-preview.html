@@ -291,10 +291,14 @@ function animSteps(cb) {
 /* ── AI CALL ── */
 async function callAI() {
   const tone = d.tone || 'professional';
+  const isPremium = d.isPremium || false;
   const toneMap = {
     professional: 'formal, precise — use action verbs and quantified outcomes',
     confident:    'bold, achievement-driven — lead with impact and strong ownership language',
-    creative:     'engaging, personable — show personality while staying professional'
+    creative:     'engaging, personable — show personality while staying professional',
+    executive:    'senior leadership gravitas — strategic framing, board-level language, P&L focus',
+    technical:    'deep technical expertise — specific technologies, architecture, measurable engineering outcomes',
+    startup:      'scrappy and growth-focused — move-fast language, metrics, iteration, ownership mindset',
   };
   const expText = (d.experience||[]).filter(e=>e.role||e.company)
     .map((e,i)=>`Role ${i+1}: ${e.role} at ${e.company} (${e.start}–${e.end})\nResponsibilities: ${e.desc}`).join('\n\n');
@@ -311,35 +315,41 @@ Education: ${d.education||'Not provided'}
 JOB DESCRIPTION:
 ${d.jobDesc}
 
-TARGET ROLE: ${d.jobTitle||'Not specified'}
-COMPANY: ${d.companyName||'Not specified'}
-TONE: ${toneMap[tone]}
+ TARGET ROLE: ${d.jobTitle||'Not specified'}
+ COMPANY: ${d.companyName||'Not specified'}
+ TONE: ${toneMap[tone]||toneMap.professional}
+ TIER: ${isPremium?'PREMIUM':'FREE'}
+ CERTIFICATIONS: ${(d.certifications||[]).join(', ')||'None'}
 
-TASKS:
-1. Rewrite each experience role's bullets to align with the JD — use JD keywords naturally, be results-focused, max 4 bullets per role.
-2. Rewrite the professional summary (2–3 sentences) targeting this specific role.
-3. Identify top matched keywords from JD (max 5).
-4. Identify 1–2 missing keywords the candidate should address.
-5. Suggest up to 2 additional skills based on JD gaps (only if genuinely relevant).
-6. Give a match score 0–100.
+ TASKS:
+ 1. Rewrite each experience role's bullets — JD keywords naturally, results-focused, max ${isPremium?5:4} bullets per role.
+ 2. Rewrite the professional summary (2–3 sentences) targeting this specific role.
+ 3. Identify top matched keywords from JD (max 6).
+ 4. Identify 1–2 missing keywords the candidate should address.
+ 5. Suggest up to ${isPremium?3:2} additional skills based on JD gaps (only if genuinely relevant).
+ 6. Give a match score 0–100.
+ ${isPremium?'7. Include coaching_tip: one specific actionable improvement suggestion.':''}
 
-RESPOND IN THIS EXACT JSON ONLY — no markdown, no backticks, no extra text:
-{
-  "summary": "...",
-  "matchScore": 80,
-  "matchedKeywords": ["kw1","kw2","kw3"],
-  "missingKeywords": ["kw1"],
-  "suggestedSkills": ["skill1"],
-  "experience": [
-    {"role":"...","company":"...","start":"...","end":"...","bullets":["...","...","..."]}
-  ]
-}`;
+ WRITING RULES: No em-dashes. No leverage/synergize/spearhead/utilize. Plain, direct, human English.
+
+ RESPOND IN THIS EXACT JSON ONLY — no markdown, no backticks:
+ {
+   "summary": "...",
+   "matchScore": 80,
+   "matchedKeywords": ["kw1","kw2"],
+   "missingKeywords": ["kw1"],
+   "suggestedSkills": ["skill1"],
+   "coaching_tip": "",
+   "experience": [
+     {"role":"...","company":"...","start":"...","end":"...","bullets":["...","...","..."]}
+   ]
+ }`;
 
   try {
     const res = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ model:'claude-sonnet-4-20250514', max_tokens:1800, messages:[{role:'user',content:prompt}] })
+      body: JSON.stringify({ model:'claude-sonnet-4-20250514', max_tokens: isPremium ? 2400 : 1800, messages:[{role:'user',content:prompt}] })
     });
     const data = await res.json();
     const txt = (data.content?.[0]?.text||'').replace(/```json|```/g,'').trim();
@@ -359,6 +369,24 @@ RESPOND IN THIS EXACT JSON ONLY — no markdown, no backticks, no extra text:
   show();
   renderScore();
   renderCV();
+  if (isPro && aiResult.coaching_tip) renderCoachingTip();
+}
+
+/* ── COACHING TIP (PREMIUM) ── */
+function renderCoachingTip() {
+  const tip = aiResult.coaching_tip;
+  if (!tip || tip.length < 10) return;
+  const existing = document.getElementById('coachingTip');
+  if (existing) existing.remove();
+  const div = document.createElement('div');
+  div.id = 'coachingTip';
+  div.style.cssText = 'max-width:900px;margin:0.8rem auto 0;padding:0 2rem';
+  div.innerHTML = `<div style="background:linear-gradient(135deg,#F5F3FF,#EAF1FF);border:1px solid #C4B5FD;border-radius:10px;padding:0.9rem 1.2rem;display:flex;gap:0.7rem;align-items:flex-start;font-size:0.8rem;color:#374151;line-height:1.6">
+    <span style="font-size:1.1rem;flex-shrink:0">⚡</span>
+    <div><strong style="color:#7C3AED;font-weight:700">Pro Coaching Tip:</strong> ${tip}</div>
+    <button onclick="this.closest('#coachingTip').remove()" style="background:none;border:none;color:#9CA3AF;cursor:pointer;font-size:1rem;margin-left:auto;flex-shrink:0;padding:0">✕</button>
+  </div>`;
+  document.getElementById('scoreWrap').after(div);
 }
 
 /* ── SHOW UI ── */
@@ -425,7 +453,11 @@ function renderCV() {
   const expsHTML = (d.experience||[]).filter(e=>e.role||e.company).map(e=>{
     const key = `${e.role}|${e.company}`;
     const bullets = aiExpMap[key] || (e.desc||'').split('\n').filter(Boolean).map(b=>b.replace(/^[•\-–·]\s*/,''));
-    const lis = bullets.map(b=>`<li contenteditable="false">${highlightKws(b)}</li>`).join('');
+    const lis = bullets.map((b,bi)=>{
+      const bulletId = `bul_${Date.now()}_${bi}`;
+      const improveBtn = isPro ? `<button class="improve-btn" onclick="improveBullet('${bulletId}')" title="⚡ Improve with AI" style="opacity:0;pointer-events:none;margin-left:6px;font-size:0.58rem;font-weight:700;background:linear-gradient(135deg,#2F6BFF,#7C3AED);color:#fff;border:none;border-radius:4px;padding:1px 6px;cursor:pointer;transition:opacity 0.2s;vertical-align:middle">✦ Improve</button>` : '';
+      return `<li id="${bulletId}" contenteditable="false" onmouseenter="showImproveBtn(this)" onmouseleave="hideImproveBtn(this)">${highlightKws(b)}${improveBtn}</li>`;
+    }).join('');
     return `<div class="cv-exp">
       <div class="cv-exp-hd">
         <div class="cv-exp-role">${e.role||'Role'}</div>
@@ -561,6 +593,76 @@ function confirmSave() {
   sessionStorage.removeItem('cvk_editing_id');
   showToast('CV saved! Redirecting to dashboard…');
   setTimeout(() => window.location.href = 'dashboard.html', 1400);
+}
+
+/* ── PRO STATE ── */
+const isPro = (()=>{ try{return !!JSON.parse(localStorage.getItem('cvk_pro'))}catch(e){return false} })();
+if(isPro) { document.querySelectorAll('.tone-pro-lock,.pro-badge-nav').forEach(e=>e.style.display='inline'); }
+
+/* ── IMPROVE BULLET (PREMIUM) ── */
+function showImproveBtn(li) { const btn=li.querySelector('.improve-btn'); if(btn&&isPro){btn.style.opacity='1';btn.style.pointerEvents='auto';} }
+function hideImproveBtn(li) { const btn=li.querySelector('.improve-btn'); if(btn){btn.style.opacity='0';btn.style.pointerEvents='none';} }
+
+async function improveBullet(bulletId) {
+  const li = document.getElementById(bulletId);
+  if (!li) return;
+  const originalText = li.textContent.replace(/✦ Improve/g,'').trim();
+  const btn = li.querySelector('.improve-btn');
+  if (btn) { btn.textContent = '⏳'; btn.disabled = true; }
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:400,messages:[{role:'user',content:`Rewrite this CV bullet point 3 different ways. Make each version more impactful, specific, and results-focused. Use plain English, no em-dashes, no jargon like leverage/synergize/spearhead.
+
+Original: "${originalText}"
+Job context: ${d.jobTitle||'professional role'} at ${d.companyName||'a company'}
+
+Return ONLY a JSON array of 3 strings, no markdown:
+["version1","version2","version3"]`}]})
+    });
+    const data = await res.json();
+    const versions = JSON.parse((data.content?.[0]?.text||'[]').replace(/\`\`\`json|\`\`\`/g,'').trim());
+    showBulletPicker(li, originalText, versions, bulletId);
+  } catch(e) {
+    if(btn){btn.textContent='✦ Improve';btn.disabled=false;}
+    showToast('Could not improve bullet — try again');
+  }
+}
+
+function showBulletPicker(li, original, versions, bulletId) {
+  const existing = document.getElementById('bulletPicker');
+  if (existing) existing.remove();
+  const picker = document.createElement('div');
+  picker.id = 'bulletPicker';
+  picker.style.cssText = 'position:fixed;inset:0;z-index:800;background:rgba(0,0,0,0.4);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;padding:1.5rem';
+  picker.innerHTML = `
+    <div style="background:#fff;border-radius:16px;box-shadow:0 20px 60px rgba(0,0,0,0.2);padding:2rem;max-width:520px;width:100%">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.2rem">
+        <div style="font-size:1rem;font-weight:700;color:#1A1A1A">⚡ Choose your rewrite</div>
+        <button onclick="document.getElementById('bulletPicker').remove()" style="background:none;border:none;color:#9CA3AF;cursor:pointer;font-size:1.2rem;padding:0">✕</button>
+      </div>
+      <div style="font-size:0.76rem;color:#9CA3AF;margin-bottom:1rem;padding:0.6rem 0.8rem;background:#F9FAFB;border-radius:6px;line-height:1.5"><em>Original: ${original}</em></div>
+      ${versions.map((v,i)=>`
+        <div onclick="applyBullet('${bulletId}','${v.replace(/'/g,"&apos;").replace(/"/g,"&quot;")}');document.getElementById('bulletPicker').remove()"
+          style="border:1.5px solid #E5E7EB;border-radius:8px;padding:0.85rem 1rem;margin-bottom:0.6rem;cursor:pointer;font-size:0.82rem;color:#374151;line-height:1.6;transition:all 0.18s"
+          onmouseover="this.style.borderColor='#2F6BFF';this.style.background='#EAF1FF'"
+          onmouseout="this.style.borderColor='#E5E7EB';this.style.background=''">
+          <span style="font-size:0.64rem;font-weight:700;color:#2F6BFF;text-transform:uppercase;letter-spacing:0.08em;display:block;margin-bottom:0.3rem">Option ${i+1}</span>
+          ${v}
+        </div>`).join('')}
+      <button onclick="document.getElementById('bulletPicker').remove()" style="width:100%;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.82rem;color:#6B7280;background:none;border:1.5px solid #E5E7EB;border-radius:8px;padding:0.65rem;cursor:pointer;margin-top:0.4rem">Keep original</button>
+    </div>`;
+  document.body.appendChild(picker);
+}
+
+function applyBullet(bulletId, text) {
+  const li = document.getElementById(bulletId);
+  if (!li) return;
+  const btn = li.querySelector('.improve-btn');
+  li.textContent = text;
+  if (btn) li.appendChild(btn);
+  if (btn) { btn.textContent='✦ Improve'; btn.disabled=false; btn.style.opacity='0'; btn.style.pointerEvents='none'; }
+  showToast('Bullet updated ✓');
 }
 
 /* ── TOAST ── */

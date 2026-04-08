@@ -7,497 +7,637 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --blue:#2F6BFF; --blue-hover:#1A57F0; --blue-light:#EAF1FF; --blue-mid:#C7D9FF;
-      --bg:#FAFBFF; --white:#FFFFFF;
-      --text-1:#1A1A1A; --text-2:#6B7280; --text-3:#9CA3AF;
-      --border:#E5E7EB; --border-md:#D1D5DB;
-      --shadow-sm:0 1px 3px rgba(0,0,0,0.06),0 1px 2px rgba(0,0,0,0.04);
-      --shadow-md:0 4px 16px rgba(0,0,0,0.08),0 1px 4px rgba(0,0,0,0.04);
-      --shadow-blue:0 4px 20px rgba(47,107,255,0.22);
-      --r:10px; --r-sm:8px;
-      --red:#DC2626;
-    }
+    :root{--blue:#2F6BFF;--blue-hover:#1A57F0;--blue-light:#EAF1FF;--blue-mid:#C7D9FF;--bg:#FAFBFF;--white:#FFFFFF;--text-1:#1A1A1A;--text-2:#6B7280;--text-3:#9CA3AF;--border:#E5E7EB;--border-md:#D1D5DB;--shadow-sm:0 1px 3px rgba(0,0,0,0.06);--shadow-md:0 4px 16px rgba(0,0,0,0.08);--shadow-blue:0 4px 20px rgba(47,107,255,0.22);--r:10px;--r-sm:8px;--red:#DC2626;--green:#059669;--green-light:#D1FAE5;--purple:#7C3AED;--purple-light:#F5F3FF;--amber:#D97706}
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
     html{scroll-behavior:smooth}
     body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text-1);min-height:100vh;-webkit-font-smoothing:antialiased}
-
-    /* NAV */
-    nav{
-      position:sticky;top:0;z-index:200;
-      background:rgba(250,251,255,0.94);backdrop-filter:blur(16px);
-      border-bottom:1px solid var(--border);
-      height:64px;padding:0 2rem;
-      display:flex;align-items:center;justify-content:space-between;
-    }
+    nav{position:sticky;top:0;z-index:200;background:rgba(250,251,255,0.94);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);height:64px;padding:0 2rem;display:flex;align-items:center;justify-content:space-between}
     .logo{font-size:1.05rem;font-weight:700;color:var(--text-1);text-decoration:none;letter-spacing:-0.02em;display:flex;align-items:center;gap:0.4rem}
     .logo-mark{width:26px;height:26px;border-radius:6px;background:var(--blue);display:flex;align-items:center;justify-content:center;font-size:0.62rem;font-weight:700;color:#fff}
-    .back{font-size:0.8rem;font-weight:500;color:var(--text-2);text-decoration:none;display:flex;align-items:center;gap:0.3rem;padding:0.4rem 0.75rem;border-radius:6px;transition:all 0.18s}
+    .nav-right{display:flex;align-items:center;gap:0.6rem}
+    .back{font-size:0.8rem;font-weight:500;color:var(--text-2);text-decoration:none;padding:0.4rem 0.75rem;border-radius:6px;transition:all 0.18s}
     .back:hover{color:var(--text-1);background:var(--blue-light)}
+    .pro-badge-nav{font-size:0.7rem;font-weight:700;padding:0.25rem 0.65rem;border-radius:10px;background:linear-gradient(135deg,var(--blue),var(--purple));color:#fff}
+
+    /* STRENGTH METER */
+    .strength-bar-wrap{background:var(--white);border-bottom:1px solid var(--border);padding:0.55rem 2rem}
+    .strength-inner{max-width:900px;margin:0 auto;display:flex;align-items:center;gap:0.9rem}
+    .strength-label{font-size:0.68rem;font-weight:700;color:var(--text-2);white-space:nowrap;letter-spacing:0.04em;text-transform:uppercase}
+    .strength-track{flex:1;height:7px;background:var(--border);border-radius:4px;overflow:hidden}
+    .strength-fill{height:100%;border-radius:4px;transition:width 0.5s ease,background 0.4s;width:0%}
+    .strength-pct{font-size:0.72rem;font-weight:800;color:var(--text-2);min-width:36px;text-align:right}
+    .strength-tip{font-size:0.67rem;color:var(--text-3);min-width:200px;text-align:right}
 
     /* PROGRESS BAR */
-    .progress-bar-wrap{
-      border-bottom:1px solid var(--border);
-      background:var(--white);
-      padding:0 2rem;
-    }
-    .progress-bar{
-      max-width:900px;margin:0 auto;
-      display:flex;align-items:stretch;
-      height:52px;gap:0;
-    }
-    .pb-step{
-      flex:1;display:flex;align-items:center;justify-content:center;
-      gap:0.5rem;cursor:default;position:relative;
-      font-size:0.78rem;font-weight:500;color:var(--text-3);
-      border-bottom:2.5px solid transparent;
-      transition:all 0.2s;padding:0 0.5rem;
-    }
+    .progress-bar-wrap{border-bottom:1px solid var(--border);background:var(--white);padding:0 2rem}
+    .progress-bar{max-width:900px;margin:0 auto;display:flex;align-items:stretch;height:52px}
+    .pb-step{flex:1;display:flex;align-items:center;justify-content:center;gap:0.45rem;font-size:0.76rem;font-weight:500;color:var(--text-3);border-bottom:2.5px solid transparent;transition:all 0.2s;padding:0 0.4rem;cursor:default}
     .pb-step.done{color:var(--text-2);border-bottom-color:var(--border-md)}
     .pb-step.active{color:var(--blue);font-weight:600;border-bottom-color:var(--blue)}
-    .pb-num{
-      width:22px;height:22px;border-radius:50%;
-      display:flex;align-items:center;justify-content:center;
-      font-size:0.65rem;font-weight:700;flex-shrink:0;
-      background:var(--border);color:var(--text-3);transition:all 0.2s;
-    }
+    .pb-num{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.65rem;font-weight:700;flex-shrink:0;background:var(--border);color:var(--text-3);transition:all 0.2s}
     .pb-step.active .pb-num{background:var(--blue);color:#fff}
     .pb-step.done .pb-num{background:var(--text-2);color:#fff}
     .pb-label{white-space:nowrap}
 
-    /* MAIN */
-    .main{max-width:900px;margin:0 auto;padding:3rem 2rem 6rem}
-
-    /* PAPER SHEET */
-    .sheet{
-      background:var(--white);
-      border:1px solid var(--border);
-      border-radius:16px;
-      box-shadow:var(--shadow-md);
-      padding:2.8rem 3rem;
-      transition:box-shadow 0.2s;
-    }
-
+    .main{max-width:900px;margin:0 auto;padding:2.5rem 2rem 6rem}
+    .sheet{background:var(--white);border:1px solid var(--border);border-radius:16px;box-shadow:var(--shadow-md);padding:2.8rem 3rem}
     .step-pg{display:none}
     .step-pg.active{display:block;animation:fadeIn 0.3s ease}
     @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
-
     .step-eye{font-size:0.68rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--blue);margin-bottom:0.5rem}
     .step-h{font-size:1.65rem;font-weight:700;letter-spacing:-0.025em;color:var(--text-1);margin-bottom:0.35rem}
-    .step-sub{font-size:0.88rem;color:var(--text-2);margin-bottom:2.2rem;line-height:1.65;font-weight:400}
-
-    .section-divider{height:1px;background:var(--border);margin:2rem 0}
-
-    /* FIELDS */
+    .step-sub{font-size:0.88rem;color:var(--text-2);margin-bottom:2rem;line-height:1.65}
     .row{display:grid;grid-template-columns:1fr 1fr;gap:1.1rem;margin-bottom:1.1rem}
     .row.one{grid-template-columns:1fr}
-    .fg{display:flex;flex-direction:column;gap:0.38rem}
+    .fg{display:flex;flex-direction:column;gap:0.38rem;position:relative}
     label{font-size:0.7rem;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:var(--text-2)}
-    input,textarea{
-      font-family:'Plus Jakarta Sans',sans-serif;font-size:0.92rem;font-weight:400;
-      padding:0.75rem 1rem;
-      border:1.5px solid var(--border);
-      background:var(--white);color:var(--text-1);
-      border-radius:var(--r-sm);outline:none;width:100%;
-      transition:border-color 0.2s,box-shadow 0.2s;
-    }
+    input,textarea,select{font-family:'Plus Jakarta Sans',sans-serif;font-size:0.92rem;padding:0.75rem 1rem;border:1.5px solid var(--border);background:var(--white);color:var(--text-1);border-radius:var(--r-sm);outline:none;width:100%;transition:border-color 0.2s,box-shadow 0.2s}
     input::placeholder,textarea::placeholder{color:var(--text-3)}
-    input:focus,textarea:focus{
-      border-color:var(--blue);
-      box-shadow:0 0 0 3px rgba(47,107,255,0.12);
-    }
+    input:focus,textarea:focus,select:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(47,107,255,0.12)}
     textarea{resize:vertical;min-height:100px;line-height:1.65}
+    select{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236B7280' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 1rem center;padding-right:2.5rem}
 
-    /* EXP BLOCKS */
-    .exp-block{
-      background:var(--bg);border:1.5px solid var(--border);
-      border-radius:var(--r);padding:1.5rem;margin-bottom:1rem;
-      transition:border-color 0.2s;
-    }
+    /* LINKEDIN HINT */
+    .li-hint{background:var(--blue-light);border:1px solid var(--blue-mid);border-radius:8px;padding:0.7rem 1rem;font-size:0.76rem;color:var(--text-2);line-height:1.6;margin-bottom:1.2rem;display:flex;gap:0.6rem}
+    .li-hint strong{color:var(--blue)}
+
+    /* EXP */
+    .exp-block{background:var(--bg);border:1.5px solid var(--border);border-radius:var(--r);padding:1.5rem;margin-bottom:1rem;transition:border-color 0.2s}
     .exp-block:focus-within{border-color:var(--blue-mid)}
-    .exp-bh{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.2rem}
-    .exp-bt{
-      font-size:0.68rem;font-weight:700;letter-spacing:0.08em;
-      text-transform:uppercase;color:var(--blue);
-      display:flex;align-items:center;gap:0.4rem;
-    }
-    .exp-bt-num{
-      width:20px;height:20px;border-radius:50%;
-      background:var(--blue-light);color:var(--blue);
-      display:flex;align-items:center;justify-content:center;
-      font-size:0.62rem;font-weight:700;
-    }
+    .exp-bh{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.1rem}
+    .exp-bt{font-size:0.68rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--blue);display:flex;align-items:center;gap:0.4rem}
+    .exp-bt-num{width:20px;height:20px;border-radius:50%;background:var(--blue-light);color:var(--blue);display:flex;align-items:center;justify-content:center;font-size:0.62rem;font-weight:700}
     .btn-rem{background:none;border:none;color:var(--text-3);cursor:pointer;font-size:0.75rem;padding:0.25rem 0.5rem;border-radius:5px;transition:all 0.18s;font-family:'Plus Jakarta Sans',sans-serif}
     .btn-rem:hover{color:var(--red);background:#FEF2F2}
-    .btn-add{
-      display:flex;align-items:center;justify-content:center;gap:0.45rem;
-      width:100%;background:none;
-      border:1.5px dashed var(--border-md);color:var(--text-2);
-      font-family:'Plus Jakarta Sans',sans-serif;font-size:0.82rem;font-weight:500;
-      padding:0.75rem;cursor:pointer;border-radius:var(--r-sm);
-      transition:all 0.2s;margin-top:0.4rem;
-    }
+    .btn-add{display:flex;align-items:center;justify-content:center;gap:0.45rem;width:100%;background:none;border:1.5px dashed var(--border-md);color:var(--text-2);font-family:'Plus Jakarta Sans',sans-serif;font-size:0.82rem;font-weight:500;padding:0.75rem;cursor:pointer;border-radius:var(--r-sm);transition:all 0.2s;margin-top:0.4rem}
     .btn-add:hover{border-color:var(--blue);color:var(--blue);background:var(--blue-light)}
 
-    /* SKILLS */
-    .skill-row{display:flex;gap:0.6rem;margin-bottom:0.6rem}
-    .skill-row input{flex:1}
-    .btn-sa{
-      background:var(--blue);color:#fff;border:none;
-      font-family:'Plus Jakarta Sans',sans-serif;font-size:0.8rem;font-weight:600;
-      padding:0 1.2rem;cursor:pointer;border-radius:var(--r-sm);white-space:nowrap;
-      transition:all 0.2s;box-shadow:var(--shadow-blue);
-    }
+    /* SKILLS LIBRARY */
+    .skill-search-row{display:flex;gap:0.6rem;margin-bottom:0.9rem;position:relative}
+    .skill-search-row input{flex:1}
+    .skill-autocomplete{position:absolute;top:calc(100% + 4px);left:0;right:72px;background:var(--white);border:1.5px solid var(--blue-mid);border-radius:var(--r-sm);box-shadow:var(--shadow-md);z-index:50;max-height:210px;overflow-y:auto;display:none}
+    .skill-autocomplete.show{display:block}
+    .skill-ac-item{padding:0.55rem 1rem;font-size:0.84rem;cursor:pointer;display:flex;align-items:center;justify-content:space-between;transition:background 0.12s}
+    .skill-ac-item:hover{background:var(--blue-light)}
+    .skill-ac-cat{font-size:0.62rem;font-weight:600;color:var(--text-3);text-transform:uppercase;letter-spacing:0.06em}
+    .btn-sa{background:var(--blue);color:#fff;border:none;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.8rem;font-weight:600;padding:0 1.2rem;cursor:pointer;border-radius:var(--r-sm);white-space:nowrap;transition:all 0.2s;box-shadow:var(--shadow-blue)}
     .btn-sa:hover{background:var(--blue-hover)}
-    .tags-wrap{display:flex;flex-wrap:wrap;gap:0.45rem;margin-top:0.6rem}
-    .tag{
-      display:inline-flex;align-items:center;gap:0.35rem;
-      background:var(--blue-light);border:1px solid var(--blue-mid);
-      color:var(--blue);font-size:0.76rem;font-weight:600;
-      padding:0.3rem 0.8rem;border-radius:20px;
-    }
+    .skill-cats-label{font-size:0.7rem;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:var(--text-2);margin-bottom:0.55rem}
+    .cat-tabs{display:flex;flex-wrap:wrap;gap:0.38rem;margin-bottom:0.75rem}
+    .cat-tab{font-size:0.72rem;font-weight:500;padding:0.3rem 0.75rem;border-radius:20px;border:1px solid var(--border-md);background:var(--white);color:var(--text-2);cursor:pointer;transition:all 0.18s}
+    .cat-tab:hover,.cat-tab.active{background:var(--blue);color:#fff;border-color:var(--blue)}
+    .skill-grid{display:flex;flex-wrap:wrap;gap:0.38rem;max-height:150px;overflow-y:auto;padding:0.15rem 0 0.5rem;margin-bottom:1rem}
+    .skill-pill{font-size:0.74rem;font-weight:500;padding:0.28rem 0.72rem;border-radius:20px;border:1px solid var(--border-md);background:var(--white);color:var(--text-2);cursor:pointer;transition:all 0.16s;user-select:none}
+    .skill-pill:hover{border-color:var(--blue);color:var(--blue);background:var(--blue-light)}
+    .skill-pill.selected{background:var(--blue);color:#fff;border-color:var(--blue)}
+    .tags-wrap{display:flex;flex-wrap:wrap;gap:0.45rem;margin-top:0.5rem;min-height:30px}
+    .tag{display:inline-flex;align-items:center;gap:0.35rem;background:var(--blue-light);border:1px solid var(--blue-mid);color:var(--blue);font-size:0.76rem;font-weight:600;padding:0.3rem 0.8rem;border-radius:20px}
     .tag button{background:none;border:none;color:var(--blue-mid);cursor:pointer;font-size:0.9rem;line-height:1;padding:0;transition:color 0.18s}
     .tag button:hover{color:var(--red)}
 
+    /* EDUCATION */
+    .edu-blocks{display:flex;flex-direction:column;gap:0.8rem;margin-bottom:0.8rem}
+    .edu-block{background:var(--bg);border:1.5px solid var(--border);border-radius:var(--r);padding:1.3rem;transition:border-color 0.2s}
+    .edu-block:focus-within{border-color:var(--blue-mid)}
+    .edu-block-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:0.9rem}
+    .edu-block-lbl{font-size:0.68rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--blue)}
+    .edu-type-tabs{display:flex;gap:0.35rem;margin-bottom:0.85rem;flex-wrap:wrap}
+    .edu-type-btn{font-size:0.72rem;font-weight:500;padding:0.28rem 0.7rem;border-radius:6px;border:1px solid var(--border-md);background:var(--white);color:var(--text-2);cursor:pointer;transition:all 0.18s;font-family:'Plus Jakarta Sans',sans-serif}
+    .edu-type-btn.active{background:var(--blue-light);color:var(--blue);border-color:var(--blue-mid);font-weight:600}
+    .univ-suggest{position:absolute;background:var(--white);border:1.5px solid var(--blue-mid);border-radius:8px;box-shadow:var(--shadow-md);z-index:40;max-height:180px;overflow-y:auto;display:none;width:100%;top:calc(100% + 4px);left:0}
+    .univ-suggest.show{display:block}
+    .univ-item{padding:0.5rem 0.9rem;font-size:0.82rem;cursor:pointer;transition:background 0.12s;display:flex;align-items:center}
+    .univ-item:hover{background:var(--blue-light)}
+    .univ-country{font-size:0.62rem;color:var(--text-3);margin-left:auto}
+    .cert-grid{display:flex;flex-wrap:wrap;gap:0.4rem;margin-top:0.6rem}
+    .cert-pill{font-size:0.72rem;font-weight:500;padding:0.28rem 0.7rem;border-radius:20px;border:1px solid var(--border-md);background:var(--white);color:var(--text-2);cursor:pointer;transition:all 0.18s;font-family:'Plus Jakarta Sans',sans-serif}
+    .cert-pill:hover,.cert-pill.selected{background:var(--blue);color:#fff;border-color:var(--blue)}
     .divider{height:1px;background:var(--border);margin:2rem 0}
 
-    /* NAV BTNS */
-    .form-nav{display:flex;justify-content:space-between;align-items:center;margin-top:2.5rem;padding-top:2rem;border-top:1px solid var(--border)}
-    .btn-prev{
-      background:var(--white);border:1.5px solid var(--border-md);color:var(--text-2);
-      font-family:'Plus Jakarta Sans',sans-serif;font-size:0.84rem;font-weight:500;
-      padding:0.72rem 1.5rem;cursor:pointer;border-radius:var(--r-sm);transition:all 0.2s;
-    }
-    .btn-prev:hover{border-color:var(--text-1);color:var(--text-1)}
-    .btn-next{
-      background:var(--white);color:var(--blue);
-      border:1.5px solid var(--blue);
-      font-family:'Plus Jakarta Sans',sans-serif;font-size:0.84rem;font-weight:600;
-      padding:0.72rem 1.8rem;cursor:pointer;border-radius:var(--r-sm);
-      display:inline-flex;align-items:center;gap:0.45rem;transition:all 0.2s;
-    }
-    .btn-next:hover{background:var(--blue-light);box-shadow:0 0 0 3px rgba(47,107,255,0.12)}
-    .btn-generate{
-      background:var(--blue);color:#fff;border:none;
-      font-family:'Plus Jakarta Sans',sans-serif;font-size:0.9rem;font-weight:700;
-      padding:0.82rem 2.2rem;cursor:pointer;border-radius:var(--r-sm);
-      display:inline-flex;align-items:center;gap:0.5rem;
-      box-shadow:var(--shadow-blue);transition:all 0.22s;
-    }
-    .btn-generate:hover{background:var(--blue-hover);transform:translateY(-2px);box-shadow:0 8px 28px rgba(47,107,255,0.35)}
-    .btn-generate:active{transform:scale(0.98)}
-
-    /* TONE SELECTOR */
+    /* TONE */
     .tone-group{display:grid;grid-template-columns:repeat(3,1fr);gap:0.75rem}
-    .tone-btn{
-      background:var(--white);border:1.5px solid var(--border-md);
-      border-radius:var(--r);padding:1rem;cursor:pointer;text-align:left;
-      transition:all 0.2s;display:flex;flex-direction:column;gap:0.25rem;
-      font-family:'Plus Jakarta Sans',sans-serif;
-    }
+    .tone-btn{background:var(--white);border:1.5px solid var(--border-md);border-radius:var(--r);padding:1rem;cursor:pointer;text-align:left;transition:all 0.2s;display:flex;flex-direction:column;gap:0.25rem;font-family:'Plus Jakarta Sans',sans-serif;position:relative}
     .tone-btn:hover{border-color:var(--blue);background:var(--blue-light)}
     .tone-btn.active{border-color:var(--blue);background:var(--blue-light);box-shadow:0 0 0 3px rgba(47,107,255,0.1)}
-    .tone-icon{font-size:1.2rem}
-    .tone-label{font-size:0.82rem;font-weight:700;color:var(--text-1)}
-    .tone-desc{font-size:0.7rem;color:var(--text-2)}
+    .tone-btn.pro-only{border-style:dashed}
+    .tone-icon{font-size:1.2rem}.tone-label{font-size:0.82rem;font-weight:700;color:var(--text-1)}.tone-desc{font-size:0.7rem;color:var(--text-2)}
+    .tone-pro-lock{position:absolute;top:6px;right:8px;font-size:0.58rem;font-weight:700;background:linear-gradient(135deg,var(--blue),var(--purple));color:#fff;padding:0.15rem 0.45rem;border-radius:8px}
 
-    /* LOADING STATE */
-    .loading-overlay{
-      display:none;position:fixed;inset:0;z-index:500;
-      background:rgba(250,251,255,0.88);backdrop-filter:blur(8px);
-      flex-direction:column;align-items:center;justify-content:center;gap:1.2rem;
-    }
+    /* FORM NAV */
+    .form-nav{display:flex;justify-content:space-between;align-items:center;margin-top:2.5rem;padding-top:2rem;border-top:1px solid var(--border)}
+    .btn-prev{background:var(--white);border:1.5px solid var(--border-md);color:var(--text-2);font-family:'Plus Jakarta Sans',sans-serif;font-size:0.84rem;font-weight:500;padding:0.72rem 1.5rem;cursor:pointer;border-radius:var(--r-sm);transition:all 0.2s}
+    .btn-prev:hover{border-color:var(--text-1);color:var(--text-1)}
+    .btn-next{background:var(--white);color:var(--blue);border:1.5px solid var(--blue);font-family:'Plus Jakarta Sans',sans-serif;font-size:0.84rem;font-weight:600;padding:0.72rem 1.8rem;cursor:pointer;border-radius:var(--r-sm);display:inline-flex;align-items:center;gap:0.45rem;transition:all 0.2s}
+    .btn-next:hover{background:var(--blue-light)}
+    .btn-generate{background:var(--blue);color:#fff;border:none;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.9rem;font-weight:700;padding:0.82rem 2.2rem;cursor:pointer;border-radius:var(--r-sm);display:inline-flex;align-items:center;gap:0.5rem;box-shadow:var(--shadow-blue);transition:all 0.22s}
+    .btn-generate:hover{background:var(--blue-hover);transform:translateY(-2px)}
+    .btn-generate.premium{background:linear-gradient(135deg,var(--blue),var(--purple));box-shadow:0 4px 20px rgba(124,58,237,0.3)}
+
+    /* PREMIUM BANNER */
+    .prem-banner{background:linear-gradient(135deg,var(--blue-light),var(--purple-light));border:1px solid var(--blue-mid);border-radius:10px;padding:0.9rem 1.1rem;margin-bottom:1.5rem;display:flex;align-items:center;gap:0.8rem;font-size:0.8rem;color:var(--text-2)}
+    .prem-banner strong{color:var(--blue);font-weight:700}
+    .prem-banner a{color:var(--purple);font-weight:700;text-decoration:none;margin-left:auto;white-space:nowrap;font-size:0.76rem}
+
+    /* LOADING */
+    .loading-overlay{display:none;position:fixed;inset:0;z-index:500;background:rgba(250,251,255,0.92);backdrop-filter:blur(8px);flex-direction:column;align-items:center;justify-content:center;gap:1.2rem}
     .loading-overlay.show{display:flex}
-    .loading-spinner{
-      width:44px;height:44px;border-radius:50%;
-      border:3px solid var(--blue-light);border-top-color:var(--blue);
-      animation:spin 0.7s linear infinite;
-    }
+    .loading-spinner{width:44px;height:44px;border-radius:50%;border:3px solid var(--blue-light);border-top-color:var(--blue);animation:spin 0.7s linear infinite}
     @keyframes spin{to{transform:rotate(360deg)}}
     .loading-text{font-size:1rem;font-weight:600;color:var(--text-1)}
-    .loading-sub{font-size:0.82rem;color:var(--text-2)}
+    .loading-sub{font-size:0.82rem;color:var(--text-2);text-align:center;max-width:340px}
+    .loading-prem{font-size:0.74rem;color:var(--purple);font-weight:600;background:var(--purple-light);padding:0.4rem 0.9rem;border-radius:20px;display:none}
 
-    @media(max-width:760px){
-      nav{padding:0 1.5rem}
-      .progress-bar-wrap{padding:0 1.5rem}
-      .pb-label{display:none}
-      .pb-num{width:26px;height:26px;font-size:0.7rem}
-      .main{padding:2rem 1.5rem 4rem}
-      .sheet{padding:2rem 1.5rem}
-      .row{grid-template-columns:1fr}
-    }
+    @media(max-width:760px){nav{padding:0 1.2rem}.progress-bar-wrap,.strength-bar-wrap{padding:0.5rem 1.2rem}.pb-label{display:none}.main{padding:2rem 1.2rem 4rem}.sheet{padding:2rem 1.4rem}.row{grid-template-columns:1fr}.tone-group{grid-template-columns:1fr 1fr}.strength-tip{display:none!important}}
   </style>
 </head>
 <body>
 
-<!-- LOADING OVERLAY -->
 <div class="loading-overlay" id="loading">
   <div class="loading-spinner"></div>
-  <div class="loading-text">Tailoring your CV...</div>
-  <div class="loading-sub">Matching your experience to the job description</div>
+  <div class="loading-text" id="loadingText">Tailoring your CV...</div>
+  <div class="loading-sub" id="loadingSub">Matching your experience to the job description</div>
+  <div class="loading-prem" id="loadingPrem">⚡ Premium AI — advanced analysis in progress</div>
 </div>
 
 <nav>
-  <a href="index.html" class="logo">
-    <div class="logo-mark">CV</div>
-    CVbykiyomi
-  </a>
-  <a href="index.html" class="back">← Back to home</a>
+  <a href="index.html" class="logo"><div class="logo-mark">CV</div>CVbykiyomi</a>
+  <div class="nav-right">
+    <span class="pro-badge-nav" id="proBadgeNav" style="display:none">⚡ Pro</span>
+    <a href="index.html" class="back">← Back</a>
+  </div>
 </nav>
 
-<!-- PROGRESS BAR -->
+<!-- STRENGTH METER -->
+<div class="strength-bar-wrap">
+  <div class="strength-inner">
+    <span class="strength-label">CV Strength</span>
+    <div class="strength-track"><div class="strength-fill" id="strengthFill"></div></div>
+    <span class="strength-pct" id="strengthPct">0%</span>
+    <span class="strength-tip" id="strengthTip" style="display:none"></span>
+  </div>
+</div>
+
 <div class="progress-bar-wrap">
   <div class="progress-bar">
-    <div class="pb-step active" id="pb1">
-      <div class="pb-num"><span class="pn">1</span></div>
-      <span class="pb-label">Personal Info</span>
-    </div>
-    <div class="pb-step" id="pb2">
-      <div class="pb-num"><span class="pn">2</span></div>
-      <span class="pb-label">Experience</span>
-    </div>
-    <div class="pb-step" id="pb3">
-      <div class="pb-num"><span class="pn">3</span></div>
-      <span class="pb-label">Skills</span>
-    </div>
-    <div class="pb-step" id="pb4">
-      <div class="pb-num"><span class="pn">4</span></div>
-      <span class="pb-label">Job Description</span>
-    </div>
+    <div class="pb-step active" id="pb1"><div class="pb-num"><span class="pn">1</span></div><span class="pb-label">Personal</span></div>
+    <div class="pb-step" id="pb2"><div class="pb-num"><span class="pn">2</span></div><span class="pb-label">Experience</span></div>
+    <div class="pb-step" id="pb3"><div class="pb-num"><span class="pn">3</span></div><span class="pb-label">Skills</span></div>
+    <div class="pb-step" id="pb4"><div class="pb-num"><span class="pn">4</span></div><span class="pb-label">Education</span></div>
+    <div class="pb-step" id="pb5"><div class="pb-num"><span class="pn">5</span></div><span class="pb-label">Generate</span></div>
   </div>
 </div>
 
-<div class="main">
-  <div class="sheet">
+<div class="main"><div class="sheet">
 
-    <!-- STEP 1 -->
-    <div class="step-pg active" id="step1">
-      <p class="step-eye">Step 1 of 4</p>
-      <h2 class="step-h">Personal Information</h2>
-      <p class="step-sub">Start with the basics — your name and contact details so employers know how to reach you.</p>
-
-      <div class="row">
-        <div class="fg"><label>First Name *</label><input id="firstName" type="text" placeholder="Alexandra"/></div>
-        <div class="fg"><label>Last Name *</label><input id="lastName" type="text" placeholder="Okafor"/></div>
-      </div>
-      <div class="row">
-        <div class="fg"><label>Email Address *</label><input id="email" type="email" placeholder="hello@example.com"/></div>
-        <div class="fg"><label>Phone Number</label><input id="phone" type="tel" placeholder="+234 800 000 0000"/></div>
-      </div>
-      <div class="row">
-        <div class="fg"><label>Location</label><input id="location" type="text" placeholder="Lagos, Nigeria"/></div>
-        <div class="fg"><label>LinkedIn / Portfolio URL</label><input id="linkedin" type="url" placeholder="linkedin.com/in/yourname"/></div>
-      </div>
-
-      <div class="section-divider"></div>
-
-      <div class="row one">
-        <div class="fg">
-          <label>Professional Summary</label>
-          <p style="font-size:0.75rem;color:var(--text-3);margin-bottom:0.5rem">A brief 2–3 sentence overview of your background and what makes you stand out.</p>
-          <textarea id="summary" placeholder="e.g. Results-driven Product Manager with 6+ years of experience building digital products across fintech and e-commerce. I specialise in..."></textarea>
-        </div>
-      </div>
-
-      <div class="form-nav">
-        <span></span>
-        <button class="btn-next" onclick="goStep(2)">Continue to Experience →</button>
-      </div>
+<!-- STEP 1 -->
+<div class="step-pg active" id="step1">
+  <p class="step-eye">Step 1 of 5</p>
+  <h2 class="step-h">Personal Information</h2>
+  <p class="step-sub">Start with the basics. Employers need to know who you are and how to reach you.</p>
+  <div class="li-hint">💡 <div><strong>LinkedIn tip:</strong> Copy your LinkedIn "About" section and paste it into the Professional Summary. It saves time and gives the AI great material.</div></div>
+  <div class="row">
+    <div class="fg"><label>First Name *</label><input id="firstName" type="text" placeholder="Alexandra" oninput="updateStrength()"/></div>
+    <div class="fg"><label>Last Name *</label><input id="lastName" type="text" placeholder="Okafor" oninput="updateStrength()"/></div>
+  </div>
+  <div class="row">
+    <div class="fg"><label>Email *</label><input id="email" type="email" placeholder="hello@example.com" oninput="updateStrength()"/></div>
+    <div class="fg"><label>Phone</label><input id="phone" type="tel" placeholder="+234 800 000 0000" oninput="updateStrength()"/></div>
+  </div>
+  <div class="row">
+    <div class="fg"><label>Location</label><input id="location" type="text" placeholder="Lagos, Nigeria" oninput="updateStrength()"/></div>
+    <div class="fg"><label>LinkedIn / Portfolio</label><input id="linkedin" type="url" placeholder="linkedin.com/in/yourname" oninput="updateStrength()"/></div>
+  </div>
+  <div style="height:1px;background:var(--border);margin:1.5rem 0"></div>
+  <div class="row one">
+    <div class="fg">
+      <label>Professional Summary</label>
+      <p style="font-size:0.74rem;color:var(--text-3);margin-bottom:0.5rem">2–3 sentences about who you are and what you do best. The AI will refine this for the specific role.</p>
+      <textarea id="summary" rows="4" placeholder="e.g. Product Manager with 6+ years building fintech products across West Africa. I specialise in data-driven roadmap decisions and cross-functional team leadership, with a track record of shipping products used by millions..." oninput="updateStrength()"></textarea>
     </div>
+  </div>
+  <div class="form-nav"><span></span><button class="btn-next" onclick="goStep(2)">Continue to Experience →</button></div>
+</div>
 
-    <!-- STEP 2 -->
-    <div class="step-pg" id="step2">
-      <p class="step-eye">Step 2 of 4</p>
-      <h2 class="step-h">Work Experience</h2>
-      <p class="step-sub">Add your most recent and relevant roles. Start with your latest position and work backwards.</p>
-
-      <div id="exp-wrap"></div>
-      <button class="btn-add" onclick="addExp()">+ Add another role</button>
-
-      <div class="form-nav">
-        <button class="btn-prev" onclick="goStep(1)">← Back</button>
-        <button class="btn-next" onclick="goStep(3)">Continue to Skills →</button>
-      </div>
-    </div>
-
-    <!-- STEP 3 -->
-    <div class="step-pg" id="step3">
-      <p class="step-eye">Step 3 of 4</p>
-      <h2 class="step-h">Skills &amp; Education</h2>
-      <p class="step-sub">Add your key skills — type one and press Enter or click Add. Then include your education below.</p>
-
-      <div class="skill-row">
-        <input type="text" id="skillInput" placeholder="e.g. Project Management, Figma, Python..." onkeydown="if(event.key==='Enter'){event.preventDefault();addSkill()}"/>
-        <button class="btn-sa" onclick="addSkill()">Add Skill</button>
-      </div>
-      <div class="tags-wrap" id="tags"></div>
-
-      <div class="divider"></div>
-
-      <div class="fg">
-        <label>Education & Certifications</label>
-        <p style="font-size:0.75rem;color:var(--text-3);margin-bottom:0.5rem">Include degrees, diplomas, and relevant certifications.</p>
-        <textarea id="education" placeholder="e.g. BSc Computer Science, University of Lagos (2018)&#10;AWS Certified Solutions Architect (2022)&#10;Google Project Management Certificate (2023)"></textarea>
-      </div>
-
-      <div class="form-nav">
-        <button class="btn-prev" onclick="goStep(2)">← Back</button>
-        <button class="btn-next" onclick="goStep(4)">Continue to Job Description →</button>
-      </div>
-    </div>
-
-    <!-- STEP 4 -->
-    <div class="step-pg" id="step4">
-      <p class="step-eye">Step 4 of 4 — Final Step</p>
-      <h2 class="step-h">Job Description</h2>
-      <p class="step-sub">Paste the full job description below. Our AI will tailor your CV and cover letter to match the role's requirements and language.</p>
-
-      <div class="row">
-        <div class="fg"><label>Job Title (optional)</label><input id="jobTitle" type="text" placeholder="e.g. Senior Product Manager"/></div>
-        <div class="fg"><label>Company Name (optional)</label><input id="companyName" type="text" placeholder="e.g. Flutterwave"/></div>
-      </div>
-      <div class="row one">
-        <div class="fg">
-          <label>Full Job Description *</label>
-          <p style="font-size:0.75rem;color:var(--text-3);margin-bottom:0.5rem">Copy and paste the complete job posting — the more detail you give us, the better the AI match.</p>
-          <textarea id="jobDesc" style="min-height:220px" placeholder="Paste the full job description here..."></textarea>
-        </div>
-      </div>
-
-      <!-- TONE SELECTOR -->
-      <div style="margin-top:1.4rem">
-        <label style="display:block;margin-bottom:0.6rem">Writing Tone</label>
-        <p style="font-size:0.75rem;color:var(--text-3);margin-bottom:0.9rem">Choose how your CV and cover letter should sound.</p>
-        <div class="tone-group" id="toneGroup">
-          <button class="tone-btn active" data-tone="professional" onclick="setTone(this)">
-            <span class="tone-icon">🎯</span>
-            <span class="tone-label">Professional</span>
-            <span class="tone-desc">Formal, precise, corporate</span>
-          </button>
-          <button class="tone-btn" data-tone="confident" onclick="setTone(this)">
-            <span class="tone-icon">⚡</span>
-            <span class="tone-label">Confident</span>
-            <span class="tone-desc">Bold, achievement-driven</span>
-          </button>
-          <button class="tone-btn" data-tone="creative" onclick="setTone(this)">
-            <span class="tone-icon">✨</span>
-            <span class="tone-label">Creative</span>
-            <span class="tone-desc">Engaging, personality-led</span>
-          </button>
-        </div>
-      </div>
-
-      <div class="form-nav">
-        <button class="btn-prev" onclick="goStep(3)">← Back</button>
-        <button class="btn-generate" onclick="generate()">✦ Generate with AI</button>
-      </div>
-    </div>
-
+<!-- STEP 2 -->
+<div class="step-pg" id="step2">
+  <p class="step-eye">Step 2 of 5</p>
+  <h2 class="step-h">Work Experience</h2>
+  <p class="step-sub">Add your roles, most recent first. Use numbers in your achievements — "grew revenue by 40%" beats "improved revenue" every time.</p>
+  <div id="exp-wrap"></div>
+  <button class="btn-add" onclick="addExp()">+ Add another role</button>
+  <div class="form-nav">
+    <button class="btn-prev" onclick="goStep(1)">← Back</button>
+    <button class="btn-next" onclick="goStep(3)">Continue to Skills →</button>
   </div>
 </div>
+
+<!-- STEP 3 -->
+<div class="step-pg" id="step3">
+  <p class="step-eye">Step 3 of 5</p>
+  <h2 class="step-h">Skills</h2>
+  <p class="step-sub">Search or browse 300+ skills by category. Click any skill to add it — click again to remove. The AI matches these to the job description.</p>
+  <div class="skill-search-row">
+    <input type="text" id="skillInput" placeholder="Search 300+ skills (e.g. Python, Figma, SEO...)" autocomplete="off"
+      oninput="filterSkillAC(this.value)"
+      onkeydown="if(event.key==='Enter'){event.preventDefault();addSkillFromInput()}"/>
+    <button class="btn-sa" onclick="addSkillFromInput()">Add</button>
+    <div class="skill-autocomplete" id="skillAC"></div>
+  </div>
+  <div style="margin-bottom:0.6rem">
+    <div class="skill-cats-label">Browse by category</div>
+    <div class="cat-tabs" id="catTabs"></div>
+    <div class="skill-grid" id="skillGrid"></div>
+  </div>
+  <div style="margin-bottom:0.4rem;font-size:0.7rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--text-2)">Selected skills <span id="skillCount" style="color:var(--blue)"></span></div>
+  <div class="tags-wrap" id="tags"><span style="font-size:0.78rem;color:var(--text-3)">No skills added yet — search above or browse categories</span></div>
+  <div class="form-nav">
+    <button class="btn-prev" onclick="goStep(2)">← Back</button>
+    <button class="btn-next" onclick="goStep(4)">Continue to Education →</button>
+  </div>
+</div>
+
+<!-- STEP 4 -->
+<div class="step-pg" id="step4">
+  <p class="step-eye">Step 4 of 5</p>
+  <h2 class="step-h">Education</h2>
+  <p class="step-sub">Add your degrees and certifications. Start typing your institution name for suggestions from our database of African and global universities.</p>
+  <div class="edu-blocks" id="eduBlocks"></div>
+  <button class="btn-add" onclick="addEduBlock()">+ Add qualification</button>
+  <div class="divider"></div>
+  <div>
+    <div style="font-size:0.9rem;font-weight:700;color:var(--text-1);margin-bottom:0.25rem">Popular Certifications</div>
+    <p style="font-size:0.78rem;color:var(--text-2);margin-bottom:0.8rem">Click any certification to add it instantly.</p>
+    <div class="cert-grid" id="certGrid"></div>
+  </div>
+  <div class="form-nav">
+    <button class="btn-prev" onclick="goStep(3)">← Back</button>
+    <button class="btn-next" onclick="goStep(5)">Continue to Generate →</button>
+  </div>
+</div>
+
+<!-- STEP 5 -->
+<div class="step-pg" id="step5">
+  <p class="step-eye">Step 5 of 5 — Final Step</p>
+  <h2 class="step-h">Job Description</h2>
+  <p class="step-sub">Paste the full job posting. The AI reads every requirement and rewrites your CV to match this specific role — keywords, tone, priorities.</p>
+
+  <div class="prem-banner" id="premiumBanner" style="display:none">
+    ⚡ <strong>Pro mode active</strong> — advanced AI with deeper tailoring, industry language, and quantification coaching is enabled.
+    <a href="upgrade.html" style="margin-left:auto">Manage →</a>
+  </div>
+  <div class="prem-banner" id="freeBanner">
+    ✦ Upgrade to <strong>Pro</strong> for deeper AI tailoring, 6 tone options, and better bullet rewriting.
+    <a href="upgrade.html">Upgrade →</a>
+  </div>
+
+  <div class="row">
+    <div class="fg"><label>Job Title (optional)</label><input id="jobTitle" type="text" placeholder="e.g. Senior Product Manager" oninput="updateStrength()"/></div>
+    <div class="fg"><label>Company Name (optional)</label><input id="companyName" type="text" placeholder="e.g. Flutterwave"/></div>
+  </div>
+  <div class="row one">
+    <div class="fg">
+      <label>Full Job Description *</label>
+      <p style="font-size:0.74rem;color:var(--text-3);margin-bottom:0.5rem">Paste the complete job posting — requirements, responsibilities, everything. More detail = better AI match.</p>
+      <textarea id="jobDesc" style="min-height:240px" placeholder="Paste the full job description here..." oninput="updateStrength();autoDetectTitle()"></textarea>
+    </div>
+  </div>
+
+  <div style="margin-top:1.4rem">
+    <label style="display:block;margin-bottom:0.5rem">Writing Tone</label>
+    <p style="font-size:0.74rem;color:var(--text-3);margin-bottom:0.9rem">Choose how your CV should sound. Pro tones give your CV significantly more personality and industry fit.</p>
+    <div class="tone-group" id="toneGroup">
+      <button class="tone-btn active" data-tone="professional" onclick="setTone(this)"><span class="tone-icon">🎯</span><span class="tone-label">Professional</span><span class="tone-desc">Formal, precise, corporate</span></button>
+      <button class="tone-btn" data-tone="confident" onclick="setTone(this)"><span class="tone-icon">⚡</span><span class="tone-label">Confident</span><span class="tone-desc">Bold, achievement-driven</span></button>
+      <button class="tone-btn" data-tone="creative" onclick="setTone(this)"><span class="tone-icon">✨</span><span class="tone-label">Creative</span><span class="tone-desc">Engaging, personality-led</span></button>
+      <button class="tone-btn pro-only" data-tone="executive" onclick="setTonePro(this,'executive')"><span class="tone-pro-lock">Pro</span><span class="tone-icon">👔</span><span class="tone-label">Executive</span><span class="tone-desc">Senior leadership gravitas</span></button>
+      <button class="tone-btn pro-only" data-tone="technical" onclick="setTonePro(this,'technical')"><span class="tone-pro-lock">Pro</span><span class="tone-icon">💻</span><span class="tone-label">Technical</span><span class="tone-desc">Deep expertise & precision</span></button>
+      <button class="tone-btn pro-only" data-tone="startup" onclick="setTonePro(this,'startup')"><span class="tone-pro-lock">Pro</span><span class="tone-icon">🚀</span><span class="tone-label">Startup</span><span class="tone-desc">Scrappy, growth-focused</span></button>
+    </div>
+  </div>
+
+  <div class="form-nav">
+    <button class="btn-prev" onclick="goStep(4)">← Back</button>
+    <button class="btn-generate" id="generateBtn" onclick="generate()">✦ Generate with AI</button>
+  </div>
+</div>
+
+</div></div><!-- /sheet /main -->
 
 <script>
-  let skills=[], expCount=0, selectedTone='professional';
+/* ── PRO STATE ── */
+const isPro = (()=>{ try{return !!JSON.parse(localStorage.getItem('cvk_pro'))}catch(e){return false} })();
+if(isPro){
+  document.getElementById('proBadgeNav').style.display='inline-block';
+  document.getElementById('premiumBanner').style.display='flex';
+  document.getElementById('freeBanner').style.display='none';
+  document.getElementById('generateBtn').classList.add('premium');
+  document.getElementById('loadingPrem').style.display='block';
+  document.getElementById('loadingText').textContent='⚡ Premium AI generating your CV...';
+  document.getElementById('loadingSub').textContent='Running deeper analysis with industry-specific tailoring';
+}
 
-  function setTone(btn){
-    document.querySelectorAll('.tone-btn').forEach(b=>b.classList.remove('active'));
-    btn.classList.add('active');
-    selectedTone=btn.dataset.tone;
-  }
+/* ── STATE ── */
+let skills=[], expCount=0, eduCount=0, selectedTone='professional', certifications=[];
 
-  function goStep(n){
-    document.querySelectorAll('.step-pg').forEach(p=>p.classList.remove('active'));
-    document.getElementById('step'+n).classList.add('active');
-    for(let i=1;i<=4;i++){
-      const pb=document.getElementById('pb'+i);
-      pb.classList.remove('active','done');
-      const pn=pb.querySelector('.pn');
-      if(i<n){pb.classList.add('done');pn.textContent='✓';}
-      else if(i===n){pb.classList.add('active');pn.textContent=i;}
-      else{pn.textContent=i;}
-    }
-    window.scrollTo({top:0,behavior:'smooth'});
-  }
+/* ── 300+ SKILLS DATABASE ── */
+const SKILLS_DB={
+  'Technology':['JavaScript','TypeScript','Python','Java','C++','C#','Go','Rust','Swift','Kotlin','PHP','Ruby','React','React Native','Vue.js','Angular','Next.js','Node.js','Express.js','Django','Flask','FastAPI','Spring Boot','SQL','PostgreSQL','MySQL','MongoDB','Redis','Firebase','GraphQL','REST APIs','Git','Docker','Kubernetes','AWS','Azure','Google Cloud','Terraform','CI/CD','Linux','DevOps','Machine Learning','TensorFlow','PyTorch','Data Science','Pandas','NumPy','Tableau','Power BI','Blockchain','Solidity','Web3','Cybersecurity','Networking','Elasticsearch'],
+  'Design':['Figma','Adobe XD','Sketch','InVision','Photoshop','Illustrator','After Effects','Canva','UI Design','UX Design','Interaction Design','User Research','Wireframing','Prototyping','Design Systems','Typography','Brand Identity','Motion Design','3D Design','Blender','Cinema 4D','Video Editing','Premiere Pro','Final Cut Pro','Color Grading'],
+  'Product':['Product Management','Product Strategy','Roadmapping','OKRs','Agile','Scrum','Kanban','JIRA','Confluence','User Stories','A/B Testing','Feature Prioritisation','Go-to-Market','Sprint Planning','Stakeholder Management','Product Analytics','Customer Discovery','Market Research','Competitive Analysis','Product-Led Growth'],
+  'Business':['Business Development','Sales','Account Management','CRM','Salesforce','HubSpot','Negotiation','B2B Sales','B2C Sales','Lead Generation','Pipeline Management','Revenue Operations','Partnership Management','Contract Management','Business Analysis','Process Improvement','Six Sigma','Change Management','Operations Management','Supply Chain','Procurement','Financial Modelling','Budgeting','Forecasting','Excel','PowerPoint'],
+  'Marketing':['Digital Marketing','SEO','SEM','Google Ads','Facebook Ads','Content Marketing','Email Marketing','Social Media Marketing','Copywriting','Brand Strategy','Growth Hacking','Marketing Analytics','Google Analytics','Meta Ads','Influencer Marketing','Community Management','PR','Event Marketing','Video Marketing','Podcast Production','Affiliate Marketing'],
+  'Finance':['Financial Analysis','Accounting','Bookkeeping','IFRS','GAAP','QuickBooks','Xero','Investment Analysis','Portfolio Management','Risk Management','Financial Reporting','Auditing','Tax Planning','Credit Analysis','Treasury Management','Valuation','M&A','Private Equity','Venture Capital'],
+  'Soft Skills':['Leadership','Communication','Problem Solving','Critical Thinking','Teamwork','Adaptability','Time Management','Project Management','Mentoring','Public Speaking','Presentation Skills','Emotional Intelligence','Conflict Resolution','Strategic Thinking','Innovation','Attention to Detail','Customer Focus','Decision Making'],
+  'Languages':['English (Fluent)','French (Professional)','Yoruba','Igbo','Hausa','Swahili','Zulu','Amharic','Arabic','Spanish','Portuguese','Mandarin (Basic)','German (Basic)'],
+};
+const ALL_SKILLS_FLAT=Object.values(SKILLS_DB).flat();
 
-  function addExp(){
-    expCount++;
-    const w=document.getElementById('exp-wrap');
-    const d=document.createElement('div');
-    d.className='exp-block';d.id='exp-'+expCount;
-    d.innerHTML=`
-      <div class="exp-bh">
-        <span class="exp-bt"><div class="exp-bt-num">${expCount}</div> Role ${expCount}</span>
-        ${expCount>1?`<button class="btn-rem" onclick="document.getElementById('exp-${expCount}').remove()">✕ Remove</button>`:''}
+/* ── UNIVERSITIES DATABASE ── */
+const UNIVERSITIES=[
+  {name:'University of Lagos',country:'🇳🇬 Nigeria'},{name:'Ahmadu Bello University',country:'🇳🇬 Nigeria'},{name:'University of Ibadan',country:'🇳🇬 Nigeria'},{name:'Obafemi Awolowo University',country:'🇳🇬 Nigeria'},{name:'University of Nigeria, Nsukka',country:'🇳🇬 Nigeria'},{name:'Lagos State University',country:'🇳🇬 Nigeria'},{name:'Covenant University',country:'🇳🇬 Nigeria'},{name:'Babcock University',country:'🇳🇬 Nigeria'},{name:'Pan-Atlantic University',country:'🇳🇬 Nigeria'},{name:'University of Benin',country:'🇳🇬 Nigeria'},{name:'University of Port Harcourt',country:'🇳🇬 Nigeria'},{name:'Nnamdi Azikiwe University',country:'🇳🇬 Nigeria'},{name:'Benson Idahosa University',country:'🇳🇬 Nigeria'},{name:'Federal University of Technology Minna',country:'🇳🇬 Nigeria'},{name:'University of Ghana',country:'🇬🇭 Ghana'},{name:'Kwame Nkrumah University of Science',country:'🇬🇭 Ghana'},{name:'Ashesi University',country:'🇬🇭 Ghana'},{name:'University of Cape Town',country:'🇿🇦 South Africa'},{name:'University of the Witwatersrand',country:'🇿🇦 South Africa'},{name:'Stellenbosch University',country:'🇿🇦 South Africa'},{name:'University of Pretoria',country:'🇿🇦 South Africa'},{name:'Makerere University',country:'🇺🇬 Uganda'},{name:'University of Nairobi',country:'🇰🇪 Kenya'},{name:'Strathmore University',country:'🇰🇪 Kenya'},{name:'University of Dar es Salaam',country:'🇹🇿 Tanzania'},{name:'Addis Ababa University',country:'🇪🇹 Ethiopia'},{name:'American University of Cairo',country:'🇪🇬 Egypt'},{name:'University of Khartoum',country:'🇸🇩 Sudan'},{name:'University of Oxford',country:'🇬🇧 UK'},{name:'University of Cambridge',country:'🇬🇧 UK'},{name:'Imperial College London',country:'🇬🇧 UK'},{name:'London School of Economics',country:'🇬🇧 UK'},{name:'University College London',country:'🇬🇧 UK'},{name:'University of Manchester',country:'🇬🇧 UK'},{name:'University of Edinburgh',country:'🇬🇧 UK'},{name:'MIT',country:'🇺🇸 USA'},{name:'Harvard University',country:'🇺🇸 USA'},{name:'Stanford University',country:'🇺🇸 USA'},{name:'Columbia University',country:'🇺🇸 USA'},{name:'NYU',country:'🇺🇸 USA'},{name:'University of Toronto',country:'🇨🇦 Canada'},{name:'McGill University',country:'🇨🇦 Canada'},{name:'Monash University',country:'🇦🇺 Australia'},
+];
+const DEGREES=['BSc','BA','BEng','BTech','BCom','BBA','LLB','MBBS','HND','OND','MSc','MA','MEng','MBA','LLM','MPhil','PhD','PGD','Diploma','Certificate'];
+const CERTS=['AWS Certified Solutions Architect','Google Project Management Certificate','Google Data Analytics Certificate','PMP — Project Management Professional','Scrum Master (CSM)','CFA Level 1','ACCA','ICAN','CIMA','CIBN','CPA','Meta Social Media Marketing','HubSpot Content Marketing','Google Ads Certification','Coursera Machine Learning','Microsoft Azure Fundamentals','Cisco CCNA','CompTIA Security+','Certified Ethical Hacker','Salesforce Administrator','Figma Advanced Certificate','Udacity Nanodegree','ALX Software Engineering'];
+
+/* ── SKILL CATEGORY BROWSER ── */
+let activeCat=Object.keys(SKILLS_DB)[0];
+function renderCatTabs(){
+  document.getElementById('catTabs').innerHTML=Object.keys(SKILLS_DB).map(cat=>
+    `<button class="cat-tab${cat===activeCat?' active':''}" onclick="setCat('${cat}')">${cat}</button>`
+  ).join('');
+}
+function setCat(cat){activeCat=cat;renderCatTabs();renderSkillGrid();}
+function renderSkillGrid(){
+  document.getElementById('skillGrid').innerHTML=SKILLS_DB[activeCat].map(s=>
+    `<span class="skill-pill${skills.includes(s)?' selected':''}" onclick="toggleSkillPill('${s.replace(/'/g,"\\'")}')">${s}</span>`
+  ).join('');
+}
+function toggleSkillPill(skill){
+  if(skills.includes(skill)) skills=skills.filter(s=>s!==skill);
+  else skills.push(skill);
+  renderSkillGrid();renderTags();updateStrength();
+}
+renderCatTabs();renderSkillGrid();
+
+/* ── SKILL AUTOCOMPLETE ── */
+function filterSkillAC(val){
+  const ac=document.getElementById('skillAC');
+  if(!val.trim()){ac.classList.remove('show');return;}
+  const matches=ALL_SKILLS_FLAT.filter(s=>s.toLowerCase().includes(val.toLowerCase())&&!skills.includes(s)).slice(0,8);
+  if(!matches.length){ac.classList.remove('show');return;}
+  ac.innerHTML=matches.map(s=>{
+    const cat=Object.keys(SKILLS_DB).find(c=>SKILLS_DB[c].includes(s))||'';
+    return `<div class="skill-ac-item" onclick="addSkillDirect('${s.replace(/'/g,"\\'")}')">${s}<span class="skill-ac-cat">${cat}</span></div>`;
+  }).join('');
+  ac.classList.add('show');
+}
+function addSkillDirect(skill){
+  if(!skills.includes(skill)){skills.push(skill);renderTags();renderSkillGrid();updateStrength();}
+  document.getElementById('skillInput').value='';
+  document.getElementById('skillAC').classList.remove('show');
+}
+function addSkillFromInput(){
+  const v=document.getElementById('skillInput').value.trim();
+  if(!v||skills.includes(v)){document.getElementById('skillInput').value='';return;}
+  skills.push(v);renderTags();renderSkillGrid();updateStrength();
+  document.getElementById('skillInput').value='';
+  document.getElementById('skillAC').classList.remove('show');
+}
+document.addEventListener('click',e=>{if(!e.target.closest('.skill-search-row'))document.getElementById('skillAC').classList.remove('show');});
+
+/* ── TAGS ── */
+function renderTags(){
+  const w=document.getElementById('tags');
+  if(!skills.length){w.innerHTML='<span style="font-size:0.78rem;color:var(--text-3)">No skills added yet — search or browse categories above</span>';}
+  else{w.innerHTML=skills.map(s=>`<span class="tag">${s}<button onclick="removeSkill('${s.replace(/'/g,"\\'")}')" title="Remove">×</button></span>`).join('');}
+  document.getElementById('skillCount').textContent=skills.length?`(${skills.length})`:'';
+}
+function removeSkill(s){skills=skills.filter(x=>x!==s);renderTags();renderSkillGrid();updateStrength();}
+
+/* ── EDUCATION ── */
+function addEduBlock(){
+  eduCount++;
+  const id='edu-'+eduCount;
+  const el=document.createElement('div');
+  el.className='edu-block';el.id=id;
+  el.innerHTML=`
+    <div class="edu-block-head">
+      <span class="edu-block-lbl">Qualification ${eduCount}</span>
+      ${eduCount>1?`<button class="btn-rem" onclick="document.getElementById('${id}').remove();updateStrength()">✕ Remove</button>`:''}
+    </div>
+    <div class="edu-type-tabs">
+      <button class="edu-type-btn active" onclick="setEduType(this,'degree')" type="button">🎓 Degree</button>
+      <button class="edu-type-btn" onclick="setEduType(this,'diploma')" type="button">📜 Diploma / HND</button>
+      <button class="edu-type-btn" onclick="setEduType(this,'other')" type="button">📋 Other</button>
+    </div>
+    <div class="row">
+      <div class="fg" style="position:relative">
+        <label>Degree Type</label>
+        <select class="edu-degree">${DEGREES.map(d=>`<option>${d}</option>`).join('')}</select>
       </div>
-      <div class="row">
-        <div class="fg"><label>Job Title</label><input class="exp-role" type="text" placeholder="Senior Product Manager"/></div>
-        <div class="fg"><label>Company</label><input class="exp-company" type="text" placeholder="Flutterwave"/></div>
+      <div class="fg"><label>Field of Study</label><input type="text" class="edu-field" placeholder="e.g. Computer Science" oninput="updateStrength()"/></div>
+    </div>
+    <div class="row">
+      <div class="fg" style="position:relative">
+        <label>Institution</label>
+        <input type="text" class="edu-institution" placeholder="Start typing university name..." autocomplete="off"
+          oninput="filterUniv(this,${eduCount})" onfocus="filterUniv(this,${eduCount})"/>
+        <div class="univ-suggest" id="usug-${eduCount}"></div>
       </div>
-      <div class="row">
-        <div class="fg"><label>Start Date</label><input class="exp-start" type="text" placeholder="Jan 2022"/></div>
-        <div class="fg"><label>End Date</label><input class="exp-end" type="text" placeholder="Present"/></div>
+      <div class="fg">
+        <label>Graduation Year</label>
+        <select class="edu-year">
+          <option value="">Select year</option>
+          ${Array.from({length:30},(_,i)=>new Date().getFullYear()-i).map(y=>`<option>${y}</option>`).join('')}
+          <option>In Progress</option>
+        </select>
       </div>
-      <div class="row one">
-        <div class="fg"><label>Responsibilities &amp; Achievements</label>
-        <textarea class="exp-desc" placeholder="• Led a cross-functional team of 8 to deliver a payments product used by 500k+ users&#10;• Increased conversion rate by 30% through A/B testing and user research"></textarea></div>
-      </div>`;
-    w.appendChild(d);
+    </div>`;
+  document.getElementById('eduBlocks').appendChild(el);
+  updateStrength();
+}
+function setEduType(btn,type){
+  btn.closest('.edu-block').querySelectorAll('.edu-type-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+}
+function filterUniv(input,idx){
+  const val=input.value.trim().toLowerCase();
+  const sug=document.getElementById('usug-'+idx);
+  if(!val){sug.classList.remove('show');return;}
+  const matches=UNIVERSITIES.filter(u=>u.name.toLowerCase().includes(val)).slice(0,6);
+  if(!matches.length){sug.classList.remove('show');return;}
+  sug.innerHTML=matches.map(u=>`<div class="univ-item" onclick="selectUniv(this,'${u.name}',${idx})">${u.name}<span class="univ-country">${u.country}</span></div>`).join('');
+  sug.classList.add('show');
+}
+function selectUniv(item,name,idx){
+  item.closest('.edu-block').querySelector('.edu-institution').value=name;
+  document.getElementById('usug-'+idx).classList.remove('show');
+  updateStrength();
+}
+document.addEventListener('click',e=>{if(!e.target.closest('.edu-block'))document.querySelectorAll('.univ-suggest').forEach(s=>s.classList.remove('show'));});
+
+/* ── CERTIFICATIONS ── */
+function renderCertGrid(){
+  document.getElementById('certGrid').innerHTML=CERTS.map(c=>
+    `<span class="cert-pill${certifications.includes(c)?' selected':''}" onclick="toggleCert('${c.replace(/'/g,"\\'")}')">${c}</span>`
+  ).join('');
+}
+function toggleCert(cert){
+  if(certifications.includes(cert))certifications=certifications.filter(c=>c!==cert);
+  else certifications.push(cert);
+  renderCertGrid();updateStrength();
+}
+renderCertGrid();
+addEduBlock();
+
+/* ── EXPERIENCE ── */
+function addExp(){
+  expCount++;
+  const w=document.getElementById('exp-wrap');
+  const d=document.createElement('div');
+  d.className='exp-block';d.id='exp-'+expCount;
+  d.innerHTML=`
+    <div class="exp-bh">
+      <span class="exp-bt"><div class="exp-bt-num">${expCount}</div> Role ${expCount}</span>
+      ${expCount>1?`<button class="btn-rem" onclick="document.getElementById('exp-${expCount}').remove();updateStrength()">✕ Remove</button>`:''}
+    </div>
+    <div class="row">
+      <div class="fg"><label>Job Title</label><input class="exp-role" type="text" placeholder="Senior Product Manager" oninput="updateStrength()"/></div>
+      <div class="fg"><label>Company</label><input class="exp-company" type="text" placeholder="Flutterwave" oninput="updateStrength()"/></div>
+    </div>
+    <div class="row">
+      <div class="fg"><label>Start Date</label><input class="exp-start" type="text" placeholder="Jan 2022"/></div>
+      <div class="fg"><label>End Date</label><input class="exp-end" type="text" placeholder="Present"/></div>
+    </div>
+    <div class="row one">
+      <div class="fg">
+        <label>Key Achievements &amp; Responsibilities</label>
+        <p style="font-size:0.72rem;color:var(--text-3);margin-bottom:0.4rem">Include numbers where possible — "grew revenue by 40%" is much stronger than "improved revenue".</p>
+        <textarea class="exp-desc" rows="4" placeholder="• Led cross-functional team of 8 to deliver payments product used by 500k+ merchants&#10;• Increased conversion by 30% through A/B testing and user research&#10;• Reduced customer churn by 18% via redesigned onboarding flow" oninput="updateStrength()"></textarea>
+      </div>
+    </div>`;
+  w.appendChild(d);
+  updateStrength();
+}
+addExp();
+
+/* ── TONE ── */
+function setTone(btn){
+  document.querySelectorAll('.tone-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  selectedTone=btn.dataset.tone;
+}
+function setTonePro(btn,tone){
+  if(!isPro){
+    if(confirm('Executive, Technical & Startup tones are Pro features.\n\nUpgrade to unlock all 6 tones?'))window.location.href='upgrade.html';
+    return;
   }
+  setTone(btn);
+}
 
-  function addSkill(){
-    const i=document.getElementById('skillInput');
-    const v=i.value.trim();
-    if(!v||skills.includes(v)){i.value='';return;}
-    skills.push(v);renderTags();i.value='';
-    i.focus();
+/* ── STEP NAV ── */
+function goStep(n){
+  document.querySelectorAll('.step-pg').forEach(p=>p.classList.remove('active'));
+  document.getElementById('step'+n).classList.add('active');
+  for(let i=1;i<=5;i++){
+    const pb=document.getElementById('pb'+i);
+    pb.classList.remove('active','done');
+    const pn=pb.querySelector('.pn');
+    if(i<n){pb.classList.add('done');pn.textContent='✓';}
+    else if(i===n){pb.classList.add('active');pn.textContent=i;}
+    else pn.textContent=i;
   }
-  function removeSkill(s){skills=skills.filter(x=>x!==s);renderTags();}
-  function renderTags(){
-    document.getElementById('tags').innerHTML=skills.map(s=>`<span class="tag">${s}<button onclick="removeSkill('${s}')">×</button></span>`).join('');
-  }
+  window.scrollTo({top:0,behavior:'smooth'});
+  updateStrength();
+}
 
-  function generate(){
-    const jd=document.getElementById('jobDesc').value.trim();
-    if(!document.getElementById('firstName').value.trim()){alert('Please enter your first name.');goStep(1);return;}
-    if(!jd){alert('Please paste a job description.');return;}
+/* ── STRENGTH METER ── */
+function updateStrength(){
+  let s=0;
+  if(document.getElementById('firstName')?.value.trim())s+=5;
+  if(document.getElementById('email')?.value.trim())s+=5;
+  if(document.getElementById('phone')?.value.trim())s+=4;
+  if(document.getElementById('location')?.value.trim())s+=2;
+  if((document.getElementById('summary')?.value.trim()||'').length>40)s+=9;
+  document.querySelectorAll('.exp-block').forEach(b=>{
+    if(b.querySelector('.exp-role')?.value.trim())s+=8;
+    if((b.querySelector('.exp-desc')?.value.trim()||'').length>40)s+=7;
+  });
+  s=Math.min(s,35);
+  s+=Math.min(skills.length*3,18);
+  const eduFilled=[...document.querySelectorAll('.edu-institution')].filter(i=>i.value.trim()).length;
+  if(eduFilled)s+=8;
+  s+=Math.min(certifications.length*2,4);
+  const jd=document.getElementById('jobDesc')?.value.trim()||'';
+  if(jd.length>80)s+=12;
+  if(jd.length>350)s+=8;
+  s=Math.min(s,100);
+  const fill=document.getElementById('strengthFill');
+  const pct=document.getElementById('strengthPct');
+  const tip=document.getElementById('strengthTip');
+  const color=s<30?'#DC2626':s<55?'#D97706':s<78?'#2F6BFF':'#059669';
+  fill.style.width=s+'%';fill.style.background=color;
+  pct.textContent=s+'%';pct.style.color=color;
+  const tips={low:'Add your name, email and a summary',mid:'Great start — add experience and skills',good:'Looking good! Paste a job description',great:'Ready to generate! Click Generate →'};
+  const key=s<30?'low':s<55?'mid':s<78?'good':'great';
+  if(tip){tip.textContent=tips[key];tip.style.display='block';}
+}
 
-    // Show loading
-    document.getElementById('loading').classList.add('show');
+/* ── AUTO-DETECT JOB TITLE ── */
+function autoDetectTitle(){
+  const t=document.getElementById('jobTitle');
+  if(t.value.trim())return;
+  const jd=document.getElementById('jobDesc')?.value||'';
+  const fl=jd.split('\n').slice(0,4).join(' ');
+  const m=fl.match(/\b(Senior|Junior|Lead|Head of|Director|Manager|Engineer|Developer|Designer|Analyst|Specialist|Coordinator|Associate|VP|Chief)\s+[A-Za-z\s]{3,28}/);
+  if(m)t.value=m[0].trim().replace(/[^a-zA-Z0-9\s,&\-]/g,'').trim();
+}
 
-    const data={
-      firstName:document.getElementById('firstName').value.trim(),
-      lastName:document.getElementById('lastName').value.trim(),
-      email:document.getElementById('email').value.trim(),
-      phone:document.getElementById('phone').value.trim(),
-      location:document.getElementById('location').value.trim(),
-      linkedin:document.getElementById('linkedin').value.trim(),
-      summary:document.getElementById('summary').value.trim(),
-      education:document.getElementById('education').value.trim(),
-      skills:[...skills],
-      jobTitle:document.getElementById('jobTitle').value.trim(),
-      companyName:document.getElementById('companyName').value.trim(),
-      jobDesc:jd,experience:[],tone:selectedTone
-    };
-    document.querySelectorAll('.exp-block').forEach(b=>{
-      data.experience.push({
-        role:b.querySelector('.exp-role')?.value.trim()||'',
-        company:b.querySelector('.exp-company')?.value.trim()||'',
-        start:b.querySelector('.exp-start')?.value.trim()||'',
-        end:b.querySelector('.exp-end')?.value.trim()||'',
-        desc:b.querySelector('.exp-desc')?.value.trim()||''
-      });
-    });
-    if(!data.jobTitle){
-      const l=jd.split('\n').slice(0,5);
-      data.jobTitle=l[0].replace(/[^a-zA-Z0-9\s,&]/g,'').trim()||'the advertised position';
-    }
-    sessionStorage.setItem('cvData',JSON.stringify(data));
+/* ── COLLECT EDUCATION ── */
+function collectEducation(){
+  const parts=[];
+  document.querySelectorAll('.edu-block').forEach(b=>{
+    const inst=b.querySelector('.edu-institution')?.value.trim()||'';
+    const field=b.querySelector('.edu-field')?.value.trim()||'';
+    const deg=b.querySelector('.edu-degree')?.value||'';
+    const year=b.querySelector('.edu-year')?.value||'';
+    if(inst||field)parts.push(`${deg} ${field}${inst?', '+inst:''}${year?' ('+year+')':''}`);
+  });
+  if(certifications.length)parts.push(...certifications);
+  return parts.join('\n');
+}
 
-    // Simulate brief loading then navigate
-    setTimeout(()=>{ window.location.href='cv-preview.html'; }, 1400);
-  }
-
-  addExp();
+/* ── GENERATE ── */
+function generate(){
+  const jd=document.getElementById('jobDesc').value.trim();
+  if(!document.getElementById('firstName').value.trim()){alert('Please enter your first name.');goStep(1);return;}
+  if(!jd){alert('Please paste a job description.');return;}
+  document.getElementById('loading').classList.add('show');
+  const data={
+    firstName:document.getElementById('firstName').value.trim(),
+    lastName:document.getElementById('lastName').value.trim(),
+    email:document.getElementById('email').value.trim(),
+    phone:document.getElementById('phone').value.trim(),
+    location:document.getElementById('location').value.trim(),
+    linkedin:document.getElementById('linkedin').value.trim(),
+    summary:document.getElementById('summary').value.trim(),
+    education:collectEducation(),
+    skills:[...skills],
+    certifications:[...certifications],
+    jobTitle:document.getElementById('jobTitle').value.trim(),
+    companyName:document.getElementById('companyName').value.trim(),
+    jobDesc:jd,
+    experience:[],
+    tone:selectedTone,
+    isPremium:isPro,
+  };
+  document.querySelectorAll('.exp-block').forEach(b=>{
+    data.experience.push({role:b.querySelector('.exp-role')?.value.trim()||'',company:b.querySelector('.exp-company')?.value.trim()||'',start:b.querySelector('.exp-start')?.value.trim()||'',end:b.querySelector('.exp-end')?.value.trim()||'',desc:b.querySelector('.exp-desc')?.value.trim()||''});
+  });
+  if(!data.jobTitle){const l=jd.split('\n').slice(0,5);data.jobTitle=l[0].replace(/[^a-zA-Z0-9\s,&\-]/g,'').trim()||'the advertised position';}
+  sessionStorage.setItem('cvData',JSON.stringify(data));
+  setTimeout(()=>{window.location.href='cv-preview.html';},isPro?1800:1400);
+}
 </script>
 </body>
 </html>

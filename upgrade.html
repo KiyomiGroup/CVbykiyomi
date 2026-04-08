@@ -318,16 +318,45 @@
 
   function upgradePro() {
     if (isPro) return;
-    // Simulate payment flow — in Sprint 5 this hooks into Stripe/Paystack
-    const plan = isAnnual ? 'Annual ($60/year)' : 'Monthly ($8/month)';
-    const ok = confirm(`Ready to upgrade to CVbykiyomi Pro?\n\nPlan: ${plan}\n\n⚡ This is a demo — clicking OK will activate Pro immediately.\n\nIn Sprint 5, this will connect to a real payment provider.`);
+    const plan = isAnnual ? 'annual' : 'monthly';
+    const amount = isAnnual ? 60 : 8;
+
+    // ── PAYSTACK INTEGRATION STUB ──
+    // To go live: replace the confirm() below with a real Paystack popup.
+    // 1. Add <script src="https://js.paystack.co/v1/inline.js"></script> to <head>
+    // 2. Get your public key from dashboard.paystack.com
+    // 3. Replace the block below with:
+    //    const handler = PaystackPop.setup({
+    //      key: 'pk_live_YOUR_PUBLIC_KEY',
+    //      email: user?.email || 'user@example.com',
+    //      amount: amount * 100, // Paystack expects kobo for NGN, cents for USD
+    //      currency: 'USD',
+    //      ref: 'cvk_' + Date.now(),
+    //      onSuccess: (transaction) => activatePro(plan, transaction.reference),
+    //      onCancel: () => showToast('Payment cancelled')
+    //    });
+    //    handler.openIframe();
+
+    // DEMO MODE — activates immediately
+    const priceLabel = isAnnual ? '$60/year (save 40%)' : '$8/month';
+    const ok = confirm(`Upgrade to CVbykiyomi Pro — ${priceLabel}\n\nWhat you unlock:\n✓ All 4 CV templates\n✓ 8 accent colours & 3 fonts\n✓ PDF export + application ZIP\n✓ 6 AI writing tones\n✓ Unlimited CV saves\n✓ Premium AI (deeper tailoring)\n✓ AI bullet improvement tool\n✓ Pro coaching tips\n\n━━━━━━━━━━━━━━━━━━━━\nPaystack payment integration is ready to connect.\nFor demo purposes, click OK to activate Pro now.`);
     if (!ok) return;
-    localStorage.setItem('cvk_pro', JSON.stringify({ plan: isAnnual ? 'annual' : 'monthly', activatedAt: new Date().toISOString() }));
+    activatePro(plan, 'demo_' + Date.now());
+  }
+
+  function activatePro(plan, reference) {
+    const proData = {
+      plan,
+      reference,
+      activatedAt: new Date().toISOString(),
+      expiresAt: plan === 'annual' ? new Date(Date.now() + 365*24*60*60*1000).toISOString() : new Date(Date.now() + 30*24*60*60*1000).toISOString()
+    };
+    localStorage.setItem('cvk_pro', JSON.stringify(proData));
     document.getElementById('proActiveBanner').classList.add('show');
     document.getElementById('proCta').textContent = '✓ Pro activated!';
     document.getElementById('proCta').className = 'plan-cta cta-current';
-    showToast('🎉 Pro activated! All features unlocked.');
-    setTimeout(() => window.location.href = 'templates.html', 1800);
+    showToast('🎉 Pro activated! All features are now unlocked.');
+    setTimeout(() => window.location.href = 'dashboard.html', 2000);
   }
 
   /* ── FAQ ── */

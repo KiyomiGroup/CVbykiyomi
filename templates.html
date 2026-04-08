@@ -215,7 +215,7 @@
             <div class="tc-topbar"></div>
             <div class="tc-name" id="tc-name">Alexandra Okafor</div>
             <div class="tc-title" id="tc-title">Senior Product Manager</div>
-            <div class="tc-contact"><span>✉ hello@example.com</span><span>☎ +234 800 000 0000</span><span>Lagos</span></div>
+            <div class="tc-contact"><span>✉ <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="137b767f7f7c53766b727e637f763d707c7e">[email&#160;protected]</a></span><span>☎ +234 800 000 0000</span><span>Lagos</span></div>
             <div class="tc-body">
               <div class="tc-left">
                 <div class="tc-seclabel">Skills</div>
@@ -296,7 +296,7 @@
             <div class="tmin-name">Alexandra Okafor</div>
             <div class="tmin-title">Senior Product Manager</div>
             <div class="tmin-divider"></div>
-            <div class="tmin-contact"><span>hello@example.com</span><span>Lagos, Nigeria</span><span>linkedin.com/in/ao</span></div>
+            <div class="tmin-contact"><span><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="7a121f1616153a1f021b170a161f54191517">[email&#160;protected]</a></span><span>Lagos, Nigeria</span><span>linkedin.com/in/ao</span></div>
             <div class="tmin-seclabel">Profile</div>
             <div class="tmin-summary">Results-driven product manager with deep expertise in payments and fintech across Africa. Builder of products used by millions.</div>
             <div class="tmin-seclabel">Experience</div>
@@ -333,7 +333,7 @@
             <div class="tb-header">
               <div class="tb-name">Alexandra Okafor</div>
               <div class="tb-title">Senior Product Manager</div>
-              <div class="tb-contact"><span>hello@example.com</span><span>+234 800 000 0000</span><span>Lagos</span></div>
+              <div class="tb-contact"><span><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="e088858c8c8fa08598818d908c85ce838f8d">[email&#160;protected]</a></span><span>+234 800 000 0000</span><span>Lagos</span></div>
             </div>
             <div class="tb-body">
               <div class="tb-left">
@@ -406,7 +406,7 @@
   </div>
 </div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
   let selectedTpl = 'classic';
   let selectedColor = '#2F6BFF';
   let selectedFont = 'jakarta';
@@ -459,19 +459,3 @@
     const choices = { template: selectedTpl, color: selectedColor, font: selectedFont };
     sessionStorage.setItem('cvk_export_choices', JSON.stringify(choices));
     window.location.href = 'export.html';
-  }
-
-  // Pre-fill with user's real name if available
-  const raw = sessionStorage.getItem('cvData');
-  if (raw) {
-    try {
-      const d = JSON.parse(raw);
-      const name = `${d.firstName||''} ${d.lastName||''}`.trim();
-      const title = d.jobTitle || 'Professional';
-      if (name) document.getElementById('tc-name').textContent = name;
-      if (title) document.getElementById('tc-title').textContent = title;
-    } catch(e) {}
-  }
-</script>
-</body>
-</html>

@@ -160,6 +160,16 @@
     <div class="stat-card"><div class="stat-n" id="statAvgScore">—</div><div class="stat-l">Avg match score</div></div>
   </div>
 
+  <!-- PRO PERKS BANNER -->
+  <div id="proPerksBar" style="display:none;background:linear-gradient(135deg,#1A1A2E,#2F6BFF);border-radius:12px;padding:1.2rem 1.5rem;margin-bottom:1.5rem;color:#fff;align-items:center;gap:1.2rem;flex-wrap:wrap">
+    <div style="font-size:1.4rem">⚡</div>
+    <div style="flex:1"><div style="font-size:0.88rem;font-weight:700;margin-bottom:0.15rem">You're on Pro</div><div style="font-size:0.74rem;opacity:0.75">All templates, PDF export, Premium AI and bullet improvement tool are active.</div></div>
+    <div style="display:flex;gap:0.6rem;flex-wrap:wrap">
+      <a href="form.html" style="font-family:'Plus Jakarta Sans',sans-serif;font-size:0.78rem;font-weight:600;padding:0.45rem 0.9rem;border-radius:7px;background:rgba(255,255,255,0.15);color:#fff;text-decoration:none">✦ Create Premium CV</a>
+      <a href="templates.html" style="font-family:'Plus Jakarta Sans',sans-serif;font-size:0.78rem;font-weight:600;padding:0.45rem 0.9rem;border-radius:7px;background:#fff;color:#2F6BFF;text-decoration:none">⬇ Export PDFs</a>
+    </div>
+  </div>
+
   <!-- FILTERS -->
   <div class="filter-row">
     <button class="filter-btn active" data-filter="all" onclick="setFilter(this,'all')">All</button>
@@ -254,7 +264,7 @@
         <div class="cv-card" id="card_${cv.id}">
           <div class="cv-card-top ${topColor}"></div>
           <div class="cv-card-body">
-            <div class="cv-card-title">${escHtml(cv.name || 'Untitled CV')}</div>
+            <div class="cv-card-title">${escHtml(cv.name || 'Untitled CV')} ${cv.formData?.isPremium?'<span style="font-size:0.6rem;font-weight:700;background:linear-gradient(135deg,#2F6BFF,#7C3AED);color:#fff;padding:0.1rem 0.4rem;border-radius:6px;vertical-align:middle">⚡ Pro</span>':''}</div>
             <div class="cv-card-company">
               ${cv.companyName ? `🏢 ${escHtml(cv.companyName)}` : ''}
               ${cv.jobTitle && cv.companyName ? ' · ' : ''}
@@ -424,6 +434,15 @@
     document.getElementById('toastMsg').textContent = msg;
     el.classList.add('show');
     toastTimer = setTimeout(() => el.classList.remove('show'), 2800);
+  }
+
+  /* ── PRO STATE ── */
+  const isProUser = (()=>{ try{return !!JSON.parse(localStorage.getItem('cvk_pro'))}catch(e){return false} })();
+  if(isProUser){
+    const bar = document.getElementById('proPerksBar');
+    if(bar) bar.style.display = 'flex';
+    const upgradeBtn = document.getElementById('upgradeNavBtn');
+    if(upgradeBtn){ upgradeBtn.textContent='⚡ Pro Active'; upgradeBtn.style.background='linear-gradient(135deg,#059669,#0d9488)'; }
   }
 
   /* ── INIT ── */

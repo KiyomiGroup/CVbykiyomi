@@ -3,218 +3,442 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>CVbykiyomi — Tailor your CV instantly</title>
+  <title>CVbykiyomi — AI-Powered CV Builder for African Professionals</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --blue:#2F6BFF;--blue-hover:#1A57F0;--blue-light:#EAF1FF;--blue-mid:#C7D9FF;
-      --bg:#FAFBFF;--white:#FFFFFF;
-      --text-1:#1A1A1A;--text-2:#6B7280;--text-3:#9CA3AF;
-      --border:#E5E7EB;--border-md:#D1D5DB;
-      --shadow-sm:0 1px 3px rgba(0,0,0,0.06),0 1px 2px rgba(0,0,0,0.04);
-      --shadow-md:0 4px 16px rgba(0,0,0,0.08),0 1px 4px rgba(0,0,0,0.04);
-      --shadow-lg:0 8px 32px rgba(0,0,0,0.10),0 2px 8px rgba(0,0,0,0.05);
-      --shadow-blue:0 4px 20px rgba(47,107,255,0.22);
-    }
+    :root{--blue:#2F6BFF;--blue-hover:#1A57F0;--blue-light:#EAF1FF;--blue-mid:#C7D9FF;--bg:#FAFBFF;--white:#FFFFFF;--text-1:#1A1A1A;--text-2:#6B7280;--text-3:#9CA3AF;--border:#E5E7EB;--border-md:#D1D5DB;--green:#059669;--green-light:#D1FAE5;--purple:#7C3AED;--purple-light:#F5F3FF;--shadow-sm:0 1px 3px rgba(0,0,0,0.06);--shadow-md:0 4px 16px rgba(0,0,0,0.08);--shadow-lg:0 8px 32px rgba(0,0,0,0.12);--shadow-blue:0 4px 20px rgba(47,107,255,0.22)}
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
     html{scroll-behavior:smooth}
-    body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text-1);min-height:100vh;-webkit-font-smoothing:antialiased}
+    body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text-1);-webkit-font-smoothing:antialiased}
 
-    nav{position:sticky;top:0;z-index:100;background:rgba(250,251,255,0.92);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--border);height:64px;padding:0 2rem;display:flex;align-items:center;justify-content:space-between}
+    /* NAV */
+    nav{position:sticky;top:0;z-index:100;background:rgba(250,251,255,0.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);height:64px;padding:0 2rem;display:flex;align-items:center;justify-content:space-between}
     .logo{font-size:1.15rem;font-weight:700;color:var(--text-1);text-decoration:none;letter-spacing:-0.02em;display:flex;align-items:center;gap:0.4rem}
-    .logo-mark{width:28px;height:28px;border-radius:7px;background:var(--blue);display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:700;color:#fff;letter-spacing:-0.02em}
-    .nav-links{display:flex;align-items:center;gap:0.5rem}
+    .logo-mark{width:28px;height:28px;border-radius:7px;background:var(--blue);display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:700;color:#fff}
+    .nav-links{display:flex;align-items:center;gap:0.4rem}
     .nav-link{font-size:0.82rem;font-weight:500;color:var(--text-2);text-decoration:none;padding:0.4rem 0.75rem;border-radius:6px;transition:all 0.18s}
     .nav-link:hover{color:var(--text-1);background:var(--blue-light)}
     .btn-nav{font-size:0.82rem;font-weight:600;background:var(--blue);color:#fff;text-decoration:none;padding:0.52rem 1.2rem;border-radius:10px;transition:all 0.2s;box-shadow:var(--shadow-blue)}
-    .btn-nav:hover{background:var(--blue-hover);transform:translateY(-1px);box-shadow:0 6px 24px rgba(47,107,255,0.3)}
-    .nav-auth{display:flex;align-items:center;gap:0.5rem}
-    #navLoggedIn{display:none;align-items:center;gap:0.5rem}
-    .nav-user{font-size:0.8rem;font-weight:600;color:var(--text-2);padding:0.4rem 0.75rem;display:flex;align-items:center;gap:0.4rem}
-    .nav-avatar{width:24px;height:24px;border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-size:0.6rem;font-weight:700}
-    .btn-nav-ghost{font-size:0.82rem;font-weight:600;background:transparent;color:var(--blue);border:1.5px solid var(--blue-mid);text-decoration:none;padding:0.48rem 1rem;border-radius:10px;cursor:pointer;transition:all 0.2s;font-family:'Plus Jakarta Sans',sans-serif}
-    .btn-nav-ghost:hover{background:var(--blue-light)}
+    .btn-nav:hover{background:var(--blue-hover);transform:translateY(-1px)}
+    .btn-nav-pro{font-size:0.82rem;font-weight:700;background:linear-gradient(135deg,var(--blue),var(--purple));color:#fff;text-decoration:none;padding:0.52rem 1.1rem;border-radius:10px;transition:all 0.2s;box-shadow:0 4px 16px rgba(124,58,237,0.25)}
+    .btn-nav-pro:hover{opacity:0.9;transform:translateY(-1px)}
+    .nav-user-wrap{display:none;align-items:center;gap:0.5rem}
+    .nav-avatar{width:26px;height:26px;border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-size:0.62rem;font-weight:700}
+    .btn-nav-ghost{font-size:0.8rem;font-weight:500;color:var(--text-2);background:none;border:1px solid var(--border-md);padding:0.4rem 0.9rem;border-radius:8px;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;transition:all 0.18s}
+    .btn-nav-ghost:hover{color:var(--text-1);border-color:var(--text-2)}
 
-    .hero{max-width:900px;margin:0 auto;padding:6rem 2rem 5rem;text-align:center}
-    .hero-badge{display:inline-flex;align-items:center;gap:0.4rem;font-size:0.72rem;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:var(--blue);background:var(--blue-light);border:1px solid var(--blue-mid);padding:0.3rem 0.85rem;border-radius:20px;margin-bottom:2rem;animation:fadeUp 0.5s ease both}
-    .badge-dot{width:5px;height:5px;border-radius:50%;background:var(--blue)}
-    h1{font-size:clamp(2.4rem,5vw,3.6rem);font-weight:700;line-height:1.12;letter-spacing:-0.03em;color:var(--text-1);margin-bottom:1.4rem;animation:fadeUp 0.5s 0.07s ease both}
-    h1 span{color:var(--blue)}
-    .hero-desc{font-size:1.05rem;font-weight:400;color:var(--text-2);line-height:1.75;max-width:520px;margin:0 auto 2.8rem;animation:fadeUp 0.5s 0.14s ease both}
-    .hero-actions{display:flex;align-items:center;justify-content:center;gap:1rem;margin-bottom:3.5rem;animation:fadeUp 0.5s 0.21s ease both}
-    .btn-primary{display:inline-flex;align-items:center;gap:0.5rem;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.95rem;font-weight:600;background:var(--blue);color:#fff;text-decoration:none;padding:0.88rem 2rem;border-radius:10px;box-shadow:var(--shadow-blue);transition:all 0.22s}
+    /* HERO */
+    .hero{max-width:960px;margin:0 auto;padding:5.5rem 2rem 4rem;text-align:center}
+    .hero-badge{display:inline-flex;align-items:center;gap:0.4rem;font-size:0.72rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--blue);background:var(--blue-light);border:1px solid var(--blue-mid);padding:0.3rem 0.85rem;border-radius:20px;margin-bottom:1.8rem;animation:fadeUp 0.5s ease both}
+    .badge-dot{width:5px;height:5px;border-radius:50%;background:var(--blue);animation:pulse 1.5s ease-in-out infinite}
+    @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+    h1{font-size:clamp(2.6rem,5.5vw,3.9rem);font-weight:700;line-height:1.1;letter-spacing:-0.035em;color:var(--text-1);margin-bottom:1.3rem;animation:fadeUp 0.5s 0.07s ease both}
+    h1 .blue{color:var(--blue)}
+    h1 .grad{background:linear-gradient(135deg,var(--blue),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .hero-desc{font-size:1.05rem;color:var(--text-2);line-height:1.8;max-width:560px;margin:0 auto 2.5rem;animation:fadeUp 0.5s 0.14s ease both}
+    .hero-actions{display:flex;align-items:center;justify-content:center;gap:1rem;margin-bottom:3rem;animation:fadeUp 0.5s 0.21s ease both;flex-wrap:wrap}
+    .btn-primary{display:inline-flex;align-items:center;gap:0.5rem;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.95rem;font-weight:700;background:var(--blue);color:#fff;text-decoration:none;padding:0.9rem 2.2rem;border-radius:10px;box-shadow:var(--shadow-blue);transition:all 0.22s}
     .btn-primary:hover{background:var(--blue-hover);transform:translateY(-2px);box-shadow:0 8px 28px rgba(47,107,255,0.35)}
-    .btn-primary .arr{transition:transform 0.2s}
-    .btn-primary:hover .arr{transform:translateX(3px)}
-    .btn-ghost{font-size:0.9rem;font-weight:500;color:var(--text-2);text-decoration:none;padding:0.88rem 1.6rem;border-radius:10px;border:1px solid var(--border-md);background:var(--white);transition:all 0.2s;box-shadow:var(--shadow-sm)}
+    .btn-ghost{font-size:0.9rem;font-weight:500;color:var(--text-2);text-decoration:none;padding:0.9rem 1.6rem;border-radius:10px;border:1px solid var(--border-md);background:var(--white);transition:all 0.2s;box-shadow:var(--shadow-sm)}
     .btn-ghost:hover{color:var(--text-1);border-color:var(--blue);box-shadow:0 0 0 3px var(--blue-light)}
-    .hero-stats{display:flex;align-items:center;justify-content:center;gap:2.5rem;padding-top:1rem;animation:fadeUp 0.5s 0.28s ease both}
+    .hero-stats{display:flex;align-items:center;justify-content:center;gap:2.5rem;animation:fadeUp 0.5s 0.28s ease both}
     .hs-n{font-size:1.6rem;font-weight:700;color:var(--text-1);line-height:1;letter-spacing:-0.03em}
     .hs-l{font-size:0.72rem;color:var(--text-3);margin-top:0.2rem}
     .hs-sep{width:1px;height:32px;background:var(--border-md)}
 
-    .doc-preview-section{max-width:900px;margin:0 auto;padding:0 2rem 5rem;animation:fadeUp 0.6s 0.35s ease both}
-    .doc-preview-wrap{position:relative;display:flex;justify-content:center}
-    .doc-preview-wrap::before{content:'';position:absolute;width:85%;height:20px;bottom:-16px;left:50%;transform:translateX(-50%);background:rgba(47,107,255,0.12);border-radius:50%;filter:blur(16px)}
-    .doc-mock{background:var(--white);border:1px solid var(--border);border-radius:12px;box-shadow:var(--shadow-lg);padding:2.2rem 2.5rem;width:100%;max-width:640px;position:relative}
-    .doc-mock-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.6rem}
-    .doc-tabs{display:flex;gap:0.4rem}
-    .doc-tab{font-size:0.72rem;font-weight:600;padding:0.3rem 0.8rem;border-radius:6px;cursor:default}
-    .doc-tab.active{background:var(--blue);color:#fff}
-    .doc-tab.inactive{background:var(--bg);color:var(--text-3);border:1px solid var(--border)}
-    .doc-actions{display:flex;gap:0.5rem}
-    .doc-action-btn{font-size:0.68rem;font-weight:500;padding:0.28rem 0.7rem;border-radius:5px;background:var(--bg);border:1px solid var(--border);color:var(--text-3)}
-    .mock-name{font-size:1.3rem;font-weight:700;color:var(--text-1);margin-bottom:0.2rem}
-    .mock-contact{font-size:0.65rem;color:var(--text-3);margin-bottom:1.4rem}
-    .mock-divider{height:1.5px;background:var(--blue);margin-bottom:1rem;opacity:0.25}
-    .mock-sec-label{font-size:0.58rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--blue);margin-bottom:0.5rem;margin-top:1rem}
-    .ml{height:5px;background:var(--bg);border-radius:3px;margin-bottom:0.32rem}
-    .ml.lo{width:90%}.ml.me{width:68%}.ml.sh{width:42%}.ml.xs{width:25%}
-    .mock-tags{display:flex;flex-wrap:wrap;gap:0.35rem;margin-top:0.4rem}
-    .mock-tag{font-size:0.55rem;font-weight:600;padding:0.2rem 0.55rem;border-radius:4px;background:var(--blue-light);color:var(--blue);border:1px solid var(--blue-mid)}
+    /* FEATURES */
+    .section{max-width:960px;margin:0 auto;padding:5rem 2rem;border-top:1px solid var(--border)}
+    .sec-eyebrow{font-size:0.7rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--blue);margin-bottom:0.6rem}
+    .sec-h{font-size:clamp(1.6rem,3vw,2.4rem);font-weight:700;letter-spacing:-0.025em;line-height:1.15;margin-bottom:0.75rem;color:var(--text-1)}
+    .sec-sub{font-size:0.92rem;color:var(--text-2);line-height:1.75;margin-bottom:3rem;max-width:540px}
 
-    .section{max-width:900px;margin:0 auto;padding:5rem 2rem;border-top:1px solid var(--border)}
-    .sec-label{font-size:0.7rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--blue);margin-bottom:0.6rem}
-    .sec-h{font-size:clamp(1.6rem,3vw,2.2rem);font-weight:700;letter-spacing:-0.025em;line-height:1.15;margin-bottom:3rem;color:var(--text-1)}
-    .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem}
-    .step-card{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:1.5rem 1.3rem;box-shadow:var(--shadow-sm);transition:box-shadow 0.22s,transform 0.2s,border-color 0.2s;position:relative;overflow:hidden}
-    .step-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--blue);opacity:0;transition:opacity 0.2s}
+    /* FEATURE GRID */
+    .feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.3rem}
+    .feat-card{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:1.6rem;box-shadow:var(--shadow-sm);transition:all 0.22s;position:relative;overflow:hidden}
+    .feat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--blue);opacity:0;transition:opacity 0.2s}
+    .feat-card:hover{box-shadow:var(--shadow-md);transform:translateY(-3px);border-color:var(--blue-mid)}
+    .feat-card:hover::before{opacity:1}
+    .feat-card.pro-feat::before{background:linear-gradient(90deg,var(--blue),var(--purple))}
+    .feat-icon{font-size:1.6rem;margin-bottom:0.8rem}
+    .feat-title{font-size:0.96rem;font-weight:700;color:var(--text-1);margin-bottom:0.35rem;display:flex;align-items:center;gap:0.5rem}
+    .feat-pro-badge{font-size:0.58rem;font-weight:700;background:linear-gradient(135deg,var(--blue),var(--purple));color:#fff;padding:0.12rem 0.45rem;border-radius:8px}
+    .feat-desc{font-size:0.8rem;color:var(--text-2);line-height:1.7}
+
+    /* SKILLS PREVIEW */
+    .skills-preview{background:var(--white);border:1px solid var(--border);border-radius:16px;padding:2rem;box-shadow:var(--shadow-sm);margin-bottom:1rem}
+    .skills-preview-title{font-size:0.8rem;font-weight:700;color:var(--text-2);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:1rem}
+    .skills-flow{display:flex;flex-wrap:wrap;gap:0.45rem}
+    .skill-demo-pill{font-size:0.76rem;font-weight:500;padding:0.3rem 0.8rem;border-radius:20px;border:1px solid var(--border-md);background:var(--white);color:var(--text-2);cursor:default}
+    .skill-demo-pill.active{background:var(--blue);color:#fff;border-color:var(--blue)}
+    .skill-demo-pill.highlight{background:var(--green-light);color:var(--green);border-color:rgba(5,150,105,0.3)}
+
+    /* TEMPLATE SHOWCASE */
+    .template-showcase{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:1rem}
+    .tpl-demo{border-radius:10px;overflow:hidden;border:1.5px solid var(--border);transition:all 0.2s;cursor:default}
+    .tpl-demo:hover{border-color:var(--blue-mid);transform:translateY(-2px);box-shadow:var(--shadow-md)}
+    .tpl-demo-bar{height:5px}
+    .tpl-demo-inner{padding:12px;background:#fff}
+    .tpl-demo-name{font-size:0.7rem;font-weight:700;color:var(--text-1);margin-top:8px;text-align:center}
+    .tpl-demo-badge{font-size:0.6rem;font-weight:600;padding:0.12rem 0.45rem;border-radius:8px;display:block;text-align:center;margin-top:3px}
+    .dm-line{height:4px;background:#F3F4F6;border-radius:2px;margin-bottom:3px}
+    .dm-line.lo{width:80%}.dm-line.me{width:60%}.dm-line.sh{width:40%}
+
+    /* PRICING SECTION */
+    .pricing-section{background:linear-gradient(180deg,var(--bg) 0%,#F0F4FF 100%);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:5rem 0}
+    .pricing-inner{max-width:860px;margin:0 auto;padding:0 2rem}
+    .pricing-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem;margin-top:2.5rem}
+    .price-card{background:var(--white);border:1.5px solid var(--border);border-radius:16px;padding:2rem;box-shadow:var(--shadow-sm)}
+    .price-card.featured{border-color:var(--blue);box-shadow:0 0 0 3px rgba(47,107,255,0.1),var(--shadow-md);position:relative}
+    .price-popular{position:absolute;top:-13px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,var(--blue),var(--purple));color:#fff;font-size:0.68rem;font-weight:700;padding:0.28rem 1rem;border-radius:20px;white-space:nowrap}
+    .plan-name{font-size:1.05rem;font-weight:700;margin-bottom:0.3rem}
+    .plan-desc{font-size:0.8rem;color:var(--text-2);line-height:1.6;margin-bottom:1.2rem}
+    .price-big{font-size:2.6rem;font-weight:700;letter-spacing:-0.04em;color:var(--text-1);line-height:1}
+    .price-curr{font-size:1rem;font-weight:600;vertical-align:top;margin-top:0.4rem;display:inline-block}
+    .price-per{font-size:0.78rem;color:var(--text-3)}
+    .price-note{font-size:0.72rem;color:var(--text-3);margin-bottom:1.6rem;min-height:1rem}
+    .plan-btn{width:100%;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.92rem;font-weight:700;padding:0.85rem;border-radius:10px;cursor:pointer;border:none;transition:all 0.22s;margin-bottom:1.6rem;display:flex;align-items:center;justify-content:center;gap:0.4rem}
+    .plan-btn-free{background:var(--white);color:var(--text-2);border:1.5px solid var(--border-md)!important}
+    .plan-btn-free:hover{border-color:var(--blue)!important;color:var(--blue);background:var(--blue-light)}
+    .plan-btn-pro{background:linear-gradient(135deg,var(--blue),var(--purple));color:#fff;box-shadow:0 4px 20px rgba(47,107,255,0.3)}
+    .plan-btn-pro:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(47,107,255,0.4);opacity:0.95}
+    .feat-list{display:flex;flex-direction:column;gap:0.6rem}
+    .fl-item{display:flex;align-items:flex-start;gap:0.5rem;font-size:0.8rem;color:var(--text-2);line-height:1.5}
+    .fl-yes{color:var(--green);font-size:0.75rem;margin-top:0.12rem;flex-shrink:0}
+    .fl-no{color:var(--border-md);font-size:0.75rem;margin-top:0.12rem;flex-shrink:0}
+    .fl-item strong{color:var(--text-1);font-weight:600}
+
+    /* HOW IT WORKS */
+    .steps{display:grid;grid-template-columns:repeat(5,1fr);gap:1.2rem}
+    .step-card{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:1.4rem 1.2rem;box-shadow:var(--shadow-sm);transition:all 0.22s;position:relative}
     .step-card:hover{box-shadow:var(--shadow-md);transform:translateY(-3px);border-color:var(--blue-mid)}
-    .step-card:hover::before{opacity:1}
-    .step-num{font-size:0.62rem;font-weight:700;letter-spacing:0.1em;color:var(--blue);margin-bottom:0.8rem;display:flex;align-items:center;gap:0.35rem}
-    .step-num-circle{width:22px;height:22px;border-radius:50%;background:var(--blue-light);color:var(--blue);display:flex;align-items:center;justify-content:center;font-size:0.62rem;font-weight:700}
-    .step-t{font-size:0.92rem;font-weight:600;margin-bottom:0.4rem;color:var(--text-1)}
-    .step-d{font-size:0.78rem;color:var(--text-2);line-height:1.65;font-weight:400}
+    .step-num-circle{width:28px;height:28px;border-radius:50%;background:var(--blue-light);color:var(--blue);display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:700;margin-bottom:0.8rem}
+    .step-t{font-size:0.88rem;font-weight:700;margin-bottom:0.3rem;color:var(--text-1)}
+    .step-d{font-size:0.76rem;color:var(--text-2);line-height:1.6}
 
-    .section-cta{max-width:900px;margin:0 auto;padding:3rem 2rem 6rem;text-align:center}
-    .cta-box{background:var(--blue);border-radius:16px;padding:3.5rem 2rem;box-shadow:0 8px 40px rgba(47,107,255,0.25);position:relative;overflow:hidden}
-    .cta-box::before{content:'';position:absolute;top:-60px;right:-60px;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,0.06)}
-    .cta-box::after{content:'';position:absolute;bottom:-40px;left:-40px;width:160px;height:160px;border-radius:50%;background:rgba(255,255,255,0.04)}
-    .cta-h{font-size:clamp(1.6rem,3vw,2rem);font-weight:700;letter-spacing:-0.025em;color:#fff;margin-bottom:0.8rem}
-    .cta-s{font-size:0.9rem;color:rgba(255,255,255,0.75);line-height:1.7;margin-bottom:2rem;font-weight:400}
-    .btn-white{display:inline-flex;align-items:center;gap:0.5rem;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.92rem;font-weight:700;background:#fff;color:var(--blue);text-decoration:none;padding:0.88rem 2rem;border-radius:10px;box-shadow:0 4px 16px rgba(0,0,0,0.15);transition:all 0.22s}
-    .btn-white:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,0.2)}
-    .btn-white .arr{transition:transform 0.2s}
-    .btn-white:hover .arr{transform:translateX(3px)}
+    /* TESTIMONIALS */
+    .testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem}
+    .testi-card{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:1.4rem;box-shadow:var(--shadow-sm)}
+    .testi-stars{color:#F59E0B;font-size:0.78rem;margin-bottom:0.6rem}
+    .testi-text{font-size:0.8rem;color:var(--text-2);line-height:1.75;margin-bottom:0.9rem;font-style:italic}
+    .testi-author{font-size:0.76rem;font-weight:700;color:var(--text-1)}
+    .testi-role{font-size:0.68rem;color:var(--text-3)}
 
-    footer{border-top:1px solid var(--border);padding:1.6rem 2rem;display:flex;justify-content:space-between;align-items:center;max-width:900px;margin:0 auto}
+    /* CTA */
+    .cta-section{max-width:960px;margin:0 auto;padding:3rem 2rem 6rem}
+    .cta-box{background:var(--blue);border-radius:20px;padding:4rem 2.5rem;text-align:center;box-shadow:0 12px 48px rgba(47,107,255,0.3);position:relative;overflow:hidden}
+    .cta-box::before{content:'';position:absolute;top:-60px;right:-60px;width:240px;height:240px;border-radius:50%;background:rgba(255,255,255,0.06)}
+    .cta-box::after{content:'';position:absolute;bottom:-50px;left:-50px;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,0.04)}
+    .cta-h{font-size:clamp(1.8rem,3.5vw,2.4rem);font-weight:700;color:#fff;letter-spacing:-0.025em;margin-bottom:0.8rem}
+    .cta-s{font-size:0.95rem;color:rgba(255,255,255,0.78);line-height:1.75;margin-bottom:2rem;max-width:480px;margin-left:auto;margin-right:auto}
+    .btn-white{display:inline-flex;align-items:center;gap:0.5rem;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.95rem;font-weight:700;background:#fff;color:var(--blue);text-decoration:none;padding:0.9rem 2.2rem;border-radius:10px;box-shadow:0 4px 20px rgba(0,0,0,0.15);transition:all 0.22s}
+    .btn-white:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(0,0,0,0.22)}
+
+    footer{border-top:1px solid var(--border);padding:1.6rem 2rem;display:flex;justify-content:space-between;align-items:center;max-width:960px;margin:0 auto}
     .footer-logo{display:flex;align-items:center;gap:0.4rem;font-size:0.92rem;font-weight:700;color:var(--text-1)}
-    footer p{font-size:0.72rem;color:var(--text-3)}
 
     @keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
-    @media(max-width:760px){.hero{padding:4rem 1.5rem 3rem}.steps{grid-template-columns:1fr 1fr}.section{padding:3.5rem 1.5rem}footer{padding:1.4rem 1.5rem;flex-direction:column;gap:0.4rem;text-align:center}nav{padding:0 1.5rem}}
-    @media(max-width:500px){.steps{grid-template-columns:1fr}.hero-actions{flex-direction:column;align-items:center}}
+    @media(max-width:840px){.feat-grid{grid-template-columns:1fr 1fr}.template-showcase{grid-template-columns:1fr 1fr}.steps{grid-template-columns:1fr 1fr}.testi-grid{grid-template-columns:1fr}.pricing-grid{grid-template-columns:1fr}nav{padding:0 1.4rem}.hero{padding:4rem 1.5rem 3rem}}
+    @media(max-width:540px){.feat-grid{grid-template-columns:1fr}.hero-actions{flex-direction:column;align-items:center}.steps{grid-template-columns:1fr}}
   </style>
 </head>
 <body>
+
 <nav>
-  <a href="index.html" class="logo">
-    <div class="logo-mark">CV</div>
-    CVbykiyomi
-  </a>
+  <a href="index.html" class="logo"><div class="logo-mark">CV</div>CVbykiyomi</a>
   <div class="nav-links">
-    <a href="#how" class="nav-link">How it works</a>
-    <div class="nav-auth" id="navLoggedOut">
+    <a href="#features" class="nav-link">Features</a>
+    <a href="#pricing" class="nav-link">Pricing</a>
+    <div id="navLoggedOut" style="display:flex;align-items:center;gap:0.4rem">
       <a href="auth.html" class="nav-link">Log in</a>
       <a href="auth.html?mode=signup" class="btn-nav">Sign up free →</a>
     </div>
-    <div class="nav-auth" id="navLoggedIn" style="display:none">
-      <span class="nav-user"><div class="nav-avatar" id="navAvatar">?</div><span id="navName">User</span></span>
+    <div class="nav-user-wrap" id="navLoggedIn">
+      <div class="nav-avatar" id="navAvatar">?</div>
+      <span style="font-size:0.82rem;font-weight:500;color:var(--text-2)" id="navName">User</span>
       <a href="dashboard.html" class="nav-link">My CVs</a>
-      <a href="upgrade.html" class="nav-link" style="color:#7C3AED;font-weight:600">⚡ Pro</a>
+      <a href="upgrade.html" class="btn-nav-pro" id="upgradeNavLink">⚡ Pro</a>
       <button class="btn-nav-ghost" onclick="logout()">Log out</button>
     </div>
   </div>
 </nav>
 
+<!-- HERO -->
 <section class="hero">
-  <div class="hero-badge"><div class="badge-dot"></div>Sprint 3 — Save, manage & reuse</div>
-  <h1>Your CV, <span>tailored</span> to<br>every job you apply for.</h1>
-  <p class="hero-desc">Enter your details, paste a job description, and instantly get a professional CV and cover letter — clean, ATS-friendly, ready to send.</p>
+  <div class="hero-badge"><div class="badge-dot"></div>300+ skills · 4 templates · AI-powered</div>
+  <h1>Your CV, <span class="grad">tailored</span><br>for every role you want.</h1>
+  <p class="hero-desc">Built for African professionals. Select from 300+ skills, pick your university, choose a template, and get a CV that actually fits the job — in under a minute.</p>
   <div class="hero-actions">
-    <a href="form.html" class="btn-primary">Create my CV <span class="arr">→</span></a>
-    <a href="dashboard.html" class="btn-ghost" id="dashBtn" style="display:none">My Dashboard →</a>
-    <a href="#how" class="btn-ghost" id="howBtn">See how it works</a>
+    <a href="form.html" class="btn-primary">Create my CV free <span>→</span></a>
+    <a href="#features" class="btn-ghost">See all features</a>
   </div>
   <div class="hero-stats">
-    <div><div class="hs-n">4</div><div class="hs-l">Simple steps</div></div>
+    <div><div class="hs-n">300+</div><div class="hs-l">Skill options</div></div>
+    <div class="hs-sep"></div>
+    <div><div class="hs-n">4</div><div class="hs-l">Templates</div></div>
     <div class="hs-sep"></div>
     <div><div class="hs-n">&lt;60s</div><div class="hs-l">To generate</div></div>
     <div class="hs-sep"></div>
-    <div><div class="hs-n">100%</div><div class="hs-l">Free forever</div></div>
+    <div><div class="hs-n">100%</div><div class="hs-l">Free to start</div></div>
   </div>
 </section>
 
-<div class="doc-preview-section">
-  <div class="doc-preview-wrap">
-    <div class="doc-mock">
-      <div class="doc-mock-header">
-        <div class="doc-tabs">
-          <div class="doc-tab active">CV Preview</div>
-          <div class="doc-tab inactive">Cover Letter</div>
-        </div>
-        <div class="doc-actions">
-          <div class="doc-action-btn">⬇ Download</div>
-          <div class="doc-action-btn">🖨 Print</div>
+<!-- SKILLS PREVIEW -->
+<div style="max-width:960px;margin:0 auto;padding:0 2rem 4rem">
+  <div class="skills-preview">
+    <div class="skills-preview-title">Browse 300+ skills across 8 categories — click to add</div>
+    <div class="skills-flow" id="skillsDemo"></div>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<section class="section" id="features">
+  <p class="sec-eyebrow">What makes it different</p>
+  <h2 class="sec-h">Everything you need to land interviews</h2>
+  <p class="sec-sub">Built specifically for the African job market, with tools that work for Lagos, Nairobi, Accra, London, or wherever you're applying.</p>
+  <div class="feat-grid">
+    <div class="feat-card">
+      <div class="feat-icon">🎯</div>
+      <div class="feat-title">AI Tailoring</div>
+      <div class="feat-desc">Paste any job description and the AI rewrites your CV to match — keywords, tone, priorities. Every application is different.</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">📚</div>
+      <div class="feat-title">300+ Skill Library</div>
+      <div class="feat-desc">Browse and click-to-add skills across Technology, Design, Product, Business, Marketing, Finance, and more. No typing required.</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">🎓</div>
+      <div class="feat-title">University Database</div>
+      <div class="feat-desc">50+ African and global universities pre-loaded. Type to find your institution — UNILAG, UCT, University of Ghana, LSE, and more.</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">📊</div>
+      <div class="feat-title">Match Score</div>
+      <div class="feat-desc">See exactly how well your profile matches the job. Keyword highlights show what you've hit and what's missing.</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">📁</div>
+      <div class="feat-title">CV Dashboard</div>
+      <div class="feat-desc">Save every tailored CV with a name. Track status — Draft, Sent, Interview, Archived. Duplicate and retailor for new roles.</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">💪</div>
+      <div class="feat-title">CV Strength Meter</div>
+      <div class="feat-desc">Real-time score as you fill in the form. Watch it climb as you add skills, experience, education, and the job description.</div>
+    </div>
+    <div class="feat-card pro-feat">
+      <div class="feat-icon">⚡</div>
+      <div class="feat-title">Premium AI <span class="feat-pro-badge">Pro</span></div>
+      <div class="feat-desc">Pro users get a deeper, more tailored AI analysis — more bullets per role, industry-specific language, quantification coaching.</div>
+    </div>
+    <div class="feat-card pro-feat">
+      <div class="feat-icon">✨</div>
+      <div class="feat-title">Improve Bullet <span class="feat-pro-badge">Pro</span></div>
+      <div class="feat-desc">Hover any CV bullet and click to get 3 AI-rewritten versions instantly. Pick the best one. Game-changing for quality.</div>
+    </div>
+    <div class="feat-card pro-feat">
+      <div class="feat-icon">🎨</div>
+      <div class="feat-title">4 Templates + Export <span class="feat-pro-badge">Pro</span></div>
+      <div class="feat-desc">Classic (free), Modern, Minimal, and Bold. Custom accent colour, font choice, and PDF export with named filenames.</div>
+    </div>
+  </div>
+</section>
+
+<!-- TEMPLATES SHOWCASE -->
+<section class="section" style="padding-top:3rem">
+  <p class="sec-eyebrow">Professional templates</p>
+  <h2 class="sec-h">Four layouts. All ATS-friendly.</h2>
+  <p class="sec-sub">Classic is free. Modern, Minimal and Bold unlock with Pro. All four are clean, structured, and readable by any ATS system.</p>
+  <div class="template-showcase">
+    <div class="tpl-demo">
+      <div class="tpl-demo-bar" style="background:#2F6BFF"></div>
+      <div class="tpl-demo-inner">
+        <div style="display:flex;gap:6px">
+          <div style="width:40px">
+            <div class="dm-line lo"></div><div class="dm-line me"></div>
+            <div style="height:3px;background:#EAF1FF;border-radius:1px;margin:5px 0 3px"></div>
+            <div class="dm-line me"></div><div class="dm-line sh"></div>
+          </div>
+          <div style="flex:1">
+            <div class="dm-line lo"></div><div class="dm-line me"></div><div class="dm-line sh"></div>
+            <div style="height:3px;background:#EAF1FF;border-radius:1px;margin:5px 0 3px"></div>
+            <div class="dm-line lo"></div><div class="dm-line me"></div>
+          </div>
         </div>
       </div>
-      <div class="mock-name">Alexandra Okafor</div>
-      <div class="mock-contact">Lagos, Nigeria &nbsp;·&nbsp; <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="b4dcd1d8d8dbf4d1ccd5d9c4d8d19ad7dbd9">[email&#160;protected]</a> &nbsp;·&nbsp; +234 800 000 0000</div>
-      <div class="mock-divider"></div>
-      <div class="mock-sec-label">Professional Summary</div>
-      <div class="ml lo"></div><div class="ml me"></div>
-      <div class="mock-sec-label">Experience</div>
-      <div class="ml xs" style="background:var(--blue-light)"></div>
-      <div class="ml lo"></div><div class="ml me"></div><div class="ml lo"></div><div class="ml sh"></div>
-      <div class="mock-sec-label">Skills</div>
-      <div class="mock-tags">
-        <span class="mock-tag">Product Design</span>
-        <span class="mock-tag">Figma</span>
-        <span class="mock-tag">React</span>
-        <span class="mock-tag">Strategy</span>
-        <span class="mock-tag">Leadership</span>
+      <div class="tpl-demo-name">Classic</div>
+      <div class="tpl-demo-badge" style="background:var(--green-light);color:var(--green);margin-bottom:10px">Free · ATS: Excellent</div>
+    </div>
+    <div class="tpl-demo">
+      <div style="display:flex;min-height:80px">
+        <div class="tpl-demo-bar" style="width:28px;background:#1A1A2E;height:auto"></div>
+        <div style="flex:1;background:#fff;padding:10px">
+          <div class="dm-line lo"></div><div class="dm-line me"></div><div class="dm-line sh"></div>
+          <div style="height:3px;background:#EAF1FF;border-radius:1px;margin:5px 0 3px"></div>
+          <div class="dm-line lo"></div><div class="dm-line me"></div>
+        </div>
+      </div>
+      <div class="tpl-demo-name">Modern</div>
+      <div class="tpl-demo-badge" style="background:var(--purple-light);color:var(--purple);margin-bottom:10px">Pro · ATS: Good</div>
+    </div>
+    <div class="tpl-demo">
+      <div class="tpl-demo-inner">
+        <div style="border-left:2px solid #2F6BFF;padding-left:8px">
+          <div class="dm-line lo"></div><div class="dm-line me"></div>
+        </div>
+        <div style="height:3px;background:#F3F4F6;border-radius:1px;margin:6px 0 4px"></div>
+        <div class="dm-line lo"></div><div class="dm-line sh"></div><div class="dm-line me"></div>
+      </div>
+      <div class="tpl-demo-name">Minimal</div>
+      <div class="tpl-demo-badge" style="background:var(--purple-light);color:var(--purple);margin-bottom:10px">Pro · ATS: Excellent</div>
+    </div>
+    <div class="tpl-demo">
+      <div style="background:linear-gradient(135deg,#2F6BFF,#7C3AED);height:26px;padding:6px 8px">
+        <div style="height:4px;background:rgba(255,255,255,0.3);border-radius:2px;width:70%"></div>
+      </div>
+      <div style="display:flex;min-height:60px">
+        <div style="width:28px;background:#1A1A2E;padding:6px 5px"><div style="height:3px;background:rgba(255,255,255,0.15);border-radius:1px;margin-bottom:3px"></div><div style="height:3px;background:rgba(255,255,255,0.1);border-radius:1px;width:70%"></div></div>
+        <div style="flex:1;background:#fff;padding:8px"><div class="dm-line lo"></div><div class="dm-line me"></div><div class="dm-line sh"></div></div>
+      </div>
+      <div class="tpl-demo-name">Bold</div>
+      <div class="tpl-demo-badge" style="background:var(--purple-light);color:var(--purple);margin-bottom:10px">Pro · ATS: Fair</div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="section" id="how">
+  <p class="sec-eyebrow">How it works</p>
+  <h2 class="sec-h">5 steps to a tailored CV</h2>
+  <p class="sec-sub">The whole process takes under 5 minutes if your experience is ready.</p>
+  <div class="steps">
+    <div class="step-card"><div class="step-num-circle">1</div><div class="step-t">Personal Info</div><p class="step-d">Your name, contact details, and professional summary.</p></div>
+    <div class="step-card"><div class="step-num-circle">2</div><div class="step-t">Experience</div><p class="step-d">Add roles with achievements — include numbers for impact.</p></div>
+    <div class="step-card"><div class="step-num-circle">3</div><div class="step-t">Skills</div><p class="step-d">Pick from 300+ skills across 8 categories.</p></div>
+    <div class="step-card"><div class="step-num-circle">4</div><div class="step-t">Education</div><p class="step-d">Degree, university, and certifications in clicks.</p></div>
+    <div class="step-card"><div class="step-num-circle">5</div><div class="step-t">Generate</div><p class="step-d">Paste the JD, pick a tone, and generate your tailored CV.</p></div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="section" style="padding-top:3rem">
+  <p class="sec-eyebrow">What people are saying</p>
+  <h2 class="sec-h">African professionals getting hired</h2>
+  <div class="testi-grid">
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <div class="testi-text">"The skills library is exactly what I needed. I always struggled to know which skills to list — now I just browse and click. Got 4 callbacks in a week using tailored CVs from this tool."</div>
+      <div class="testi-author">Chioma Adeyemi</div><div class="testi-role">Product Manager, Lagos</div>
+    </div>
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <div class="testi-text">"The Pro bullet improvement tool is insane. I clicked on a weak bullet I'd written and got 3 better versions in 2 seconds. My CV reads completely differently now — like a senior candidate wrote it."</div>
+      <div class="testi-author">Kwame Asante</div><div class="testi-role">Software Engineer, Accra</div>
+    </div>
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <div class="testi-text">"I typed 'University of Nairobi' and it autocompleted instantly. Little things like that — the university database, the strength meter — tell me someone actually thought about how African job seekers work."</div>
+      <div class="testi-author">Amara Njoroge</div><div class="testi-role">Marketing Lead, Nairobi</div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<div class="pricing-section" id="pricing">
+  <div class="pricing-inner">
+    <p class="sec-eyebrow" style="text-align:center">Simple pricing</p>
+    <h2 class="sec-h" style="text-align:center;margin-bottom:0.5rem">Free forever. Pro when you're ready.</h2>
+    <p style="text-align:center;font-size:0.9rem;color:var(--text-2)">No credit card required to start. Upgrade when you want the full toolkit.</p>
+    <div class="pricing-grid">
+      <div class="price-card">
+        <div class="plan-name">Free</div>
+        <div class="plan-desc">Everything you need to create a great tailored CV and start applying.</div>
+        <div style="margin-bottom:0.4rem"><span class="price-curr">$</span><span class="price-big">0</span></div>
+        <div class="price-note">Free forever</div>
+        <button class="plan-btn plan-btn-free" onclick="window.location.href='auth.html'">Get started free</button>
+        <div class="feat-list">
+          <div class="fl-item"><span class="fl-yes">✓</span><span>AI-tailored CV generation</span></div>
+          <div class="fl-item"><span class="fl-yes">✓</span><span>AI cover letter</span></div>
+          <div class="fl-item"><span class="fl-yes">✓</span><span>300+ skill library</span></div>
+          <div class="fl-item"><span class="fl-yes">✓</span><span>University database</span></div>
+          <div class="fl-item"><span class="fl-yes">✓</span><span>Classic template</span></div>
+          <div class="fl-item"><span class="fl-yes">✓</span><span>CV strength meter</span></div>
+          <div class="fl-item"><span class="fl-yes">✓</span><span>Match score & keyword analysis</span></div>
+          <div class="fl-item"><span class="fl-yes">✓</span><span>Save up to 3 CVs</span></div>
+          <div class="fl-item"><span class="fl-no">✕</span><span style="color:var(--text-3)">PDF export & templates</span></div>
+          <div class="fl-item"><span class="fl-no">✕</span><span style="color:var(--text-3)">Premium AI & bullet improver</span></div>
+        </div>
+      </div>
+      <div class="price-card featured">
+        <div class="price-popular">⚡ Most popular</div>
+        <div class="plan-name" style="color:var(--blue)">Pro</div>
+        <div class="plan-desc">The complete toolkit for job seekers who want every advantage.</div>
+        <div style="margin-bottom:0.4rem"><span class="price-curr">$</span><span class="price-big">5</span><span class="price-per">/month</span></div>
+        <div class="price-note">Billed $60/year · cancel anytime</div>
+        <button class="plan-btn plan-btn-pro" onclick="window.location.href='upgrade.html'">⚡ Get Pro</button>
+        <div class="feat-list">
+          <div class="fl-item"><span class="fl-yes">✓</span><span>Everything in Free</span></div>
+          <div class="fl-item"><span class="fl-yes">✓</span><span><strong>All 4 templates</strong></span></div>
+          <div class="fl-item"><span class="fl-yes">✓</span><span><strong>PDF export</strong> + application ZIP</span></div>
+          <div class="fl-item"><span class="fl-yes">✓</span><span><strong>8 accent colours</strong> & 3 fonts</span></div>
+          <div class="fl-item"><span class="fl-yes">✓</span><span><strong>Premium AI</strong> — deeper tailoring</span></div>
+          <div class="fl-item"><span class="fl-yes">✓</span><span><strong>Improve Bullet</strong> — 3 AI rewrites instantly</span></div>
+          <div class="fl-item"><span class="fl-yes">✓</span><span><strong>6 writing tones</strong> incl. Executive & Technical</span></div>
+          <div class="fl-item"><span class="fl-yes">✓</span><span><strong>Pro coaching tips</strong> on every CV</span></div>
+          <div class="fl-item"><span class="fl-yes">✓</span><span><strong>Unlimited</strong> CV saves</span></div>
+        </div>
       </div>
     </div>
   </div>
 </div>
 
-<section class="section" id="how">
-  <p class="sec-label">How it works</p>
-  <h2 class="sec-h">Four steps to a tailored CV</h2>
-  <div class="steps">
-    <div class="step-card"><div class="step-num"><div class="step-num-circle">1</div></div><div class="step-t">Your details</div><p class="step-d">Enter your name, contact info, work history and professional summary.</p></div>
-    <div class="step-card"><div class="step-num"><div class="step-num-circle">2</div></div><div class="step-t">Work experience</div><p class="step-d">Add your roles, companies, dates and key achievements.</p></div>
-    <div class="step-card"><div class="step-num"><div class="step-num-circle">3</div></div><div class="step-t">Skills & education</div><p class="step-d">List your skills and educational background — we'll match them to the job.</p></div>
-    <div class="step-card"><div class="step-num"><div class="step-num-circle">4</div></div><div class="step-t">Save & manage</div><p class="step-d">Save your CV to your dashboard, track application status, and reuse for new roles.</p></div>
-  </div>
-</section>
-
-<div class="section-cta">
+<!-- FINAL CTA -->
+<div class="cta-section">
   <div class="cta-box">
     <h2 class="cta-h">Ready to stand out?</h2>
-    <p class="cta-s">Create your account, tailor your CV in under a minute, and manage every application in one place.</p>
-    <a href="auth.html?mode=signup" class="btn-white" id="ctaBtn">Get started free <span class="arr">→</span></a>
+    <p class="cta-s" id="ctaDesc">Create your first tailored CV in under a minute. Free forever — no credit card needed.</p>
+    <a href="form.html" class="btn-white" id="ctaBtn">Create my CV free →</a>
   </div>
 </div>
 
 <footer>
-  <div class="footer-logo">
-    <div class="logo-mark" style="width:22px;height:22px;font-size:0.58rem;border-radius:5px">CV</div>
-    CVbykiyomi
+  <div class="footer-logo"><div class="logo-mark" style="width:22px;height:22px;font-size:0.58rem;border-radius:5px">CV</div>CVbykiyomi</div>
+  <div style="display:flex;gap:1.4rem">
+    <a href="upgrade.html" style="font-size:0.76rem;color:var(--text-3);text-decoration:none">Pricing</a>
+    <a href="auth.html" style="font-size:0.76rem;color:var(--text-3);text-decoration:none">Sign in</a>
+    <a href="dashboard.html" style="font-size:0.76rem;color:var(--text-3);text-decoration:none">Dashboard</a>
   </div>
-  <p>© 2025 CVbykiyomi · Sprint 3</p>
+  <p style="font-size:0.72rem;color:var(--text-3)">© 2025 CVbykiyomi · Sprint 5</p>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-  function getUser() { try { return JSON.parse(localStorage.getItem('cvk_user')); } catch(e) { return null; } }
-  function logout() { localStorage.removeItem('cvk_user'); location.reload(); }
+<script>
+/* ── AUTH STATE ── */
+function getUser(){ try{return JSON.parse(localStorage.getItem('cvk_user'))}catch(e){return null} }
+function logout(){ localStorage.removeItem('cvk_user'); location.reload(); }
+const isPro=(()=>{try{return !!JSON.parse(localStorage.getItem('cvk_pro'))}catch(e){return false}})();
 
-  const user = getUser();
-  if (user) {
-    document.getElementById('navLoggedOut').style.display = 'none';
-    document.getElementById('navLoggedIn').style.display = 'flex';
-    document.getElementById('navName').textContent = user.name.split(' ')[0];
-    document.getElementById('navAvatar').textContent = user.name[0].toUpperCase();
-    document.getElementById('dashBtn').style.display = 'inline-flex';
-    d
+const user = getUser();
+if(user){
+  document.getElementById('navLoggedOut').style.display='none';
+  const nl = document.getElementById('navLoggedIn');
+  nl.style.display='flex';
+  document.getElementById('navName').textContent=user.name.split(' ')[0];
+  document.getElementById('navAvatar').textContent=user.name[0].toUpperCase();
+  if(isPro){ document.getElementById('upgradeNavLink').textContent='⚡ Pro Active'; document.getElementById('upgradeNavLink').style.background='linear-gradient(135deg,#059669,#0d9488)'; }
+  document.getElementById('ctaDesc').textContent='Your account is ready. Create a new tailored CV for your next application.';
+  document.getElementById('ctaBtn').textContent='Create a new CV →';
+}
+
+/* ── SKILLS DEMO ── */
+const DEMO_SKILLS=['Python','React','Product Management','Figma','Data Analysis','SQL','Leadership','Marketing','Financial Modelling','Node.js','UX Design','Agile','Excel','Copywriting','Machine Learning','Business Development','TypeScript','Scrum','SEO','Communication'];
+const ACTIVE=['React','Product Management','Figma','Leadership','Agile'];
+const HIGHLIGHT=['React','Agile','Product Management'];
+document.getElementById('skillsDemo').innerHTML = DEMO_SKILLS.map(s=>{
+  const isActive=ACTIVE.includes(s);
+  const isHL=HIGHLIGHT.includes(s);
+  return `<span class="skill-demo-pill${isHL?' highlight':isActive?' active':''}">${s}</span>`;
+}).join('');
+</script>
+</body>
+</html>
